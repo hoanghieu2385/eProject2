@@ -7,7 +7,7 @@
     <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
 </head>
 <body>
-    <?php include 'includes/header.php'?>
+    <?php include './includes/header.php'?>
 
     
 </body>
