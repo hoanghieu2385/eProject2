@@ -81,6 +81,8 @@
             </ul>
         </nav>
     </header>
+
+    <script src="../js/search.js"></script>
 </body>
 
 </html>
