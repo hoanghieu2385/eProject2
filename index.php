@@ -8,7 +8,9 @@
 </head>
 <body>
     <?php include './includes/header.php'?>
-
     
+    <p>Hoang Hieu demo</p>
+
+    <?php include './includes/footer.php'?>
 </body>
 </html>
