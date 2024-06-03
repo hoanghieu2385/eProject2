@@ -54,7 +54,7 @@
 
 .user-icon {
     position: relative;
-    margin-right: 20px; 
+    margin-right: 20px;
 }
 
 .user-icon .sub-menu {
@@ -70,6 +70,8 @@
 
 .user-icon:hover .sub-menu {
     display: block;
+    min-width: 120px;
+    margin-top: 2.5px;
 }
 
 .sub-menu li {
@@ -80,6 +82,12 @@
 .sub-menu li a {
     color: #333;
     text-decoration: none;
+    padding: 5px;
+    display: block;
+}
+
+.sub-menu li a:hover {
+    background-color: #f2f2f2;
 }
 
 .category-menu {
