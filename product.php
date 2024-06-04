@@ -29,12 +29,12 @@
             <button class="add-to-cart-btn">ADD TO CART</button>
             <img src="./images/product/SpeakNow.png" alt="Additional Image" class="additional-image">
             <div class="description-text">
-      <p>SHIPS ON OR BEFORE JUNE 7, 2024</p>
-      <p>Each Vinyl Album Includes: 22 Songs Including 6 previously unreleased Songs From The Vault Collectible album jacket with unique front and back cover art 3 unique Orchid marbled color vinyl discs Collectible album sleeves including lyrics and never-before-seen photos Full size gatefold photograph and prologue Limit 4 per customer. U.S. Customers Only. This product is only available to customers using both a U.S. billing and shipping address for their order. Depiction of this product is a digital rendering and for illustrative purposes only. Actual product detailing may vary. Please note due to the custom marbling process, each vinyl unit will be slightly different in coloration. © 2023 Taylor Swift Taylor Swift® Used By Permission. All Rights Reserved.</p>
+                <p>SHIPS ON OR BEFORE JUNE 7, 2024</p>
+                <p>Each Vinyl Album Includes: 22 Songs Including 6 previously unreleased Songs From The Vault Collectible album jacket with unique front and back cover art 3 unique Orchid marbled color vinyl discs Collectible album sleeves including lyrics and never-before-seen photos Full size gatefold photograph and prologue Limit 4 per customer. U.S. Customers Only. This product is only available to customers using both a U.S. billing and shipping address for their order. Depiction of this product is a digital rendering and for illustrative purposes only. Actual product detailing may vary. Please note due to the custom marbling process, each vinyl unit will be slightly different in coloration. © 2023 Taylor Swift Taylor Swift® Used By Permission. All Rights Reserved.</p>
+            </div>
+        </div>
     </div>
-    </div>
-
-    <?php include './includes/footer.php' ?>
+        <?php include './includes/footer.php' ?>
 </body>
 
 </html>
