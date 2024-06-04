@@ -18,7 +18,6 @@ body {
     padding: 20px;
 }
 
-
 /* Dấu * màu đỏ */
 .required {
     color: red;
@@ -35,14 +34,14 @@ body {
 .login-btn,
 .signup-btn {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 25px;
     background-color: #f2f2f2;
     border: none;
     cursor: pointer;
 }
 
 .active {
-    background-color: #333;
+    background-color: #565656;
     color: #fff;
 }
 
@@ -65,10 +64,12 @@ input {
 }
 
 button[type="submit"] {
-    font-size: 16px;
-    padding: 8px 16px;
-    border-radius: 20px;
-    background-color: #333;
+    margin-right: 100px;
+    margin-left: 100px;
+    margin-top: 20px;
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: #565656;
     color: #fff;
     border: none;
     cursor: pointer;
