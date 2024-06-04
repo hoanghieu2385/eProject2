@@ -1,0 +1,83 @@
+/* Đặt kiểu chữ và màu nền cho toàn bộ trang */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+
+/* Đặt kiểu cho container chứa form */
+.form-outer {
+    margin: 40px auto;
+    padding: 70px;
+    padding-left: 500px;
+    padding-right: 500px;
+    border: 2px solid #ccc;
+    max-width: 400px;
+}
+
+.form-container {
+    padding: 20px;
+}
+
+/* Dấu * màu đỏ */
+.required {
+    color: red;
+}
+
+/* Đặt kiểu cho các nút đăng nhập và đăng ký */
+.form-login {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 35px;
+    font-size: 50px;
+}
+
+.login-btn,
+.signup-btn {
+    padding: 10px 20px;
+    font-size: 25px;
+    background-color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #565656;
+    color: #fff;
+}
+
+/* Đặt kiểu cho form */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button[type="submit"] {
+    margin-right: 100px;
+    margin-left: 100px;
+    margin-top: 20px;
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: #565656;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+p {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #666;
+}
