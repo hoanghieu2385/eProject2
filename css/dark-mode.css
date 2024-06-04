@@ -1,7 +1,7 @@
 /* ================================ Header ================================ */
 body.dark-mode .logo img {
     content: url('/images/header/logo-dark-mode.png');
-    width: 55x;
+    width: 50x;
     height: 60px;
 }
 

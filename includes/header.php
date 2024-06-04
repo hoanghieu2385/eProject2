@@ -14,7 +14,7 @@
     <header>
         <nav class="container-header">
             <a href="../index.php" class="logo">
-                <img src="/images/header/logo.png" alt="Record Store"  width="55" height="60">
+                <img src="/images/header/logo.png" alt="Record Store" width="50" height="60">
             </a>
             <div class="header-right">
                 <div class="search-container">
@@ -26,7 +26,7 @@
                         <i class="fa-regular fa-circle-user fa-xl"></i>
                         <ul class="sub-menu">
                             <li><a href="#">Manage account</a></li>
-                            <li><a href="login.php">Login/Logout</a></li>
+                            <li><a href="../login/login.php">Login/Logout</a></li>
                         </ul>
                     </div>
                     <a href="cart.php"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>

@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col logo-col">
                     <a href="index.php" class="logo">
-                        <img src="/images/header/logo.png" alt="Record Store">
+                        <img src="/images/header/logo.png" alt="Record Store" width="50" height="60">
                     </a>
                 </div>
                 <div class="col info-col">
