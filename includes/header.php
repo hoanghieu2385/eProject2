@@ -4,16 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Record Store</title>
     <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
     <header>
         <nav class="container-header">
-            <a href="index.php" class="logo">
-                <img src="/images/header/logo.png" alt="Record Store">
+            <a href="../index.php" class="logo">
+                <img src="/images/header/logo.png" alt="Record Store"  width="55" height="60">
             </a>
             <div class="header-right">
                 <div class="search-container">
@@ -24,11 +25,19 @@
                     <div class="user-icon">
                         <i class="fa-regular fa-circle-user fa-xl"></i>
                         <ul class="sub-menu">
-                            <li><a href="account.php">Manage account</a></li>
+                            <li><a href="#">Manage account</a></li>
                             <li><a href="login.php">Login/Logout</a></li>
                         </ul>
                     </div>
-                    <a href="cart.php"><i class="fa-solid fa-cart-shopping fa-xl"></i></a>
+                    <a href="cart.php"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
+                    <div class="dark-mode-toggle">
+                        <input type="checkbox" id="dark-mode-checkbox">
+                        <label for="dark-mode-checkbox">
+                            <i class="fa-regular fa-sun"></i>
+                            <i class="fa-regular fa-moon"></i>
+                            <div class="ball"></div>
+                        </label>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -81,8 +90,25 @@
             </ul>
         </nav>
     </header>
+    <div class="header-space"></div>
 
     <script src="../js/search.js"></script>
+    <script src="../js/dark-mode.js"></script>
+
+    <!-- Scroll header -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            const scrollPosition = window.pageYOffset;
+
+            if (scrollPosition > 0) {
+                header.classList.add('sticky');
+            } else {
+                header.classList.remove('sticky');
+            }
+        });
+    </script>
+
 </body>
 
 </html>

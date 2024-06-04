@@ -3,6 +3,20 @@
     padding: 0;
 }
 
+header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    transition: all 0.3s ease;
+}
+
+header.sticky {
+    background-color: #f0ece8;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .container-header {
     display: flex;
     justify-content: space-between;
@@ -52,6 +66,8 @@
     align-items: center;
 }
 
+/* ========= User Icon  ========= */
+
 .user-icon {
     position: relative;
     margin-right: 20px;
@@ -66,12 +82,17 @@
     padding: 13px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .user-icon:hover .sub-menu {
     display: block;
     min-width: 120px;
     margin-top: 2.5px;
+    opacity: 1;
+    visibility: visible;
 }
 
 .sub-menu li {
@@ -80,7 +101,6 @@
 }
 
 .sub-menu li a {
-    color: #333;
     text-decoration: none;
     padding: 5px;
     display: block;
@@ -89,6 +109,9 @@
 .sub-menu li a:hover {
     background-color: #f2f2f2;
 }
+
+
+/* ========= Category Menu  ========= */
 
 .category-menu {
     background-color: #f2f2f2;
@@ -128,10 +151,15 @@
     padding: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     min-width: 150px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 #main-menu > li:hover .sub-menu {
     display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
 #main-menu .sub-menu li {
