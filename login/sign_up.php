@@ -1,16 +1,29 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm-password'];
 
+// Kiểm tra nếu phương thức yêu cầu là POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Lấy dữ liệu từ form và làm sạch dữ liệu
+    $email = filter_var($_POST['username'], FILTER_SANITIZE_EMAIL);
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    // Kiểm tra mật khẩu trùng khớp
     if ($password != $confirm_password) {
         echo "Passwords do not match!";
         exit();
     }
 
+    //Kiểm tra tính hợp lệ của email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "Invalid email format!";
+        exit();
+    }
+
+    // Mã hóa mật khẩu
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
+    // Kết nối đến cơ sở dữ liệu
     $servername = "localhost";
     $username = "root";
     $dbname = "login";
@@ -19,23 +32,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, "");
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->bindParam(':email', $email);
+        // Kiểm tra xem email đã tồn tại chưa
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->bindParam(':username', $email);
         $stmt->execute();
-        
+
         if ($stmt->rowCount() > 0) {
             echo "Email already exists!";
         } else {
-            $stmt = $conn->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
-            $stmt->bindParam(':email', $email);
+            // Thêm người dùng mới vào cơ sở dữ liệu
+            $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+            $stmt->bindParam(':username', $email);
             $stmt->bindParam(':password', $hashed_password);
             $stmt->execute();
-            echo "Sign up successful! Please confirm your account via the email we sent.";
+            echo "Sign up successful! Your account has been created.";
+
+            header("Location: login.php");
         }
     } catch(PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }
 
+    // Đóng kết nối
     $conn = null;
 }
 ?>
@@ -56,8 +74,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="form-outer">
             <div class="form-container">
                 <div class="form-login">
-                    <button class="login-btn">LOG IN</button>
-                    <button class="signup-btn active">SIGN UP</button>
+                    <a href="./login.php" class="login-btn" style="text-decoration: none;">LOG IN</a>
+                    <a href="./sign_up.php" class="signup-btn active" style="text-decoration: none;">SIGN UP</a>
                 </div>
                 <div class="signup-form">
                     <form action="signup.php" method="post">
