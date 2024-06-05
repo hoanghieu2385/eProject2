@@ -84,7 +84,7 @@ header.sticky {
     z-index: 2;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: all 0.1s ease;
 }
 
 .user-icon:hover .sub-menu {
