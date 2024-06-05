@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    //Kiểm tra tính hợp lệ của email
+    // Kiểm tra tính hợp lệ của email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "Invalid email format!";
         exit();
@@ -47,7 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute();
             echo "Sign up successful! Your account has been created.";
 
+            // Chuyển hướng về trang đăng nhập
             header("Location: login.php");
+            exit();
         }
     } catch(PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
@@ -79,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="signup-form">
                     <form action="signup.php" method="post">
-                    <label for="username">User/Email <span class="required">*</span></label>
+                    <label for="username">User/ Email <span class="required">*</span></label>
                     <input type="Username" id="username" name="username" required>
 
                     <label for="password">Password <span class="required">*</span></label>
