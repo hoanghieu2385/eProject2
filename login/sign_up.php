@@ -1,6 +1,7 @@
 <?php
+session_start();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Connect to the database
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -12,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $email = $_POST["username"];
+    $username = $_POST["username"];
     $password = $_POST["password"];
     $confirm_password = $_POST["confirm_password"];
     
@@ -21,12 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO users (email, password) VALUES (?, ?)";
+        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $email, $hashed_password);
+        $stmt->bind_param("ss", $username, $hashed_password);
 
         if ($stmt->execute()) {
-            // Redirect to login page after successful registration
             header("Location: login.php");
             exit();
         } else {
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a href="./sign_up.php" class="signup-btn active" style="text-decoration: none;">SIGN UP</a>
                 </div>
                 <div class="signup-form">
-                    <form action="signup.php" method="post">
+                    <form action="sign_up.php" method="post">
                     <label for="username">Email <span class="required">*</span></label>
                     <input type="Username" id="username" name="username" required>
 
