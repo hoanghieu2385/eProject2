@@ -1,35 +1,41 @@
 <?php
 session_start();
 
-if (isset($_SESSION['username'])) {
-    header("Location: index.php");
-    exit();
-}
+if(isset($_POST['submit-btn'])){
+    $error = array();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    if($_POST['username'] != ""){
+        $username = $_POST['username'];
+    } else {
+        $error[] = "Tên tài khoản chưa nhập";
+    }
+    if($_POST['password'] != ""){
+        $password = $_POST['password'];
+    } else {
+        $error[] = "Mật khẩu chưa nhập";
+    }
 
-    try {
-        $conn = new PDO('mysql:host=localhost;dbname=login', 'username', 'password');
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    if(!empty($username) && !empty($password)){
+        $conn = mysqli_connect('localhost', 'root', '', 'login') or die("Kết nối thất bại");
+        mysqli_set_charset($conn, 'utf8');
 
-        $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username AND password = :password");
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $password);
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
+        $stmt->bind_param("ss", $username, $password);
         $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
 
-        $user = $stmt->fetch();
-
-        if ($user) {
-            $_SESSION['username'] = $username;
-            header("Location: index.php");
-            exit();
+        if($row){
+            $_SESSION['login'] = $row['username'];
+            header('location:index.php');
         } else {
-            $error_message = "Invalid username or password";
+            $error[] = "Đăng nhập không thành công.";
         }
-    } catch(PDOException $e) {
-        echo "Connection failed: " . $e->getMessage();
+        $stmt->close();
+        $conn->close();
+    }
+    if($error){
+        echo '<p style="color: red;">' . implode('<br>', $error) . '</p>';
     }
 }
 ?>
@@ -52,16 +58,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a href="./login.php" class="login-btn active" style="text-decoration: none;">LOG IN</a>
                 <a href="./sign_up.php" class="signup-btn" style="text-decoration: none;">SIGN UP</a>
             </div>
+            <?php
+            if (isset($error_message)) {
+                echo '<p style="color: red;">' . $error_message . '</p>';
+            }
+            ?>
             <div class="login-form">
                 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
                     <label for="username">Email <span class="required">*</span></label>
-                    <input type="Username" id="username" name="username" required>
+                    <input type="text" id="username" name="username" required>
                 
                     <label for="password">Password <span class="required">*</span></label>
                     <input type="password" id="password" name="password" required>
                 
                     <div class="login-options">
-                        <button type="submit" class="submit-btn">Log in</button>
+                        <button type="submit" name="submit-btn" class="submit-btn">Log in</button>
                         <div class="remember-me">
                             <input type="checkbox" id="remember" name="remember">
                             <label for="remember">Remember password</label>
