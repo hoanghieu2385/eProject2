@@ -1,3 +1,39 @@
+<?php
+session_start();
+
+if (isset($_SESSION['username'])) {
+    header("Location: index.php");
+    exit();
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    try {
+        $conn = new PDO('mysql:host=localhost;dbname=login', 'username', 'password');
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username AND password = :password");
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
+        $stmt->execute();
+
+        $user = $stmt->fetch();
+
+        if ($user) {
+            $_SESSION['username'] = $username;
+            header("Location: index.php");
+            exit();
+        } else {
+            $error_message = "Invalid username or password";
+        }
+    } catch(PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,8 +53,8 @@
                 <a href="./sign_up.php" class="signup-btn" style="text-decoration: none;">SIGN UP</a>
             </div>
             <div class="login-form">
-                <form action="login.php" method="post">
-                    <label for="username">User/ Email <span class="required">*</span></label>
+                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+                    <label for="username">Email <span class="required">*</span></label>
                     <input type="Username" id="username" name="username" required>
                 
                     <label for="password">Password <span class="required">*</span></label>
