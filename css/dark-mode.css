@@ -5,6 +5,17 @@ body.dark-mode .logo img {
     height: 60px;
 }
 
+.fa-circle-user,
+.fa-bag-shopping {
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+body.dark-mode .fa-circle-user,
+body.dark-mode .fa-bag-shopping {
+    color: #f0f0f0;
+}
+
 .dark-mode-toggle {
     margin-left: 15px;
     margin-right: 20px;

@@ -82,6 +82,7 @@ header.sticky {
     padding: 13px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 2;
+    border-radius: 4px;
 }
 
 .user-icon .sub-menu.show {
@@ -99,6 +100,7 @@ header.sticky {
     text-decoration: none;
     padding: 5px;
     display: block;
+    border-radius: 2px;
 }
 
 .sub-menu li a:hover {
@@ -149,6 +151,7 @@ header.sticky {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+    border-radius: 4px;
 }
 
 #main-menu > li:hover .sub-menu {
@@ -166,6 +169,7 @@ header.sticky {
     color: #333;
     text-decoration: none;
     padding: 5px;
+    border-radius: 2px;
 }
 
 #main-menu .sub-menu li a:hover {
