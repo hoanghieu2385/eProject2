@@ -7,12 +7,12 @@ if(isset($_POST['submit-btn'])){
     if($_POST['username'] != ""){
         $username = $_POST['username'];
     } else {
-        $error[] = "Tên tài khoản chưa nhập";
+        $error[] = "Account name has not been entered";
     }
     if($_POST['password'] != ""){
         $password = $_POST['password'];
     } else {
-        $error[] = "Mật khẩu chưa nhập";
+        $error[] = "Password not entered";
     }
 
     if(!empty($username) && !empty($password)){
@@ -29,7 +29,7 @@ if(isset($_POST['submit-btn'])){
             $_SESSION['login'] = $row['username'];
             header('location:index.php');
         } else {
-            $error[] = "Đăng nhập không thành công.";
+            $error[] = "Login unsuccessful";
         }
         $stmt->close();
         $conn->close();
