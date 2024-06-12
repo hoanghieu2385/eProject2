@@ -26,7 +26,7 @@
                         <i class="fa-regular fa-circle-user fa-xl" id="user-icon-btn"></i>
                         <ul class="sub-menu" id="user-menu">
                             <li><a href="#" id="manage-account">Manage account</a></li>
-                            <li><a href="#" id="login-logout-btn">Login</a></li>
+                            <li><a href="../login/login.php" id="login-logout-btn">Login</a></li>
                         </ul>
                     </div>
                     <a href="cart.php"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
