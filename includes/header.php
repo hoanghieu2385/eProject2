@@ -85,7 +85,7 @@
                 </li>
                 </li>
                 <li><a href="#">Vinyl Cares</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="../contact_us.php">Contact Us</a></li>
 
             </ul>
         </nav>
