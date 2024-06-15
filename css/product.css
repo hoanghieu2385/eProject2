@@ -1,10 +1,11 @@
 .productcontainer {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Thay đổi align-items thành flex-start */
+  align-items: flex-start;
   flex-grow: 1;
-  padding-top: 50px; /* Thêm khoảng cách phía trên */
-  padding-bottom: 50px; /* Thêm khoảng cách phía dưới */
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-bottom: 200px;
 }
 
 html,
@@ -27,15 +28,20 @@ body {
   flex: 1;
   padding: 20px;
   margin-left: 100px;
-  display: flex; /* Thêm display: flex */
-  flex-direction: column; /* Thêm flex-direction: column */
-  align-items: center; /* Thêm align-items: center để căn giữa hình ảnh */
-  max-width: 500px; /* Thêm giới hạn chiều rộng tối đa */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 700px; /* Tăng chiều rộng tối đa để chứa ảnh lớn hơn */
+  /* Bạn có thể thêm height nếu cần thiết */
 }
 
 .image-container img {
-  max-width: 100%;
+  max-width: 100%; /* Điều chỉnh để giữ tỷ lệ khung hình */
   height: auto;
+  /* Bạn có thể thêm width và height cố định để kiểm soát kích thước chính xác */
+  /* Ví dụ: */
+  width: 90%; /* Tăng kích thước của ảnh */
+  height: auto; /* Đảm bảo ảnh giữ tỷ lệ khung hình */
 }
 
 .description-container {
@@ -45,7 +51,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 600px; /* Thêm giới hạn chiều rộng tối đa */
+  max-width: 600px;
+  position: sticky;
+  top: 100px; /* Đặt khoảng cách từ trên xuống để không bị chèn vào header */
 }
 
 .title {
@@ -108,9 +116,11 @@ body {
   margin-bottom: 10px;
 }
 .additional-product-image {
-  max-width: 100%;
+  max-width: 100%; 
   height: auto;
   margin-top: 20px;
+  width: 90%; 
+  height: auto; 
 }
 .related-products {
   margin-top: 50px;
@@ -161,6 +171,8 @@ body {
   cursor: pointer;
   align-self: stretch;
 }
-.related-products{
-  margin-bottom: 100px;
+.related-products {
+  margin-top: 50px;
+  text-align: center;
+  margin-bottom: 200px;
 }
