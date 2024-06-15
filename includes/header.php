@@ -23,10 +23,10 @@
                 </div>
                 <div class="icons">
                     <div class="user-icon">
-                        <i class="fa-regular fa-circle-user fa-xl"></i>
-                        <ul class="sub-menu">
-                            <li><a href="#">Manage account</a></li>
-                            <li><a href="../login/login.php">Login/Logout</a></li>
+                        <i class="fa-regular fa-circle-user fa-xl" id="user-icon-btn"></i>
+                        <ul class="sub-menu" id="user-menu">
+                            <li><a href="#" id="manage-account">Manage account</a></li>
+                            <li><a href="../login/login.php" id="login-logout-btn">Login</a></li>
                         </ul>
                     </div>
                     <a href="cart.php"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
@@ -85,7 +85,7 @@
                 </li>
                 </li>
                 <li><a href="#">Vinyl Cares</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="../contact_us.php">Contact Us</a></li>
 
             </ul>
         </nav>
@@ -94,6 +94,9 @@
 
     <script src="../js/search.js"></script>
     <script src="../js/dark-mode.js"></script>
+    <script src="../js/check_login-logout.js"></script>
+    <script src="../js/show-hide_user-icon.js"></script>
+
 
     <!-- Scroll header -->
     <script>

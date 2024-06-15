@@ -21,7 +21,7 @@
                 <div class="col info-col">
                     <h4>INFORMATION</h4>
                     <ul>
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="../contact_us.php">About Us</a></li>
                         <li><a href="#">Newsletter</a></li>
                     </ul>
                 </div>
