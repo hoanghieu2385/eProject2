@@ -66,10 +66,10 @@ if(isset($_POST['submit-btn'])){
             <div class="login-form">
                 <form onsubmit="login()" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
                     <label for="username">Email <span class="required">*</span></label>
-                    <input type="username" id="username" name="username" required>
+                    <input class="username" type="username" id="username" name="username" required>
                 
                     <label for="password">Password <span class="required">*</span></label>
-                    <input type="password" id="password" name="password" required>
+                    <input class="password" type="password" id="password" name="password" required>
                 
                     <div class="login-options">
                         <button type="submit" name="submit-btn" class="submit-btn">Log in</button>
