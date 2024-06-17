@@ -48,6 +48,7 @@ if(isset($_POST['submit-btn'])){
     <title>Record Store</title>
     <link rel="icon" type="image/x-icon" href="../images/header/logo.png">
     <link rel="stylesheet" href="../css/Login/login.css">
+    <script src="../js/login and sign_up.js"></script>
 </head>
 <body>
     <?php include '../includes/header.php'?>
@@ -67,9 +68,14 @@ if(isset($_POST['submit-btn'])){
                 <form onsubmit="login()" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
                     <label for="username">Email <span class="required">*</span></label>
                     <input class="username" type="username" id="username" name="username" required>
-                
-                    <label for="password">Password <span class="required">*</span></label>
-                    <input class="password" type="password" id="password" name="password" required>
+
+                    <div class="password-input">
+                        <label for="password">Password <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <input class="password" type="password" id="password" name="password" required>
+                            <i class="fas fa-eye-slash eye-icon" onclick="togglePasswordVisibility()"></i>
+                        </div>
+                    </div>
                 
                     <div class="login-options">
                         <button type="submit" name="submit-btn" class="submit-btn">Log in</button>
@@ -78,7 +84,7 @@ if(isset($_POST['submit-btn'])){
                             <label for="remember">Remember password</label>
                         </div>
                     </div>
-                
+            
                     <a href="#" class="forgot-password">Forgot password?</a>
                 </form>
             </div>

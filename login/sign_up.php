@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Record Store</title>
     <link rel="icon" type="image/x-icon" href="../images/header/logo.png">
     <link rel="stylesheet" href="../css/Login/sign_up.css">
+    <script src="../js/login and sign_up.js"></script>
 </head>
 <body>
     <?php include '../includes/header.php'?>
