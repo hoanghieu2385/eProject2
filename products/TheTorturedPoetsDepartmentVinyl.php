@@ -6,18 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Record Store</title>
     <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
-    <link rel="stylesheet" href="./css/product.css">
+    <link rel="stylesheet" href="../css/product.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="./js/quantitybox.js"></script>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap');
+    </style>
 
 </head>
 
 <body>
-    <?php include './includes/header.php' ?>
+    <?php include '../includes/header.php' ?>
     <div class="productcontainer">
         <div class="image-container">
-            <img src="./images/product/taylor1.png" alt="Description of the image">
-            <img src="./images/product/backsideSpeakNow.png" alt="Additional Product Image" class="additional-product-image">
+            <img src="../images/product/TheTorturedPoetsVinyl.png" alt="Description of the image">
+            <img src="../images/product/BacksideTheTorturedVinyl.png" alt="Additional Product Image" class="additional-product-image">
+            <img src="../images/product/TheTorturedPoetsVinyl2.png" alt="Additional Product Image" class="additional-product-image">
         </div>
         <div class="description-container">
             <h2 class="title">Speak Now (Taylor's Version)</h2>
@@ -84,7 +88,7 @@
         </div>
     </div>
 </div>
-    <?php include './includes/footer.php' ?>
+    <?php include '../includes/footer.php' ?>
 </body>
 
 </html>

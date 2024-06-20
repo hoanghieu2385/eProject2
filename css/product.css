@@ -5,7 +5,7 @@
   flex-grow: 1;
   padding-top: 50px;
   padding-bottom: 50px;
-  padding-bottom: 200px;
+  padding-bottom: 100px;
 }
 
 html,
@@ -38,8 +38,6 @@ body {
 .image-container img {
   max-width: 100%; /* Điều chỉnh để giữ tỷ lệ khung hình */
   height: auto;
-  /* Bạn có thể thêm width và height cố định để kiểm soát kích thước chính xác */
-  /* Ví dụ: */
   width: 90%; /* Tăng kích thước của ảnh */
   height: auto; /* Đảm bảo ảnh giữ tỷ lệ khung hình */
 }
@@ -53,8 +51,10 @@ body {
   align-items: center;
   max-width: 600px;
   position: sticky;
-  top: 100px; /* Đặt khoảng cách từ trên xuống để không bị chèn vào header */
+  top: 160px; /* Điều chỉnh để không chèn vào header */
+  bottom: 5px; /* Giới hạn khoảng cách từ dưới lên để giảm khoảng cách với Related Products */
 }
+
 
 .title {
   margin-bottom: 10px;
@@ -95,8 +95,8 @@ body {
 }
 
 .add-to-cart-btn {
-  background-color: #f0ece8;
-  color: black;
+  background-color: #333;
+  color: #fff;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
@@ -105,6 +105,11 @@ body {
   max-width: 300px;
   margin-top: 20px;
   margin-bottom: 10px;
+}
+
+body.dark-mode .add-to-cart-btn{
+  background-color: #fff;
+  color: #333;
 }
 
 .description-text {
@@ -172,7 +177,11 @@ body {
   align-self: stretch;
 }
 .related-products {
-  margin-top: 50px;
+  margin-top: 20px;
   text-align: center;
   margin-bottom: 200px;
+}
+body.dark-mode .view-product{
+  background-color: #fff;
+  color: #333;
 }
