@@ -8,7 +8,7 @@ function sign_up(e) {
     };
     var json = JSON.stringify(user);
     localStorage.setItem(username, json);
-    alert("Dang ki thanh cong");
+    alert("Registered successfully!");
 }
 
 function login(e) {
@@ -18,13 +18,28 @@ function login(e) {
     var user = localStorage.getItem(username);
     var data = JSON.parse(user);
     if(user == null) {
-        alert("Vui long nhap lai tai khoan mat khau")
+        alert("Please re-enter your account password.")
     }
     else if(username == data.username && password == data.password) {
-        alert("Dang nhap thanh cong")
+        alert("Logged in successfully.")
         window.location.href="index.php"
     }
     else {
-        alert("Dang nhap that bai")
+        alert("Login failed.")
+    }
+}
+
+function togglePasswordVisibility() {
+    var passwordField = document.getElementById("password");
+    var eyeIcon = document.querySelector(".eye-icon");
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        eyeIcon.classList.remove("fa-eye-slash");
+        eyeIcon.classList.add("fa-eye");
+    } else {
+        passwordField.type = "password";
+        eyeIcon.classList.remove("fa-eye");
+        eyeIcon.classList.add("fa-eye-slash");
     }
 }
