@@ -139,6 +139,11 @@ body.dark-mode #main-menu .sub-menu li a {
 body.dark-mode #main-menu .sub-menu li a:hover {
     background-color: #555;
 }
+body.darkmode .view-product{
+  background-color: #fff;
+  color: red;
+}
+
 
 /* ================================ Footer ================================ */
 .dark-mode footer {
