@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Record Store</title>
+    <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/dark-mode.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -14,7 +15,7 @@
     <header>
         <nav class="container-header">
             <a href="../index.php" class="logo">
-                <img src="/images/header/logo.png" alt="Record Store" width="50" height="60">
+                <img src="/images/header/logo3.png" alt="Record Store" height="60px">
             </a>
             <div class="header-right">
                 <div class="search-container">
@@ -25,7 +26,7 @@
                     <div class="user-icon">
                         <i class="fa-regular fa-circle-user fa-xl" id="user-icon-btn"></i>
                         <ul class="sub-menu" id="user-menu">
-                            <li><a href="#" id="manage-account">Manage account</a></li>
+                            <li><a href="../my_account.php" id="manage-account">My account</a></li>
                             <li><a href="../login/login.php" id="login-logout-btn">Login</a></li>
                         </ul>
                     </div>
@@ -94,8 +95,6 @@
     <script src="../js/search.js"></script>
     <script src="../js/dark-mode.js"></script>
     <script src="../js/check_login-logout.js"></script>
-    <script src="../js/show-hide_user-icon.js"></script>
-
 
     <!-- Scroll header -->
     <script>
@@ -109,6 +108,11 @@
                 header.classList.remove('sticky');
             }
         });
+
+        // hide category when scroll down
+
+
+
     </script>
 
 </body>

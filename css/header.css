@@ -74,6 +74,7 @@ header.sticky {
 .user-icon {
     position: relative;
     margin-right: 20px;
+    cursor: pointer;
 }
 
 .user-icon .sub-menu {

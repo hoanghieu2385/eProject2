@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateUI() {
         loginLogoutBtn.textContent = isLoggedIn ? 'Logout' : 'Login';
         manageAccount.style.display = isLoggedIn ? 'block' : 'none';
-        
+
         loginLogoutBtn.href = isLoggedIn ? '#' : '../login/login.php';
     }
 
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             isLoggedIn = false;
             localStorage.removeItem('isLoggedIn'); // Xóa trạng thái đăng nhập từ localStorage
-            alert('Đã đăng xuất');
             updateUI();
             toggleUserMenu(false);
         } else {
@@ -35,15 +34,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    userIconBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        toggleUserMenu();
+    // hover icon user    userIconBtn.addEventListener('mouseenter', function() {
+        toggleUserMenu(true);
     });
 
-    document.addEventListener('click', function (e) {
-        if (!userMenu.contains(e.target) && e.target !== userIconBtn) {
-            toggleUserMenu(false);
-        }
+    userIconBtn.addEventListener('mouseleave', function() {
+        setTimeout(function() {
+            if (!userMenu.matches(':hover')) {
+                toggleUserMenu(false);
+            }
+        }, 200);
+    });
+
+    userMenu.addEventListener('mouseleave', function() {
+        setTimeout(function() {
+            if (!userIconBtn.matches(':hover')) {
+                toggleUserMenu(false);
+            }
+        }, 200);
     });
 
     loginLogoutBtn.addEventListener('click', handleLoginLogout);
