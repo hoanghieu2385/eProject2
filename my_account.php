@@ -11,14 +11,15 @@
 </head>
 
 <body>
-<?php include './includes/header.php' ?>
+    <?php include './includes/header.php' ?>
+    <div class="header-space"></div>
 
     <h1 class="header-text">My account</h1>
 
     <div class="container">
         <div class="sidebar">
             <button onclick="showContent('orderHistory')">Order History</button>
-            <button onclick="showContent('changePassword')">Change Password</button>
+            <button onclick="showContent('changePassword')">Security</button>
             <button onclick="showContent('address')">Address</button>
         </div>
         <div class="content">
@@ -57,9 +58,8 @@
             </div>
         </div>
     </div>
-    <div class="end-body"></div>
 
-<?php include './includes/footer.php' ?>
+    <?php include './includes/footer.php' ?>
 
 
     <script>

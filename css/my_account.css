@@ -6,6 +6,9 @@
     font-family: brandon-grotesque;
 }
 
+.header-space {
+    height: 80px;
+}
 
 .header-text {
     text-align: center;
@@ -34,9 +37,4 @@
 .content {
     flex: 1;
     padding: 20px;
-}
-
-end-body{
-    
-    clear: both;
 }
