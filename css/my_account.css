@@ -6,12 +6,16 @@
     font-family: brandon-grotesque;
 }
 
-.header-space {
+.header-space, .header-space1 {
     height: 80px;
+    clear: both;
 }
 
 .header-text {
-    text-align: center;
+    text-align: LEFT;
+    margin-left: 6%;
+    margin-bottom: 2%;
+    font-size: xxx-large;
 }
 
 .container {
@@ -20,8 +24,9 @@
 
 .sidebar {
     background-color: #f1f1f1;
-    padding: 20px;
+    padding: 20px 0 20px 20px;
     width: 200px;
+    height: 205px;
 }
 
 .sidebar button {
@@ -29,12 +34,25 @@
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #ddd;
     border: none;
     cursor: pointer;
+    text-align: left;
+}
+
+.sidebar button:hover {
+    border-right: 2px solid black;
+}
+
+.sidebar button i {
+    margin-right: 10px;
 }
 
 .content {
     flex: 1;
     padding: 20px;
+}
+
+.footer-wrapper *{
+    display: block;
+    box-sizing: border-box;
 }

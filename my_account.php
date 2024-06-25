@@ -18,15 +18,38 @@
 
     <div class="container">
         <div class="sidebar">
-            <button onclick="showContent('orderHistory')">Order History</button>
-            <button onclick="showContent('changePassword')">Security</button>
-            <button onclick="showContent('address')">Address</button>
+            <button onclick="showContent('orderHistory')"><i class="fa-solid fa-box-open" style="color: #424248;"></i>ORDERS</button>
+            <button onclick="showContent('addressBook')"><i class="fa-solid fa-map-location-dot" style="color: #424248;"></i>ADDRESS BOOK</button>
+            <button onclick="showContent('accountDetail')"><i class="fa-regular fa-user" style="color: #424248;"></i>ACCOUNT DETAIL</button>
+            <button onclick="showContent('changePassword')"><i class="fa-solid fa-lock" style="color: #424248;"></i>CHANGE PASSWORD</button>
+            <button onclick="showContent('logout')"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #424248;"></i>LOGOUT</button>
+
         </div>
         <div class="content">
             <div id="orderHistory">
-                <h2>Order History</h2>
+                <h2>Orders</h2>
                 <!-- Nội dung liên quan đến lịch sử đơn hàng -->
             </div>
+
+            <div id="addressBook" style="display: none;">
+                <h2>Address</h2>
+                <!-- Nội dung liên quan đến địa chỉ -->
+                <h1>Address</h1>
+                <h1>Address</h1>
+                <h1>Address</h1>
+                <h1>Address</h1>
+                <h1>Address</h1>
+                <h1>Address</h1>
+                <h1>Address</h1>
+                <h1>Address</h1>
+
+            </div>
+
+            <div id="accountDetail" style="display: none;">
+                <h2>Account detail</h2>
+                <!-- Nội dung liên quan đến lịch sử đơn hàng -->
+            </div>
+
             <div id="changePassword" style="display: none;">
                 <h2>Change Password</h2>
                 <div class="mb-3">
@@ -52,15 +75,14 @@
                 </div>
                 <button class="btn btn-primary">Change</button>
             </div>
-            <div id="address" style="display: none;">
-                <h2>Address</h2>
-                <!-- Nội dung liên quan đến địa chỉ -->
-            </div>
         </div>
     </div>
 
-    <?php include './includes/footer.php' ?>
+    <div class="footer-wrapper">
+        <?php include './includes/footer.php' ?>
 
+    </div>
+    <div class="header-space1"></div>
 
     <script>
         function showContent(contentId) {

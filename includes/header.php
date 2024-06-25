@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Record Store</title>
     <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/dark-mode.css">
@@ -45,7 +44,7 @@
         <nav class="category-menu">
             <ul id="main-menu">
                 <li>
-                    <a href="#">All Vinyls<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -53,7 +52,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">All CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -61,7 +60,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">All Cassettes <span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">Cassettes <span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -69,7 +68,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Artist<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">Artists<span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -85,7 +84,6 @@
                     </ul>
                 </li>
                 </li>
-                <li><a href="#">Accessories</a></li>
 
             </ul>
         </nav>
