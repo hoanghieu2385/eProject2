@@ -22,7 +22,9 @@
             <button onclick="showContent('addressBook')"><i class="fa-solid fa-map-location-dot" style="color: #424248;"></i>ADDRESS BOOK</button>
             <button onclick="showContent('accountDetail')"><i class="fa-regular fa-user" style="color: #424248;"></i>ACCOUNT DETAIL</button>
             <button onclick="showContent('changePassword')"><i class="fa-solid fa-lock" style="color: #424248;"></i>CHANGE PASSWORD</button>
-            <button onclick="showContent('logout')"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #424248;"></i>LOGOUT</button>
+            <button id="logoutButton" onclick="handleLogout()">
+                <i class="fa-solid fa-arrow-right-from-bracket" style="color: #424248;"></i>LOGOUT
+            </button>
 
         </div>
         <div class="content">
@@ -85,6 +87,7 @@
     <div class="header-space1"></div>
 
     <script>
+        // script show content cac muc trong menu
         function showContent(contentId) {
             const contents = document.getElementsByClassName('content')[0].children;
             for (let i = 0; i < contents.length; i++) {
@@ -109,6 +112,25 @@
                 passwordInput.type = "password";
                 passwordToggle.classList.remove("fa-eye");
                 passwordToggle.classList.add("fa-eye-slash");
+            }
+        }
+        // button logout
+        function handleLogout() {
+            if (confirm("Are you sure you want to logout?")) {
+                // Xóa trạng thái đăng nhập từ localStorage
+                localStorage.removeItem('isLoggedIn');
+
+                // Chuyển hướng người dùng đến trang đăng nhập hoặc trang chủ
+                window.location.href = './login/login.php'; // Hoặc trang chủ của bạn
+            }
+        }
+
+        // Kiểm tra trạng thái đăng nhập khi trang được tải
+        window.onload = function() {
+            let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+                window.location.href = './login/login.php';
             }
         }
     </script>
