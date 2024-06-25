@@ -25,7 +25,8 @@
                     <div class="user-icon">
                         <i class="fa-regular fa-circle-user fa-xl" id="user-icon-btn"></i>
                         <ul class="sub-menu" id="user-menu">
-                            <li><a href="../my_account.php" id="manage-account">My account</a></li>
+                            <li><a href="../my_account.php" id="orderHistory">Orders</a></li>
+                            <li><a href="../my_account.php" id="accountDetail">Account Detail</a></li>
                             <li><a href="../login/login.php" id="login-logout-btn">Login</a></li>
                         </ul>
                     </div>
@@ -108,9 +109,6 @@
         });
 
         // hide category when scroll down
-
-
-
     </script>
 
 </body>

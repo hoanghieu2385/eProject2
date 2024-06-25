@@ -1,60 +1,46 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const userIconBtn = document.getElementById('user-icon-btn');
+    const userIcon = document.querySelector('.user-icon');
     const userMenu = document.getElementById('user-menu');
-    const loginLogoutBtn = document.getElementById('login-logout-btn');
-    const manageAccount = document.getElementById('manage-account');
-
-    // Kiểm tra trạng thái đăng nhập từ localStorage
+    
     let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-    function toggleUserMenu(show) {
-        userMenu.classList.toggle('show', show);
-    }
+    function updateUserMenu() {
+        userMenu.innerHTML = isLoggedIn 
+            ? `<li><a href="../my_account.php">Orders</a></li>
+                <li><a href="../my_account.php">Account Detail</a></li>
+                <li><a href="#" id="logout-btn">Logout</a></li>`
+            : `<li><a href="../login/login.php">Login</a></li>
+                <li><a href="../login/sign_up.php">Sign Up</a></li>`;
 
-    function updateUI() {
-        loginLogoutBtn.textContent = isLoggedIn ? 'Logout' : 'Login';
-        manageAccount.style.display = isLoggedIn ? 'block' : 'none';
-
-        loginLogoutBtn.href = isLoggedIn ? '#' : '../login/login.php';
-    }
-
-    // check login/logout 
-    function handleLoginLogout(e) {
         if (isLoggedIn) {
-            e.preventDefault();
-            isLoggedIn = false;
-            localStorage.removeItem('isLoggedIn'); // Xóa trạng thái đăng nhập từ localStorage
-            updateUI();
-            toggleUserMenu(false);
-        } else {
-            // Giả sử đăng nhập thành công
-            // Trong thực tế, bạn sẽ xử lý đăng nhập ở trang login.php
-            // và đặt isLoggedIn = 'true' trong localStorage khi đăng nhập thành công
-            console.log('Chuyển hướng đến trang login.php');
+            document.getElementById('logout-btn').addEventListener('click', handleLogout);
         }
     }
 
-    // hover icon user    userIconBtn.addEventListener('mouseenter', function() {
-        toggleUserMenu(true);
+    function handleLogout(e) {
+        e.preventDefault();
+        isLoggedIn = false;
+        localStorage.removeItem('isLoggedIn');
+        updateUserMenu();
+    }
+
+    function showUserMenu() {
+        userMenu.classList.add('show');
+    }
+
+    function hideUserMenu() {
+        userMenu.classList.remove('show');
+    }
+
+    userIcon.addEventListener('mouseenter', showUserMenu);
+    userIcon.addEventListener('mouseleave', function() {
+        setTimeout(hideUserMenu, 300); // Slight delay to allow moving cursor to menu
     });
 
-    userIconBtn.addEventListener('mouseleave', function() {
-        setTimeout(function() {
-            if (!userMenu.matches(':hover')) {
-                toggleUserMenu(false);
-            }
-        }, 200);
+    userMenu.addEventListener('mouseenter', function() {
+        clearTimeout(hideUserMenu);
     });
+    userMenu.addEventListener('mouseleave', hideUserMenu);
 
-    userMenu.addEventListener('mouseleave', function() {
-        setTimeout(function() {
-            if (!userIconBtn.matches(':hover')) {
-                toggleUserMenu(false);
-            }
-        }, 200);
-    });
-
-    loginLogoutBtn.addEventListener('click', handleLoginLogout);
-
-    updateUI();
+    updateUserMenu();
 });

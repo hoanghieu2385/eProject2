@@ -93,6 +93,7 @@ header.sticky {
     display: block;
     min-width: 120px;
     margin-top: 2.5px;
+    right: -6px;
 }
 
 .sub-menu li {
