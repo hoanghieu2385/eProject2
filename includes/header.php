@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,7 +29,7 @@
                         <ul class="sub-menu" id="user-menu">
                             <li><a href="../my_account.php" id="orderHistory">Orders</a></li>
                             <li><a href="../my_account.php" id="accountDetail">Account Detail</a></li>
-                            <li><a href="../login/login.php" id="login-logout-btn">Login</a></li>
+                            <li><a href="../login/logout.php" id="login-logout-btn">Logout</a></li>
                         </ul>
                     </div>
                     <a href="cart.php"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
@@ -109,6 +111,46 @@
         });
 
         // hide category when scroll down
+        document.addEventListener('DOMContentLoaded', () => {
+            const userContainer = document.querySelector('.user-container');
+            const userMenu = document.getElementById('user-menu');
+
+            function checkLoginStatus() {
+                fetch('./includes/check_login_status.php', { credentials: 'include' })
+                    .then(response => response.json())
+                    .then(data => {
+                        const isLoggedIn = data.isLoggedIn === 'true'; // Ensure boolean comparison
+                        updateUserMenu(isLoggedIn);
+                    })
+                    .catch(error => console.error("Error checking login status:", error));
+            }
+
+            function updateUserMenu(isLoggedIn) {
+                userMenu.innerHTML = isLoggedIn
+                    ? `
+                        <li><a href="./my_account.php">Orders</a></li>
+                        <li><a href="./my_account.php">Account Detail</a></li>
+                        <li><a href="#" id="logout-btn">Logout</a></li>`
+                    : `
+                        <li><a href="./login/login.php">Login</a></li>
+                        <li><a href="./login/sign_up.php">Sign Up</a></li>`;
+
+                if (isLoggedIn) {
+                    document.getElementById('logout-btn').addEventListener('click', handleLogout);
+                }
+            }
+
+            function handleLogout(e) {
+                e.preventDefault();
+                fetch('./login/logout.php', { credentials: 'include' })
+                    .then(checkLoginStatus)
+                    .catch(error => console.error("Error logging out:", error));
+            }
+
+            // ... (rest of your user menu interaction code) ...
+
+            checkLoginStatus();
+        });
     </script>
 
 </body>

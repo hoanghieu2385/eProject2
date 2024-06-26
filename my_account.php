@@ -12,7 +12,7 @@
 
 <body>
     <?php include './includes/header.php' ?>
-    <div class="header-space" style="height: 80px;"></div>
+    <div class="header-space" style="height: 140px;"></div>
 
     <h1 class="header-text">My account</h1>
 
