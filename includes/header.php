@@ -14,7 +14,7 @@
     <header>
         <nav class="container-header">
             <a href="../index.php" class="logo">
-                <img src="/images/header/logo3.png" alt="Record Store" height="60px">
+                <img src="/images/header/logo_co_chu.png" alt="Record Store" height="60px">
             </a>
             <div class="header-right">
                 <div class="search-container">
