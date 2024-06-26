@@ -1,5 +1,5 @@
 function sign_up(e) {
-    event.preventDefault();
+    e.preventDefault();
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
     var user = {
@@ -12,7 +12,7 @@ function sign_up(e) {
 }
 
 function login(e) {
-    event.preventDefault();
+    e.preventDefault();
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
     var user = localStorage.getItem(username);
@@ -42,4 +42,18 @@ function togglePasswordVisibility() {
         eyeIcon.classList.remove("fa-eye");
         eyeIcon.classList.add("fa-eye-slash");
     }
+}
+
+window.onload = function() {
+    if (document.cookie.indexOf("username") != -1) {
+        document.getElementById("username").value = getCookie("username");
+        document.getElementById("password").value = getCookie("password");
+        document.getElementById("remember").checked = true;
+    }
+};
+
+function getCookie(name) {
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
 }

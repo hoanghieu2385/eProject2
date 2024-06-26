@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Record Store</title>
+    <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/dark-mode.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -14,7 +14,7 @@
     <header>
         <nav class="container-header">
             <a href="../index.php" class="logo">
-                <img src="/images/header/logo.png" alt="Record Store" width="50" height="60">
+                <img src="/images/header/logo_co_chu.png" alt="Record Store" height="60px">
             </a>
             <div class="header-right">
                 <div class="search-container">
@@ -25,7 +25,8 @@
                     <div class="user-icon">
                         <i class="fa-regular fa-circle-user fa-xl" id="user-icon-btn"></i>
                         <ul class="sub-menu" id="user-menu">
-                            <li><a href="#" id="manage-account">Manage account</a></li>
+                            <li><a href="../my_account.php" id="orderHistory">Orders</a></li>
+                            <li><a href="../my_account.php" id="accountDetail">Account Detail</a></li>
                             <li><a href="../login/login.php" id="login-logout-btn">Login</a></li>
                         </ul>
                     </div>
@@ -44,7 +45,7 @@
         <nav class="category-menu">
             <ul id="main-menu">
                 <li>
-                    <a href="#">All Vinyls<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -52,7 +53,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">All CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -60,7 +61,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">All Cassettes <span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">Cassettes <span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -68,7 +69,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Artist<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">Artists<span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -84,7 +85,6 @@
                     </ul>
                 </li>
                 </li>
-                <li><a href="#">Accessories</a></li>
 
             </ul>
         </nav>
@@ -94,8 +94,6 @@
     <script src="../js/search.js"></script>
     <script src="../js/dark-mode.js"></script>
     <script src="../js/check_login-logout.js"></script>
-    <script src="../js/show-hide_user-icon.js"></script>
-
 
     <!-- Scroll header -->
     <script>
@@ -109,6 +107,8 @@
                 header.classList.remove('sticky');
             }
         });
+
+        // hide category when scroll down
     </script>
 
 </body>

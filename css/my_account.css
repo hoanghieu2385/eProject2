@@ -1,0 +1,125 @@
+@import url('https://fonts.adobe.com/fonts/brandon-grotesque');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: brandon-grotesque;
+}
+
+.header-text {
+    text-align: LEFT;
+    margin-left: 6%;
+    margin-bottom: 2%;
+    font-size: xxx-large;
+}
+
+.container {
+    min-height: 400px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+}
+
+.sidebar {
+    background-color: #f1f1f1;
+    padding: 20px 0 20px 20px;
+    width: 200px;
+    height: 205px;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.sidebar button:hover {
+    border-right: 2px solid black;
+}
+
+.sidebar button i {
+    margin-right: 10px;
+}
+
+.content {
+    flex: 1;
+    padding: 0 20px;
+}
+
+/* Styles mới cho phần Change Password */
+#changePassword {
+    max-width: 400px;
+}
+
+#changePassword h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.password-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.password-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+}
+
+.password-input input::placeholder {
+    color: #aaa;
+}
+
+.password-toggle {
+    padding: 10px;
+    cursor: pointer;
+    color: #888;
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+}
+
+.btn-change-password {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.btn-change-password:hover {
+    background-color: #0056b3;
+}
+
+.footer-wrapper *{
+    display: block;
+    box-sizing: border-box;
+}

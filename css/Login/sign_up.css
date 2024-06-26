@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: brandon-grotesque;
     background-color: #f2f2f2;
 }
 
@@ -48,7 +48,7 @@ label {
     margin-bottom: 5px;
 }
 
-.username,
+.email,
 .password {
     padding: 10px;
     margin-bottom: 15px;

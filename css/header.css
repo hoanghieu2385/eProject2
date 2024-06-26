@@ -74,6 +74,7 @@ header.sticky {
 .user-icon {
     position: relative;
     margin-right: 20px;
+    cursor: pointer;
 }
 
 .user-icon .sub-menu {
@@ -92,6 +93,7 @@ header.sticky {
     display: block;
     min-width: 120px;
     margin-top: 2.5px;
+    right: -6px;
 }
 
 .sub-menu li {
@@ -182,4 +184,3 @@ header.sticky {
 #main-menu > li > a span {
     margin-left: 5px;
 }
-
