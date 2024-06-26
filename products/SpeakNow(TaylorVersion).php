@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="../css/product.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="../js/quantitybox.js"></script>
+    <script src="../js/product-cart.js"></script>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap');
     </style>
 
 </head>
-
 <body>
     <?php include '../includes/header.php' ?>
     <div class="productcontainer">
@@ -86,6 +86,33 @@
             <button class="view-product">VIEW PRODUCT</button>
         </div>
     </div>
+</div>
+<div class="cart">
+  <div class="cart-header">
+    <h2>Cart</h2>
+    <span class="close">&times;</span>
+  </div>
+  <div class="cart-items">
+    <div class="item">
+      <img src="../images/product/taylor.jpg" alt="Album cover">
+      <div class="item-details">
+        <h3>SPEAK NOW (TAYLOR'S VERSION) 3LP ORCHID MARBLED VINYL</h3>
+        <p>SHIPS ON OR BEFORE JULY 1, 2024</p>
+        <p class="price">$38.99</p>
+        <div class="quantity">
+          <button>-</button>
+          <input type="number" value="1" min="1">
+          <button>+</button>
+          <button class="remove">🗑️</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <p>Subtotal: <span class="subtotal">$38.99</span></p>
+    <p class="shipping-note">Shipping and taxes calculated at checkout</p>
+    <button class="view-cart">VIEW CART</button>
+  </div>
 </div>
     <?php include '../includes/footer.php' ?>
 </body>
