@@ -1,6 +1,6 @@
-<?php
+Copy<?php
 session_start();
-unset($_SESSION['login']);
 session_destroy();
-header('Location: ../index.php');
+echo json_encode(['success' => true]);
+exit;
 ?>
