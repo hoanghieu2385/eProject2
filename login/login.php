@@ -1,44 +1,66 @@
 <?php
 session_start();
+$error = array();
+
+$conn = mysqli_connect('localhost', 'root', '', 'project2') or die("Connect failed.");
+mysqli_set_charset($conn, 'utf8');
+
 if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
     $cookie_email = $_COOKIE['email'];
     $cookie_password = $_COOKIE['password'];
 
-    $conn = mysqli_connect('localhost', 'root', '', 'project2') or die("Connect failed.");
-    mysqli_set_charset($conn, 'utf8');
-
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
-    $stmt->bind_param("ss", $cookie_email, $cookie_password);
+    $stmt = $conn->prepare("SELECT * FROM site_user WHERE email_address = ?");
+    $stmt->bind_param("s", $cookie_email);
     $stmt->execute();
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
 
-    if ($row) {
+    if ($row && password_verify($cookie_password, $row['password'])) {
         $_SESSION['login'] = $row['email'];
-        header('location:index.php');
+        header('Location: ../index.php');
         exit;
     }
-
-    if (isset($_POST['submit-btn'])) {
-        $error = array();
-
-        if ($_POST['email'] != "") {
-            $email = $_POST['email'];
-        } else {
-            $error[] = "Account name has not been entered.";
-        }
-        if ($_POST['password'] != "") {
-            $password = $_POST['password'];
-        } else {
-            $error[] = "Password not entered.";
-        }
-    }
     $stmt->close();
-    $conn->close();
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
+    if (!empty($_POST['email'])) {
+        $email = $_POST['email'];
+    } else {
+        $error[] = "Account name has not been entered.";
+    }
+    if (!empty($_POST['password'])) {
+        $password = $_POST['password'];
+    } else {
+        $error[] = "Password not entered.";
+    }
 
+    if (empty($error)) {
+        $stmt = $conn->prepare("SELECT * FROM site_user WHERE email_address = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
 
+        if ($row && password_verify($password, $row['password'])) {
+            $_SESSION['login'] = $row['email'];
+
+            if (isset($_POST['remember'])) {
+                setcookie('email', $email, time() + (86400 * 30), "/");
+                setcookie('password', $password, time() + (86400 * 30), "/");
+            }
+
+            header('Location: ../index.php');
+            exit;
+        } else {
+            $error[] = "Invalid email or password.";
+        }
+
+        $stmt->close();
+    }
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -65,9 +87,9 @@ if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
             </div>
 
             <div class="login-form">
-                <form onsubmit="login()" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
                     <label for="email">Email <span class="required">*</span></label>
-                    <input class="email" type="email" id="email" name="email" autofocus>
+                    <input class="email" type="email" id="email" name="email" required autofocus>
                     <div class="password-input">
                         <label for="password">Password <span class="required">*</span></label>
                         <div class="input-wrapper">
@@ -75,6 +97,11 @@ if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
                             <i class="fas fa-eye-slash eye-icon" onclick="togglePasswordVisibility()"></i>
                         </div>
                     </div>
+                    <?php
+                    if (!empty($error)) {
+                        echo '<p style="color: red;">' . implode('<br>', $error) . '</p>';
+                    }
+                    ?>
                     <div class="login-options">
                         <button type="submit" name="submit-btn" class="submit-btn">Log in</button>
                         <div class="remember-me">
@@ -82,11 +109,6 @@ if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
                             <label for="remember">Remember password</label>
                         </div>
                     </div>
-                    <?php
-                    if (!empty($error)) {
-                        echo '<p style="color: red;">' . implode('<br>', $error) . '</p>';
-                    }
-                    ?>
                     <a href="./forgotPassword.php" class="forgot-password">Forgot password?</a>
                 </form>
             </div>

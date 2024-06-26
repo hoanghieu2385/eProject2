@@ -30,9 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Quên Mật Khẩu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record Store</title>
+    <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
 </head>
 <body>
+<?php include '../includes/header.php' ?>
+<div class="header-space" style="height: 200px;"></div>
+
     <h2>Quên Mật Khẩu</h2>
     <?php 
     if (isset($_SESSION['error'])) {
@@ -45,5 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="email" id="email" name="email" required>
         <button type="submit">Gửi mã xác nhận</button>
     </form>
+    <?php include '../includes/footer.php' ?>
 </body>
 </html>

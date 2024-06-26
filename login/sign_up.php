@@ -20,16 +20,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($password !== $confirm_password) {
         $error_message = "Confirm password does not match";
     } else {
-        $plain_password = $password;
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO site_user (email_address, password) VALUES (?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $email, $plain_password);
+        $stmt->bind_param("ss", $email, $hashed_password);
 
         if ($stmt->execute()) {
             $stmt->close();
             $conn->close();
-            header("Location: login.php");
+            header("Location: ../my_account.php");
             exit();
         } else {
             $error_message = "Failed to register user";
@@ -75,15 +75,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="confirm_password">Re-enter Password <span class="required">*</span></label>
                         <input class="password" type="password" id="confirm_password" name="confirm_password" required>
 
+                        <?php if (isset($error_message)) {
+                            echo '<p style="color: red;">' . $error_message . '</p>';
+                        } ?>
+
                         <button href="./login.php" type="submit">Sign up</button>
                         <p>*Confirm your account by clicking the email we sent</p>
                     </form>
                 </div>
             </div>
         </div>
-
     </main>
-
     <?php include '../includes/footer.php' ?>
 </body>
 
