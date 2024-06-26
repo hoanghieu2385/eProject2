@@ -12,7 +12,7 @@
 
 <body>
     <?php include './includes/header.php' ?>
-    <div class="header-space"></div>
+    <div class="header-space" style="height: 80px;"></div>
 
     <h1 class="header-text">My account</h1>
 
@@ -49,33 +49,34 @@
 
             <div id="accountDetail" style="display: none;">
                 <h2>Account detail</h2>
-                <!-- Nội dung liên quan đến lịch sử đơn hàng -->
             </div>
 
             <div id="changePassword" style="display: none;">
                 <h2>Change Password</h2>
-                <div class="mb-3">
-                    <label for="currentPassword" class="form-label">Current password</label>
-                    <div class="password-input">
-                        <input type="password" class="form-control" id="currentPassword">
-                        <i class="fas fa-eye-slash password-toggle" onclick="togglePasswordVisibility('currentPassword')"></i>
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <div class="password-input">
+                            <input type="password" id="currentPassword" name="currentPassword" placeholder="Current Password">
+                            <i class="fas fa-eye-slash password-toggle" onclick="togglePasswordVisibility('currentPassword')"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label for="newPassword" class="form-label">New password</label>
-                    <div class="password-input">
-                        <input type="password" class="form-control" id="newPassword">
-                        <i class="fas fa-eye-slash password-toggle" onclick="togglePasswordVisibility('newPassword')"></i>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <div class="password-input">
+                            <input type="password" id="newPassword" name="newPassword" placeholder="New Password">
+                            <i class="fas fa-eye-slash password-toggle" onclick="togglePasswordVisibility('newPassword')"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label for="confirmPassword" class="form-label">Confirm new password</label>
-                    <div class="password-input">
-                        <input type="password" class="form-control" id="confirmPassword">
-                        <i class="fas fa-eye-slash password-toggle" onclick="togglePasswordVisibility('confirmPassword')"></i>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <div class="password-input">
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
+                            <i class="fas fa-eye-slash password-toggle" onclick="togglePasswordVisibility('confirmPassword')"></i>
+                        </div>
                     </div>
-                </div>
-                <button class="btn btn-primary">Change</button>
+                    <button type="submit" class="btn-change-password">Change Password</button>
+                </form>
             </div>
         </div>
     </div>
@@ -84,7 +85,6 @@
         <?php include './includes/footer.php' ?>
 
     </div>
-    <div class="header-space1"></div>
 
     <script>
         // script show content cac muc trong menu
@@ -115,24 +115,24 @@
             }
         }
         // button logout
-        function handleLogout() {
-            if (confirm("Are you sure you want to logout?")) {
-                // Xóa trạng thái đăng nhập từ localStorage
-                localStorage.removeItem('isLoggedIn');
+        // function handleLogout() {
+        //     if (confirm("Are you sure you want to logout?")) {
+        //         // Xóa trạng thái đăng nhập từ localStorage
+        //         localStorage.removeItem('isLoggedIn');
 
-                // Chuyển hướng người dùng đến trang đăng nhập hoặc trang chủ
-                window.location.href = './login/login.php'; // Hoặc trang chủ của bạn
-            }
-        }
+        //         // Chuyển hướng người dùng đến trang đăng nhập hoặc trang chủ
+        //         window.location.href = './login/login.php'; // Hoặc trang chủ của bạn
+        //     }
+        // }
 
-        // Kiểm tra trạng thái đăng nhập khi trang được tải
-        window.onload = function() {
-            let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            if (!isLoggedIn) {
-                // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-                window.location.href = './login/login.php';
-            }
-        }
+        // // Kiểm tra trạng thái đăng nhập khi trang được tải
+        // window.onload = function() {
+        //     let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        //     if (!isLoggedIn) {
+        //         // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+        //         window.location.href = './login/login.php';
+        //     }
+        // }
     </script>
 </body>
 

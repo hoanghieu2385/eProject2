@@ -10,10 +10,10 @@
 <body>
 <!-- <div class="footer-container">   -->
     <footer>
-        <div class="container">
+        <div class="container-footer">
             <div class="row">
                 <div class="col logo-col">
-                    <a href="index.php" class="logo">
+                    <a href="../index.php" class="logo">
                         <img src="/images/header/logo.png" alt="Record Store" width="50" height="60">
                     </a>
                 </div>
