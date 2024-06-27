@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +30,7 @@
                         <ul class="sub-menu" id="user-menu">
                             <li><a href="../my_account.php" id="orderHistory">Orders</a></li>
                             <li><a href="../my_account.php" id="accountDetail">Account Detail</a></li>
-                            <li><a href="../login/login.php" id="login-logout-btn">Login</a></li>
+                            <li><a href="../login/logout.php" id="login-logout-btn">Logout</a></li>
                         </ul>
                     </div>
                    <a href="#" id="cart-icon" onclick="openCart(event)"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
@@ -108,6 +110,7 @@
             }
         });
 
+        // hide category when scroll down
     </script>
  
 </body>
