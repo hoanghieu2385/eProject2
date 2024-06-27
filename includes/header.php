@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/dark-mode.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="../js/product-cart.js"></script>
 </head>
 
 <body>
@@ -30,7 +31,7 @@
                             <li><a href="../login/login.php" id="login-logout-btn">Login</a></li>
                         </ul>
                     </div>
-                    <a href="cart.php"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
+                   <a href="#" id="cart-icon" onclick="openCart(event)"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
                     <div class="dark-mode-toggle">
                         <input type="checkbox" id="dark-mode-checkbox">
                         <label for="dark-mode-checkbox">
@@ -95,7 +96,6 @@
     <script src="../js/dark-mode.js"></script>
     <script src="../js/check_login-logout.js"></script>
 
-    <!-- Scroll header -->
     <script>
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
@@ -108,9 +108,8 @@
             }
         });
 
-        // hide category when scroll down
     </script>
-
+ 
 </body>
 
 </html>
