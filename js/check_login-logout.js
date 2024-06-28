@@ -1,70 +1,44 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const userIcon = document.querySelector('.user-icon');
+    const userIconBtn = document.getElementById('user-icon-btn');
     const userMenu = document.getElementById('user-menu');
+    const loginLogoutBtn = document.getElementById('login-logout-btn');
+    const orderHistoryLink = document.getElementById('orderHistory');
+    const accountDetailLink = document.getElementById('accountDetail');
 
-    let hideTimeout;
-
-    function checkLoginStatus() {
-        const isLoggedInLocal = localStorage.getItem('isLoggedIn') === 'true';
-        
-        fetch('../includes/check_login_status.php', { 
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(response => response.json())
-        .then(data => {
-            const isLoggedInServer = data.isLoggedIn;
-            updateUserMenu(isLoggedInLocal && isLoggedInServer);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            updateUserMenu(isLoggedInLocal);
-        });
+    function updateLoginStatus() {
+        fetch('../includes/check_login_status.php') // Call a PHP script to check login status
+            .then(response => response.json())
+            .then(data => {
+                if (data.isLoggedIn) {
+                    loginLogoutBtn.textContent = 'Logout';
+                    loginLogoutBtn.href = '../login/logout.php';
+                    orderHistoryLink.style.display = 'block';
+                    accountDetailLink.style.display = 'block';
+                } else {
+                    loginLogoutBtn.textContent = 'Login';
+                    loginLogoutBtn.href = '../login/login.php';
+                    orderHistoryLink.style.display = 'none';
+                    accountDetailLink.style.display = 'none';
+                }
+            });
     }
 
-    function updateUserMenu(isLoggedIn) {
-        userMenu.innerHTML = isLoggedIn
-            ? `
-                <li><a href="../my_account.php">Orders</a></li>
-                <li><a href="../my_account.php?section=accountDetail">Account Detail</a></li>
-                <li><a href="#" id="logout-btn">Logout</a></li>`
-            : `
-                <li><a href="../login/login.php">Login</a></li>
-                <li><a href="../login/sign_up.php">Sign Up</a></li>`;
+    // userIconBtn.addEventListener('click', function () {
+    //     userMenu.classList.toggle('show');
+    //     updateLoginStatus(); // Update menu on click
+    // });
+    
+    userIconBtn.addEventListener('mouseenter', function () { // Use mouseenter
+        userMenu.classList.add('show'); // Add 'show' class
+        updateLoginStatus(); // Update menu on hover
+    });
 
-        if (isLoggedIn) {
-            document.getElementById('logout-btn').addEventListener('click', handleLogout);
-        }
-    }
+    userIconBtn.addEventListener('mouseleave', function () { // Use mouseleave
+        userMenu.classList.remove('show'); // Remove 'show' class
+    });
 
-    function handleLogout(e) {
-        e.preventDefault();
-        fetch('../login/logout.php', { 
-            method: 'POST',
-            credentials: 'include'
-        })
-        .then(() => {
-            localStorage.removeItem('isLoggedIn');
-            checkLoginStatus();
-        })
-        .catch(error => console.error('Error:', error));
-    }
 
-    function showUserMenu() {
-        clearTimeout(hideTimeout);
-        userMenu.classList.add('show');
-    }
+    // Initial update when the page loads
+    updateLoginStatus();
 
-    function hideUserMenu() {
-        hideTimeout = setTimeout(() => {
-            userMenu.classList.remove('show');
-        }, 300);
-    }
-
-    userIcon.addEventListener('mouseenter', showUserMenu);
-    userIcon.addEventListener('mouseleave', hideUserMenu);
-    userMenu.addEventListener('mouseenter', showUserMenu);
-    userMenu.addEventListener('mouseleave', hideUserMenu);
-
-    checkLoginStatus();
 });
