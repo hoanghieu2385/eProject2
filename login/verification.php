@@ -13,25 +13,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Xác Nhận Mã</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record Store</title>
+    <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
+    <link rel="stylesheet" href="../css/Login/verification.css">
 </head>
+
 <body>
-    <h2>Xác Nhận Mã</h2>
-    <?php 
-    if (isset($_SESSION['message'])) {
-        echo '<p style="color:green;">' . $_SESSION['message'] . '</p>';
-        unset($_SESSION['message']);
-    }
-    if (isset($error_message)) {
-        echo '<p style="color:red;">' . $error_message . '</p>';
-    }
-    ?>
-    <form method="post" action="">
-        <label for="verification_code">Mã xác nhận:</label>
-        <input type="text" id="verification_code" name="verification_code" required>
-        <button type="submit">Xác nhận</button>
-    </form>
+    <?php include '../includes/header.php' ?>
+
+    <div class="main-content">
+        <h2 class="main-title">Confirm Code</h2>
+        <?php
+        if (isset($_SESSION['message'])) {
+            echo '<p class="success-message">' . $_SESSION['message'] . '</p>';
+            unset($_SESSION['message']);
+        }
+        if (isset($error_message)) {
+            echo '<p class="error-message">' . $error_message . '</p>';
+        }
+        ?>
+        <form class="verification-form" method="post" action="">
+            <label class="form-label" for="verification_code">Verification <span class="required">*</span></label>
+            <input class="form-input" type="text" id="verification_code" name="verification_code" required>
+            <button class="form-button" type="submit">Confirm</button>
+        </form>
+    </div>
+
+    <?php include '../includes/footer.php' ?>
 </body>
+
 </html>
