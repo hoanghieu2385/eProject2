@@ -8,8 +8,8 @@
     <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
     <link rel="stylesheet" href="../css/product.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="../js/quantitybox.js"></script>
     <script src="../js/product-cart.js"></script>
+    <script src="../js/quantitybox.js"></script>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap');
     </style>
@@ -93,7 +93,6 @@
     <span class="close">&times;</span>
   </div>
   <div class="cart-items">
-    <!-- Mẫu cho một item trong giỏ hàng (ẩn ban đầu) -->
     <div class="item" style="display: none;">
       <img src="" alt="Product Image">
       <div class="item-details">
@@ -107,7 +106,7 @@
         </div>
       </div>
     </div>
-    <!-- Các item sẽ được thêm vào đây động -->
+    <!-- San pham add o day -->
   </div>
   <div class="cart-footer">
     <p>Subtotal: <span class="subtotal">$0.00</span></p>

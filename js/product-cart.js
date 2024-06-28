@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if(addToCartBtn) {
-        console.log('Adding event listener to Add To Cart button');
+        console.log('Adding event log to Add To Cart button');
         addToCartBtn.removeEventListener('click', addToCart);
         addToCartBtn.addEventListener('click', addToCart);
     }
