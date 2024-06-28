@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
         $row = $result->fetch_assoc();
 
         if ($row && password_verify($password, $row['password'])) {
-            $_SESSION['login'] = $row['email'];
+            $_SESSION['login'] = true;
 
             if (isset($_POST['remember'])) {
                 setcookie('email', $email, time() + (86400 * 30), "/");
