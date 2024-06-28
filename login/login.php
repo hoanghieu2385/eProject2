@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
 
         if ($row && password_verify($password, $row['password'])) {
             $_SESSION['login'] = true;
+            $_SESSION['user_email'] = $email;
 
             if (isset($_POST['remember'])) {
                 setcookie('email', $email, time() + (86400 * 30), "/");
