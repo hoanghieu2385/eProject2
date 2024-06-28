@@ -93,23 +93,24 @@
     <span class="close">&times;</span>
   </div>
   <div class="cart-items">
-    <div class="item">
-      <img src="../images/product/taylor.jpg" alt="Album cover">
+    <!-- Mẫu cho một item trong giỏ hàng (ẩn ban đầu) -->
+    <div class="item" style="display: none;">
+      <img src="" alt="Product Image">
       <div class="item-details">
-        <h3>SPEAK NOW (TAYLOR'S VERSION) 3LP ORCHID MARBLED VINYL</h3>
-        <p>SHIPS ON OR BEFORE JULY 1, 2024</p>
-        <p class="price">$38.99</p>
+        <h3></h3>
+        <p class="price"></p>
         <div class="quantity">
-          <button>-</button>
+          <button class="decrease">-</button>
           <input type="number" value="1" min="1">
-          <button>+</button>
+          <button class="increase">+</button>
           <button class="remove">🗑️</button>
         </div>
       </div>
     </div>
+    <!-- Các item sẽ được thêm vào đây động -->
   </div>
   <div class="cart-footer">
-    <p>Subtotal: <span class="subtotal">$38.99</span></p>
+    <p>Subtotal: <span class="subtotal">$0.00</span></p>
     <p class="shipping-note">Shipping and taxes calculated at checkout</p>
     <button class="view-cart">VIEW CART</button>
   </div>

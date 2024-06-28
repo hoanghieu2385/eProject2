@@ -302,3 +302,45 @@ body.dark-mode .view-product {
   cursor: pointer;
   margin-top: 10px;
 }
+.cart-items .item {
+  display: flex;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-items .item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.cart-items .item-details {
+  flex-grow: 1;
+}
+
+.cart-items .item-details h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.cart-items .item-details p {
+  margin: 5px 0;
+}
+
+.cart-items .quantity {
+  display: flex;
+  align-items: center;
+}
+
+.cart-items .quantity button {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.cart-items .quantity span {
+  margin: 0 5px;
+}
