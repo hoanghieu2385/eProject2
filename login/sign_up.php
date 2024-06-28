@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         } ?>
 
                         <button href="./login.php" type="submit">Sign up</button>
-                        <p>*Confirm your account by clicking the email we sent</p>
+                        <p class="confirm_account">*Confirm your account by clicking the email we sent</p>
                     </form>
                 </div>
             </div>

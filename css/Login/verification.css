@@ -68,3 +68,9 @@ body {
     text-align: center;
     color: red;
 }
+
+/* dark mode */
+
+body.dark-mode .main-content h2 {
+    color: white;
+}
