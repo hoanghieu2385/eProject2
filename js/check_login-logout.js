@@ -22,11 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
     }
-
-    // userIconBtn.addEventListener('click', function () {
-    //     userMenu.classList.toggle('show');
-    //     updateLoginStatus(); // Update menu on click
-    // });
     
     userIconBtn.addEventListener('mouseenter', function () { // Use mouseenter
         userMenu.classList.add('show'); // Add 'show' class

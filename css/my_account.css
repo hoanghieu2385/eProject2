@@ -49,9 +49,49 @@
 .content {
     flex: 1;
     padding: 0 20px;
+    display: block;
 }
 
-/* Styles mới cho phần Change Password */
+.sidebar button.active {
+    border-right: 2px solid black;
+}
+
+/* Styles for Order History */
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-table th, .order-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.order-table th {
+    font-weight: bold;
+    color: #333;
+}
+
+.order-table td {
+    color: #666;
+}
+
+.view-button {
+    padding: 5px 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.view-button:hover {
+    background-color: #e9ecef;
+}
+
+
+
+/* Styles for Change Password */
 #changePassword {
     max-width: 400px;
 }
@@ -119,7 +159,7 @@
     background-color: #0056b3;
 }
 
-.footer-wrapper *{
+.footer-wrapper * {
     display: block;
     box-sizing: border-box;
 }
