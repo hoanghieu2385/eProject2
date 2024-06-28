@@ -33,23 +33,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Record Store</title>
     <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
+    <link rel="stylesheet" href="../css/Login/forgotPassword.css">
 </head>
 <body>
-<?php include '../includes/header.php' ?>
-<div class="header-space" style="height: 200px;"></div>
+    <?php include '../includes/header.php' ?>
 
-    <h2>Quên Mật Khẩu</h2>
-    <?php 
-    if (isset($_SESSION['error'])) {
-        echo '<p style="color:red;">' . $_SESSION['error'] . '</p>';
-        unset($_SESSION['error']);
-    }
-    ?>
-    <form method="post" action="">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <button type="submit">Gửi mã xác nhận</button>
-    </form>
+    <div class="main-content">
+        <h2 class="main-title">Forgot Password</h2>
+        <?php 
+        if (isset($_SESSION['error'])) {
+            echo '<p class="error-message">' . $_SESSION['error'] . '</p>';
+            unset($_SESSION['error']);
+        }
+        ?>
+        <form class="forgot-password-form" method="post" action="">
+            <label class="form-label" for="email">Email <span class="required">*</span></label>
+            <input class="form-input" type="email" id="email" name="email" required>
+            <button class="form-button" type="submit">Send Confirmation Code</button>
+            <a href="./sign_up.php" class="signup-password">Do not have an account ?</a>
+        </form>
+    </div>
+
     <?php include '../includes/footer.php' ?>
 </body>
 </html>
