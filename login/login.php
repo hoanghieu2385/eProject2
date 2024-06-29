@@ -78,8 +78,7 @@ $conn->close();
 
 <body>
     <?php include '../includes/header.php' ?>
-    <div class="header-space" style="height: 100px;"></div>
-
+    
     <main>
         <div class="login-container">
             <div class="form-login">

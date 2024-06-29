@@ -1,6 +1,5 @@
-<?php
+<?php include './includes/db_connect.php' ?>
 
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,10 +13,7 @@
 </head>
 
 <body>
-    <?php include './includes/db_connect.php' ?>
     <?php include './includes/header.php' ?>
-    <div class="header-space" style="height: 140px;"></div>
-
     <h1 class="header-text">My account</h1>
 
     <div class="container">
@@ -46,7 +42,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php include './includes/order-history.php' ?>
+                        <?php include './includes/my-account/order-history.php' ?>
                     </tbody>
                 </table>
             </div>
@@ -61,7 +57,7 @@
 
             <div id="change-Password" class="content-section">
                 <h2>Change Password</h2>
-                <form id="changePasswordForm">
+                <form id="changePasswordForm" method="post" action="./includes/my-account/change_password.php">
                     <div class="form-group">
                         <label for="currentPassword">Current Password</label>
                         <div class="password-input">
@@ -148,7 +144,34 @@
             showContent('order-History');
         }
 
-        // logout 
+        // Change password
+        document.getElementById('changePasswordForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', './includes/my-account/change_password.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                console.log("Response status:", this.status);
+                console.log("Response text:", this.responseText);
+                if (this.status == 200) {
+                    try {
+                        var response = JSON.parse(this.responseText);
+                        alert(response.message);
+                    } catch (e) {
+                        console.error("JSON parse error:", e);
+                        alert("An error occurred while processing your request. Please try again later.");
+                    }
+                }
+            };
+            xhr.send('currentPassword=' + encodeURIComponent(document.getElementById('currentPassword').value) +
+                '&newPassword=' + encodeURIComponent(document.getElementById('newPassword').value) +
+                '&confirmPassword=' + encodeURIComponent(document.getElementById('confirmPassword').value));
+        });
+
+
+
+        // logout button
         function handleLogout() {
             if (confirm("Are you sure you want to log out?")) {
                 window.location.href = "./login/logout.php";
