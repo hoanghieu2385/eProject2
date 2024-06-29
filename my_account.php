@@ -156,12 +156,25 @@
                 console.log("Response text:", this.responseText);
                 if (this.status == 200) {
                     try {
-                        var response = JSON.parse(this.responseText);
-                        alert(response.message);
+                        // Tìm vị trí bắt đầu của JSON trong phản hồi
+                        var jsonStartIndex = this.responseText.indexOf('{');
+                        if (jsonStartIndex !== -1) {
+                            var jsonResponse = this.responseText.substr(jsonStartIndex);
+                            var response = JSON.parse(jsonResponse);
+                            if (response.success) {
+                                alert("Success: " + response.message);
+                            } else {
+                                alert("Error: " + response.message);
+                            }
+                        } else {
+                            throw new Error("Invalid JSON response");
+                        }
                     } catch (e) {
                         console.error("JSON parse error:", e);
-                        alert("An error occurred while processing your request. Please try again later.");
+                        alert("An error occurred while processing your request. Please check the console for more details.");
                     }
+                } else {
+                    alert("An error occurred while processing your request. Please try again later.");
                 }
             };
             xhr.send('currentPassword=' + encodeURIComponent(document.getElementById('currentPassword').value) +
