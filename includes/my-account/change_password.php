@@ -2,7 +2,6 @@
 include '../db_connect.php';
 include '../../mail/mail.php';
 
-session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $currentPassword = $_POST['currentPassword'];
