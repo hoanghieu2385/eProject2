@@ -52,12 +52,8 @@ label {
     margin-bottom: 5px;
 }
 
-<<<<<<< HEAD
-input {
-=======
 .email,
 .password {
->>>>>>> 8bf649c41518fba88c86e2360556b25ae78041e7
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;

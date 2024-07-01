@@ -87,11 +87,6 @@
                     </ul>
                 </li>
                 </li>
-<<<<<<< HEAD
-                <li><a href="#">Vinyl Cares</a></li>
-                <li><a href="../contact_us.php">Contact Us</a></li>
-=======
->>>>>>> 8bf649c41518fba88c86e2360556b25ae78041e7
 
             </ul>
         </nav>

@@ -27,9 +27,6 @@ function login(e) {
     else {
         alert("Dang nhap that bai")
     }
-<<<<<<< HEAD
-}
-=======
 }
 
 function togglePasswordVisibility() {
@@ -60,4 +57,3 @@ function getCookie(name) {
     let parts = value.split("; " + name + "=");
     if (parts.length == 2) return parts.pop().split(";").shift();
 }
->>>>>>> 8bf649c41518fba88c86e2360556b25ae78041e7
