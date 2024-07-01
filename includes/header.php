@@ -29,6 +29,7 @@
                             <li><a href="../my_account.php?section=order-History" id="orderHistory">Orders</a></li>
                             <li><a href="../my_account.php?section=account-Detail" id="accountDetail">Account Detail</a></li>
                             <li><a href="../login/logout.php" id="login-logout-btn">Logout</a></li>
+                            <li><a href="../login/sign_up.php" id="signUp">Sign Up</a></li>
                         </ul>
                     </div>
                     <a href="#" id="cart-icon" onclick="openCart(event)"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>

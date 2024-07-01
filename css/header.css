@@ -97,7 +97,7 @@ header.sticky {
     display: block;
     min-width: 120px;
     margin-top: 2.5px;
-    right: -6px;
+    right: -10px;
     opacity: 1;
     visibility: visible;
 }

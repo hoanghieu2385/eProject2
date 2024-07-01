@@ -155,7 +155,7 @@
                 console.log("Response status:", this.status);
                 console.log("Response text:", this.responseText);
                 if (this.status == 200) {
-                    // try {
+                    try {
                         // Tìm vị trí bắt đầu của JSON trong phản hồi
                         var jsonStartIndex = this.responseText.indexOf('{');
                         if (jsonStartIndex !== -1) {
@@ -169,9 +169,9 @@
                         } else {
                             throw new Error("Invalid JSON response");
                         }
-                    // } catch (e) {
-                    //     console.error("JSON parse error:", e);
-                    //     alert("An error occurred while processing your request. Please check the console for more details.");
+                    } catch (e) {
+                        console.error("JSON parse error:", e);
+                        alert("An error occurred while processing your request");
                     }
                 } else {
                     alert("An error occurred while processing your request. Please try again later.");
