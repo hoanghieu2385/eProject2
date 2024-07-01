@@ -1,5 +1,5 @@
 function sign_up(e) {
-    event.preventDefault();
+    e.preventDefault();
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
     var user = {
@@ -12,7 +12,7 @@ function sign_up(e) {
 }
 
 function login(e) {
-    event.preventDefault();
+    e.preventDefault();
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
     var user = localStorage.getItem(username);
@@ -27,4 +27,37 @@ function login(e) {
     else {
         alert("Dang nhap that bai")
     }
+<<<<<<< HEAD
 }
+=======
+}
+
+function togglePasswordVisibility() {
+    var passwordField = document.getElementById("password");
+    var eyeIcon = document.querySelector(".eye-icon");
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        eyeIcon.classList.remove("fa-eye-slash");
+        eyeIcon.classList.add("fa-eye");
+    } else {
+        passwordField.type = "password";
+        eyeIcon.classList.remove("fa-eye");
+        eyeIcon.classList.add("fa-eye-slash");
+    }
+}
+
+window.onload = function() {
+    if (document.cookie.indexOf("username") != -1) {
+        document.getElementById("username").value = getCookie("username");
+        document.getElementById("password").value = getCookie("password");
+        document.getElementById("remember").checked = true;
+    }
+};
+
+function getCookie(name) {
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+}
+>>>>>>> 8bf649c41518fba88c86e2360556b25ae78041e7

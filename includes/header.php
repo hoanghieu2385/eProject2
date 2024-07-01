@@ -4,17 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Record Store</title>
+    <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/dark-mode.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="../js/product-cart.js"></script>
 </head>
 
 <body>
     <header>
         <nav class="container-header">
             <a href="../index.php" class="logo">
-                <img src="/images/header/logo.png" alt="Record Store" width="50" height="60">
+                <img src="/images/header/logo_co_chu.png" alt="Record Store" height="60px">
             </a>
             <div class="header-right">
                 <div class="search-container">
@@ -25,11 +26,13 @@
                     <div class="user-icon">
                         <i class="fa-regular fa-circle-user fa-xl" id="user-icon-btn"></i>
                         <ul class="sub-menu" id="user-menu">
-                            <li><a href="#" id="manage-account">Manage account</a></li>
-                            <li><a href="../login/login.php" id="login-logout-btn">Login</a></li>
+                            <li><a href="../my_account.php?section=order-History" id="orderHistory">Orders</a></li>
+                            <li><a href="../my_account.php?section=account-Detail" id="accountDetail">Account Detail</a></li>
+                            <li><a href="../login/logout.php" id="login-logout-btn">Logout</a></li>
+                            <li><a href="../login/sign_up.php" id="signUp">Sign Up</a></li>
                         </ul>
                     </div>
-                    <a href="cart.php"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
+                    <a href="#" id="cart-icon" onclick="openCart(event)"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
                     <div class="dark-mode-toggle">
                         <input type="checkbox" id="dark-mode-checkbox">
                         <label for="dark-mode-checkbox">
@@ -44,7 +47,7 @@
         <nav class="category-menu">
             <ul id="main-menu">
                 <li>
-                    <a href="#">All Vinyls<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -52,7 +55,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">All CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -60,7 +63,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">All Cassettes <span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">Cassettes <span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -68,7 +71,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Artist<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="#">Artists<span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
                         <li><a href="./residential.html">Residential</a></li>
                         <li><a href="./commercial.html">Commercial</a></li>
@@ -84,33 +87,23 @@
                     </ul>
                 </li>
                 </li>
+<<<<<<< HEAD
                 <li><a href="#">Vinyl Cares</a></li>
                 <li><a href="../contact_us.php">Contact Us</a></li>
+=======
+>>>>>>> 8bf649c41518fba88c86e2360556b25ae78041e7
 
             </ul>
         </nav>
-    </header>
-    <div class="header-space"></div>
+
+        </header>
+</body>
+<div class="header-space0" style="height: 140px;"></div>
 
     <script src="../js/search.js"></script>
     <script src="../js/dark-mode.js"></script>
     <script src="../js/check_login-logout.js"></script>
-    <script src="../js/show-hide_user-icon.js"></script>
 
-
-    <!-- Scroll header -->
-    <script>
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            const scrollPosition = window.pageYOffset;
-
-            if (scrollPosition > 0) {
-                header.classList.add('sticky');
-            } else {
-                header.classList.remove('sticky');
-            }
-        });
-    </script>
 
 </body>
 

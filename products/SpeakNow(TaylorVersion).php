@@ -8,13 +8,13 @@
     <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
     <link rel="stylesheet" href="../css/product.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="../js/product-cart.js"></script>
     <script src="../js/quantitybox.js"></script>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap');
     </style>
 
 </head>
-
 <body>
     <?php include '../includes/header.php' ?>
     <div class="productcontainer">
@@ -86,6 +86,33 @@
             <button class="view-product">VIEW PRODUCT</button>
         </div>
     </div>
+</div>
+<div class="cart">
+  <div class="cart-header">
+    <h2>Cart</h2>
+    <span class="close">&times;</span>
+  </div>
+  <div class="cart-items">
+    <div class="item" style="display: none;">
+      <img src="" alt="Product Image">
+      <div class="item-details">
+        <h3></h3>
+        <p class="price"></p>
+        <div class="quantity">
+          <button class="decrease">-</button>
+          <input type="number" value="1" min="1">
+          <button class="increase">+</button>
+          <button class="remove">🗑️</button>
+        </div>
+      </div>
+    </div>
+    <!-- San pham add o day -->
+  </div>
+  <div class="cart-footer">
+    <p>Subtotal: <span class="subtotal">$0.00</span></p>
+    <p class="shipping-note">Shipping and taxes calculated at checkout</p>
+    <button class="view-cart">VIEW CART</button>
+  </div>
 </div>
     <?php include '../includes/footer.php' ?>
 </body>

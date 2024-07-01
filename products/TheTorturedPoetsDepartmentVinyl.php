@@ -8,7 +8,8 @@
     <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
     <link rel="stylesheet" href="../css/product.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="./js/quantitybox.js"></script>
+    <script src="../js/quantitybox.js"></script>
+    <script src="../js/product-cart.js"></script>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap');
     </style>
@@ -33,7 +34,7 @@
                 <button class="plus-btn">+</button>
             </div>
             <button class="add-to-cart-btn">ADD TO CART</button>
-            <img src="./images/product/SpeakNow.png" alt="Additional Image" class="additional-image">
+            <img src="../images/product/SpeakNow.png" alt="Additional Image" class="additional-image">
             <div class="description-text">
                 <p>SHIPS ON OR BEFORE JUNE 7, 2024</p>
                 <p>Each Vinyl Album Includes</p>
@@ -63,25 +64,25 @@
     <h2>Related Products</h2>
     <div class="product-grid">
         <div class="product-item">
-            <img src="./images/product/TheTorturedPoets.png" alt="Product 1">
+            <img src="../images/product/TheTorturedPoets.png" alt="Product 1">
             <h3>The Tortured Poets Department Standard Digital Album</h3>
             <p class="price">$65.00</p>
             <button class="view-product">VIEW PRODUCT</button>
         </div>
         <div class="product-item">
-            <img src="./images/product/TheTorturedPoetsCDBonus.png" alt="Product 2">
+            <img src="../images/product/TheTorturedPoetsCDBonus.png" alt="Product 2">
             <h3>The Tortured Poets Department CD + Bonus Track "The Manuscript"</h3>
             <p class="price">$75.00</p>
             <button class="view-product">VIEW PRODUCT</button>
         </div>
         <div class="product-item">
-            <img src="./images/product/TheTorturedPoetsVinyl.png" alt="Product 3">
+            <img src="../images/product/TheTorturedPoetsVinyl.png" alt="Product 3">
             <h3>The Tortured Poets Department Vinyl + Bonus Track "The Manuscript"</h3>
             <p class="price">$55.00</p>
             <button class="view-product">VIEW PRODUCT</button>
         </div>
         <div class="product-item">
-            <img src="./images/product/TheTorturedPoetsDigitalAlbum.png" alt="Product 4">
+            <img src="../images/product/TheTorturedPoetsDigitalAlbum.png" alt="Product 4">
             <h3>The Tortured Poets Department: The Anthology Digital Album</h3>
             <p class="price">$75.00</p>
             <button class="view-product">VIEW PRODUCT</button>

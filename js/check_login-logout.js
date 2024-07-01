@@ -2,51 +2,44 @@ document.addEventListener('DOMContentLoaded', function () {
     const userIconBtn = document.getElementById('user-icon-btn');
     const userMenu = document.getElementById('user-menu');
     const loginLogoutBtn = document.getElementById('login-logout-btn');
-    const manageAccount = document.getElementById('manage-account');
+    const orderHistoryLink = document.getElementById('orderHistory');
+    const accountDetailLink = document.getElementById('accountDetail');
+    const signUpLink = document.getElementById('signUp');
 
-    // Kiểm tra trạng thái đăng nhập từ localStorage
-    let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-    function toggleUserMenu(show) {
-        userMenu.classList.toggle('show', show);
+    function updateLoginStatus() {
+        fetch('../includes/check_login_status.php') // Call a PHP script to check login status
+            .then(response => response.json())
+            .then(data => {
+                if (data.isLoggedIn) {
+                    loginLogoutBtn.textContent = 'Logout';
+                    loginLogoutBtn.href = '../login/logout.php';
+                    orderHistoryLink.style.display = 'block';
+                    accountDetailLink.style.display = 'block';
+                    signUpLink.style.display = 'none';
+
+                } else {
+                    loginLogoutBtn.textContent = 'Login';
+                    loginLogoutBtn.href = '../login/login.php';
+                    orderHistoryLink.style.display = 'none';
+                    accountDetailLink.style.display = 'none';
+                    signUpLink.style.display = 'block';
+
+                }
+            });
     }
-
-    function updateUI() {
-        loginLogoutBtn.textContent = isLoggedIn ? 'Logout' : 'Login';
-        manageAccount.style.display = isLoggedIn ? 'block' : 'none';
-        
-        loginLogoutBtn.href = isLoggedIn ? '#' : '../login/login.php';
-    }
-
-    // check login/logout 
-    function handleLoginLogout(e) {
-        if (isLoggedIn) {
-            e.preventDefault();
-            isLoggedIn = false;
-            localStorage.removeItem('isLoggedIn'); // Xóa trạng thái đăng nhập từ localStorage
-            alert('Đã đăng xuất');
-            updateUI();
-            toggleUserMenu(false);
-        } else {
-            // Giả sử đăng nhập thành công
-            // Trong thực tế, bạn sẽ xử lý đăng nhập ở trang login.php
-            // và đặt isLoggedIn = 'true' trong localStorage khi đăng nhập thành công
-            console.log('Chuyển hướng đến trang login.php');
-        }
-    }
-
-    userIconBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        toggleUserMenu();
+    
+    userIconBtn.addEventListener('mouseenter', function () { // Use mouseenter
+        userMenu.classList.add('show'); // Add 'show' class
+        updateLoginStatus(); // Update menu on hover
     });
 
-    document.addEventListener('click', function (e) {
-        if (!userMenu.contains(e.target) && e.target !== userIconBtn) {
-            toggleUserMenu(false);
-        }
+    userIconBtn.addEventListener('mouseleave', function () { // Use mouseleave
+        userMenu.classList.remove('show'); // Remove 'show' class
     });
 
-    loginLogoutBtn.addEventListener('click', handleLoginLogout);
 
-    updateUI();
+    // Initial update when the page loads
+    updateLoginStatus();
+
 });
