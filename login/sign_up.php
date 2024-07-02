@@ -51,7 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Record Store</title>
     <link rel="icon" type="image/x-icon" href="../images/header/logo.png">
     <link rel="stylesheet" href="../css/Login/sign_up.css">
-    <script src="../js/login and sign_up.js"></script>
 </head>
 
 <body>
@@ -66,6 +65,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="signup-form">
                     <form action="sign_up.php" method="post">
+<<<<<<< HEAD
+                    <label for="username">Email <span class="required">*</span></label>
+                    <input type="Username" id="username" name="username" required>
+
+                    <label for="password">Password <span class="required">*</span></label>
+                    <input type="password" id="password" name="password" required>
+
+                    <label for="confirm_password">Re-enter Password <span class="required">*</span></label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+=======
                         <label for="email">Email <span class="required">*</span></label>
                         <input class="email" type="email" id="email" name="email" autofocus>
 
@@ -74,13 +83,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <label for="confirm_password">Re-enter Password <span class="required">*</span></label>
                         <input class="password" type="password" id="confirm_password" name="confirm_password" required>
+>>>>>>> 8bf649c41518fba88c86e2360556b25ae78041e7
 
                         <?php if (isset($error_message)) {
                             echo '<p style="color: red;">' . $error_message . '</p>';
                         } ?>
 
                         <button href="./login.php" type="submit">Sign up</button>
-                        <p>*Confirm your account by clicking the email we sent</p>
+                        <p class="confirm_account">*Confirm your account by clicking the email we sent</p>
                     </form>
                 </div>
             </div>

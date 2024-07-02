@@ -47,33 +47,6 @@ form {
     flex-direction: column;
 }
 
-.password-input {
-    position: relative;
-    margin-bottom: 1rem;
-}
-
-.input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.input-wrapper .eye-icon {
-    right: 10px;
-    bottom: 47%;
-    position: absolute;
-    right: 10px;
-    cursor: pointer;
-    color: #aaa;
-}
-
-.input-wrapper .password {
-    width: 100%;
-    padding-right: 30px;
-    box-sizing: border-box;
-}
-
-
 label {
     font-weight: bold;
     margin-bottom: 5px;
@@ -135,10 +108,9 @@ label {
 .remember-me input[type="checkbox"] {
     width: 20px;
     height: 20px;
-    margin-top: -4px;
     border-radius: 0;
     background-color: #fff;
-    transform: scale(1);
+    transform: scale(1.5);
 }
 
 .forgot-password:hover {
@@ -147,4 +119,10 @@ label {
 
 .required {
     color: red;
+}
+
+/* dark mode */
+
+body.dark-mode .forgot-password {
+    color: white;
 }

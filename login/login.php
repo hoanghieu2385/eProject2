@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
 
         if ($row && password_verify($password, $row['password'])) {
             $_SESSION['login'] = true;
+            $_SESSION['user_email'] = $email;
 
             if (isset($_POST['remember'])) {
                 setcookie('email', $email, time() + (86400 * 30), "/");
@@ -72,19 +73,32 @@ $conn->close();
     <title>Record Store</title>
     <link rel="icon" type="image/x-icon" href="../images/header/logo.png">
     <link rel="stylesheet" href="../css/Login/login.css">
-    <script src="../js/login and sign_up.js"></script>
 </head>
 
 <body>
     <?php include '../includes/header.php' ?>
-    <div class="header-space" style="height: 100px;"></div>
-
+    
     <main>
         <div class="login-container">
             <div class="form-login">
                 <a href="./login.php" class="login-btn active" style="text-decoration: none;">LOG IN</a>
                 <a href="./sign_up.php" class="signup-btn" style="text-decoration: none;">SIGN UP</a>
             </div>
+<<<<<<< HEAD
+            <?php
+            if (isset($error_message)) {
+                echo '<p style="color: red;">' . $error_message . '</p>';
+            }
+            ?>
+            <div class="login-form">
+                <form onsubmit="login()" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+                    <label for="username">Email <span class="required">*</span></label>
+                    <input type="username" id="username" name="username" required>
+                
+                    <label for="password">Password <span class="required">*</span></label>
+                    <input type="password" id="password" name="password" required>
+                
+=======
 
             <div class="login-form">
                 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
@@ -102,6 +116,7 @@ $conn->close();
                         echo '<p style="color: red;">' . implode('<br>', $error) . '</p>';
                     }
                     ?>
+>>>>>>> 8bf649c41518fba88c86e2360556b25ae78041e7
                     <div class="login-options">
                         <button type="submit" name="submit-btn" class="submit-btn">Log in</button>
                         <div class="remember-me">
@@ -109,7 +124,12 @@ $conn->close();
                             <label for="remember">Remember password</label>
                         </div>
                     </div>
+<<<<<<< HEAD
+                
+                    <a href="#" class="forgot-password">Forgot password?</a>
+=======
                     <a href="./forgotPassword.php" class="forgot-password">Forgot password?</a>
+>>>>>>> 8bf649c41518fba88c86e2360556b25ae78041e7
                 </form>
             </div>
         </div>
