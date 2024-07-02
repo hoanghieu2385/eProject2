@@ -62,9 +62,10 @@
 /* Styles for Order History */
 
 #order-History {
-    background-color: #f2f2f2;
+    background-color: #f9f9f9;
     padding: 20px;
     border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .order-table {
@@ -103,12 +104,11 @@
 
 
 /* Styles for Address Book */
-/* Styles for Address Book */
 #address-Book {
     background-color: #f9f9f9;
     padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #address-Book h2 {
@@ -144,7 +144,7 @@
 .address-row input:focus {
     border-color: #007bff;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
 .address-row input:disabled {
@@ -163,34 +163,27 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-#editAddressButton {
-    background-color: #7d7d7d;
-    color: white;
-}
-
-#editAddressButton:hover {
-    background-color: #909193;
-}
-
-#updateAddressButton {
-    background-color: #7d7d7d;
-    color: white;
-}
-
-#updateAddressButton:hover {
-    background-color: #909193;
-}
-
+#editAddressButton,
+#updateAddressButton,
 #cancelAddressButton {
     background-color: #7d7d7d;
     color: white;
 }
 
+#editAddressButton:hover,
+#updateAddressButton:hover,
 #cancelAddressButton:hover {
-    background-color: #909193;
+    background-color: #919294;
 }
 
 /* Styles for Account Detail */
+#account-Detail {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .input-with-icon {
     position: relative;
     display: flex;
@@ -234,19 +227,25 @@
 }
 
 #editButton,
-#updateButton {
-    background-color: #007bff;
+#updateButton,
+#cancelButton {
+    background-color: #7d7d7d;
     color: white;
 }
 
-#cancelButton {
-    background-color: #6c757d;
-    color: white;
+#editButton:hover,
+#updateButton:hover,
+#cancelButton:hover {
+    background-color: #919294;
 }
+
 
 /* Styles for Change Password */
-#changePassword {
-    max-width: 400px;
+#change-Password {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #changePassword h2 {
@@ -263,7 +262,6 @@
     display: block;
     font-size: 18px;
     color: #666;
-    margin: 16px 0;
 }
 
 .password-input {
@@ -298,7 +296,7 @@
 }
 
 .btn-change-password {
-    background-color: #007bff;
+    background-color: #7d7d7d;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -310,7 +308,7 @@
 }
 
 .btn-change-password:hover {
-    background-color: #0056b3;
+    background-color: #919294;
 }
 
 .footer-wrapper * {

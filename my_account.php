@@ -47,7 +47,6 @@
             </div>
 
             <div id="address-Book" class="content-section">
-                <h2>Address Book</h2>
                 <form id="addressForm">
                     <div class="address-container">
                         <div class="address-row">
@@ -105,7 +104,6 @@
             </div>
 
             <div id="change-Password" class="content-section">
-                <h2>Change Password</h2>
                 <form id="changePasswordForm" method="post" action="./includes/my-account/change_password.php">
                     <div class="form-group">
                         <label for="currentPassword">Current Password</label>
