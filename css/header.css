@@ -82,18 +82,24 @@ header.sticky {
     position: absolute;
     top: 100%;
     right: 0;
+    width: max-content;
     background-color: #fff;
     padding: 13px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 2;
     border-radius: 4px;
+    opacity: 0; 
+    visibility: hidden; 
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.user-icon .sub-menu.show {
+.user-icon:hover .sub-menu {
     display: block;
     min-width: 120px;
     margin-top: 2.5px;
-    right: -6px;
+    right: -10px;
+    opacity: 1;
+    visibility: visible;
 }
 
 .sub-menu li {

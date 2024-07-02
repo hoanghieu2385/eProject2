@@ -1,3 +1,5 @@
+<?php include './includes/db_connect.php' ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,48 +14,50 @@
 
 <body>
     <?php include './includes/header.php' ?>
-    <div class="header-space" style="height: 80px;"></div>
-
     <h1 class="header-text">My account</h1>
 
     <div class="container">
         <div class="sidebar">
-            <button onclick="showContent('orderHistory')"><i class="fa-solid fa-box-open" style="color: #424248;"></i>ORDERS</button>
-            <button onclick="showContent('addressBook')"><i class="fa-solid fa-map-location-dot" style="color: #424248;"></i>ADDRESS BOOK</button>
-            <button onclick="showContent('accountDetail')"><i class="fa-regular fa-user" style="color: #424248;"></i>ACCOUNT DETAIL</button>
-            <button onclick="showContent('changePassword')"><i class="fa-solid fa-lock" style="color: #424248;"></i>CHANGE PASSWORD</button>
+            <button onclick="showContent('order-History')"><i class="fa-solid fa-box-open" style="color: #424248;"></i>ORDERS</button>
+            <button onclick="showContent('address-Book')"><i class="fa-solid fa-map-location-dot" style="color: #424248;"></i>ADDRESS BOOK</button>
+            <button onclick="showContent('account-Detail')"><i class="fa-regular fa-user" style="color: #424248;"></i>ACCOUNT DETAIL</button>
+            <button onclick="showContent('change-Password')"><i class="fa-solid fa-lock" style="color: #424248;"></i>CHANGE PASSWORD</button>
             <button id="logoutButton" onclick="handleLogout()">
                 <i class="fa-solid fa-arrow-right-from-bracket" style="color: #424248;"></i>LOGOUT
             </button>
-
         </div>
         <div class="content">
-            <div id="orderHistory">
+            <div id="order-History" class="content-section">
                 <h2>Orders</h2>
-                <!-- Nội dung liên quan đến lịch sử đơn hàng -->
+
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                            <th>Shipment tracking id</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php include './includes/my-account/order-history.php' ?>
+                    </tbody>
+                </table>
             </div>
 
-            <div id="addressBook" style="display: none;">
+            <div id="address-Book" class="content-section">
                 <h2>Address</h2>
-                <!-- Nội dung liên quan đến địa chỉ -->
-                <h1>Address</h1>
-                <h1>Address</h1>
-                <h1>Address</h1>
-                <h1>Address</h1>
-                <h1>Address</h1>
-                <h1>Address</h1>
-                <h1>Address</h1>
-                <h1>Address</h1>
-
             </div>
 
-            <div id="accountDetail" style="display: none;">
+            <div id="account-Detail" class="content-section">
                 <h2>Account detail</h2>
             </div>
 
-            <div id="changePassword" style="display: none;">
+            <div id="change-Password" class="content-section">
                 <h2>Change Password</h2>
-                <form id="changePasswordForm">
+                <form id="changePasswordForm" method="post" action="./includes/my-account/change_password.php">
                     <div class="form-group">
                         <label for="currentPassword">Current Password</label>
                         <div class="password-input">
@@ -83,23 +87,38 @@
 
     <div class="footer-wrapper">
         <?php include './includes/footer.php' ?>
-
     </div>
 
     <script>
-        // script show content cac muc trong menu
-        function showContent(contentId) {
-            const contents = document.getElementsByClassName('content')[0].children;
-            for (let i = 0; i < contents.length; i++) {
-                contents[i].style.display = 'none';
-            }
-            document.getElementById(contentId).style.display = 'block';
+        // Show content
+        function showContent(sectionId) {
+            // Get all sidebar buttons
+            const buttons = document.querySelectorAll('.sidebar button');
+
+            // Loop through all buttons and remove the 'active' class
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Add the 'active' class to the selected button
+            const selectedButton = document.querySelector(`.sidebar button[onclick="showContent('${sectionId}')"]`);
+            selectedButton.classList.add('active');
+
+            // Get all content sections
+            const sections = document.querySelectorAll('.content-section');
+
+            // Loop through all sections and hide them
+            sections.forEach(section => {
+                section.style.display = 'none';
+                section.classList.remove('active');
+            });
+
+            // Display the selected section
+            document.getElementById(sectionId).style.display = 'block';
+
         }
 
-        // default is order history page 
-        showContent('orderHistory');
-
-        // show / hide password
+        // Show / hide password
         function togglePasswordVisibility(inputId) {
             const passwordInput = document.getElementById(inputId);
             const passwordToggle = passwordInput.parentNode.querySelector('.password-toggle');
@@ -114,25 +133,63 @@
                 passwordToggle.classList.add("fa-eye-slash");
             }
         }
-        // button logout
-        // function handleLogout() {
-        //     if (confirm("Are you sure you want to logout?")) {
-        //         // Xóa trạng thái đăng nhập từ localStorage
-        //         localStorage.removeItem('isLoggedIn');
 
-        //         // Chuyển hướng người dùng đến trang đăng nhập hoặc trang chủ
-        //         window.location.href = './login/login.php'; // Hoặc trang chủ của bạn
-        //     }
-        // }
+        // Show content based on URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const section = urlParams.get('section');
 
-        // // Kiểm tra trạng thái đăng nhập khi trang được tải
-        // window.onload = function() {
-        //     let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-        //     if (!isLoggedIn) {
-        //         // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-        //         window.location.href = './login/login.php';
-        //     }
-        // }
+        if (section) {
+            showContent(section);
+        } else {
+            showContent('order-History');
+        }
+
+        // Change password
+        document.getElementById('changePasswordForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', './includes/my-account/change_password.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                console.log("Response status:", this.status);
+                console.log("Response text:", this.responseText);
+                if (this.status == 200) {
+                    try {
+                        // Tìm vị trí bắt đầu của JSON trong phản hồi
+                        var jsonStartIndex = this.responseText.indexOf('{');
+                        if (jsonStartIndex !== -1) {
+                            var jsonResponse = this.responseText.substr(jsonStartIndex);
+                            var response = JSON.parse(jsonResponse);
+                            if (response.success) {
+                                alert("Success: " + response.message);
+                            } else {
+                                alert("Error: " + response.message);
+                            }
+                        } else {
+                            throw new Error("Invalid JSON response");
+                        }
+                    } catch (e) {
+                        console.error("JSON parse error:", e);
+                        alert("An error occurred while processing your request");
+                    }
+                } else {
+                    alert("An error occurred while processing your request. Please try again later.");
+                }
+            };
+            xhr.send('currentPassword=' + encodeURIComponent(document.getElementById('currentPassword').value) +
+                '&newPassword=' + encodeURIComponent(document.getElementById('newPassword').value) +
+                '&confirmPassword=' + encodeURIComponent(document.getElementById('confirmPassword').value));
+        });
+
+
+
+        // logout button
+        function handleLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "./login/logout.php";
+            }
+        }
     </script>
 </body>
 
