@@ -8,7 +8,7 @@ function sign_up(e) {
     };
     var json = JSON.stringify(user);
     localStorage.setItem(username, json);
-    alert("Registered successfully!");
+    alert("Dang ki thanh cong");
 }
 
 function login(e) {
@@ -18,14 +18,14 @@ function login(e) {
     var user = localStorage.getItem(username);
     var data = JSON.parse(user);
     if(user == null) {
-        alert("Please re-enter your account password.")
+        alert("Vui long nhap lai tai khoan mat khau")
     }
     else if(username == data.username && password == data.password) {
-        alert("Logged in successfully.")
+        alert("Dang nhap thanh cong")
         window.location.href="index.php"
     }
     else {
-        alert("Login failed.")
+        alert("Dang nhap that bai")
     }
 }
 
