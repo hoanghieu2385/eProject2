@@ -1,5 +1,4 @@
 <?php
-
 include '../db_connect.php';
 
 $user_id = $_SESSION['user_id'];
@@ -16,7 +15,14 @@ function getUserAddress($conn, $user_id) {
     $result = $stmt->get_result();
     
     if ($result->num_rows > 0) {
-        return $result->fetch_assoc();
+        $address = $result->fetch_assoc();
+        // Replace empty values with 'Not set'
+        foreach ($address as $key => $value) {
+            if ($value === '' || $value === null) {
+                $address[$key] = 'Not set';
+            }
+        }
+        return $address;
     } else {
         return [
             'tỉnh_thành_phố' => 'Not set',
@@ -29,10 +35,16 @@ function getUserAddress($conn, $user_id) {
 
 // Handle POST request for updating address
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $province = $_POST['province'] ?? '';
-    $district = $_POST['district'] ?? '';
-    $ward = $_POST['ward'] ?? '';
-    $detailedAddress = $_POST['detailedAddress'] ?? '';
+    $province = trim($_POST['province']) ?? '';
+    $district = trim($_POST['district']) ?? '';
+    $ward = trim($_POST['ward']) ?? '';
+    $detailedAddress = trim($_POST['detailedAddress']) ?? '';
+
+    // Check if all fields are empty or just whitespace
+    if (empty($province) && empty($district) && empty($ward) && empty($detailedAddress)) {
+        echo json_encode(['success' => false, 'message' => 'All fields cannot be empty']);
+        exit;
+    }
 
     // Check if user already has an address
     $checkSql = "SELECT address_id FROM user_address WHERE user_id = ?";

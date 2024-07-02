@@ -197,16 +197,34 @@
 
         // Address Book
         $('#editAddressButton').click(function() {
-            $('#province, #district, #ward, #detailedAddress').prop('disabled', false);
+            $('#province, #district, #ward, #detailedAddress').prop('disabled', false).each(function() {
+                if ($(this).val() === 'Not set') {
+                    $(this).val('');
+                }
+            });
             $(this).hide();
             $('#updateAddressButton, #cancelAddressButton').show();
         });
 
         $('#cancelAddressButton').click(function() {
-            $('#province, #district, #ward, #detailedAddress').prop('disabled', true);
+            $.ajax({
+                url: './includes/my-account/address_book.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#province').val(data.tỉnh_thành_phố);
+                    $('#district').val(data.quận_huyện);
+                    $('#ward').val(data.xã_phường);
+                    $('#detailedAddress').val(data.địa_chỉ);
+                    $('#province, #district, #ward, #detailedAddress').prop('disabled', true);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching address: " + error);
+                }
+            });
             $('#editAddressButton').show();
             $('#updateAddressButton, #cancelAddressButton').hide();
-        });;
+        });
 
         $(document).ready(function() {
             // Lấy thông tin địa chỉ khi trang được tải
@@ -228,6 +246,21 @@
             // Xử lý khi form được submit
             $('#addressForm').on('submit', function(e) {
                 e.preventDefault();
+
+                // Check if all fields are empty or just whitespace
+                var allFieldsEmpty = true;
+                $('#province, #district, #ward, #detailedAddress').each(function() {
+                    if ($.trim($(this).val()) !== '') {
+                        allFieldsEmpty = false;
+                        return false; // break the loop
+                    }
+                });
+
+                if (allFieldsEmpty) {
+                    alert("All fields cannot be empty");
+                    return;
+                }
+
                 $.ajax({
                     url: './includes/my-account/address_book.php',
                     type: 'POST',
