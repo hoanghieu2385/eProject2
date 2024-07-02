@@ -286,6 +286,7 @@ body.dark-mode .view-product {
 
 .cart-footer {
   margin-top: 20px;
+  align-items: end;
 }
 
 .shipping-note {

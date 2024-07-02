@@ -15,17 +15,17 @@
         </div>
         <div class="contact-info">
             <div class="contact-item">
-                <i class="fa-solid fa-house fa-2xl"></i>
+                <img src="/images/contact_us/visit_us.png" alt="Visit Us">
                 <h2>VISIT US</h2>
                 <p>Hanoi, Vietnam</p>
             </div>
             <div class="contact-item">
-                <i class="fa-solid fa-phone fa-2xl"></i>
+                <img src="/images/contact_us/call_us.png" alt="Call Us">
                 <h2>CALL US</h2>
                 <p>+84123456789</p>
             </div>
             <div class="contact-item">
-                <i class="fa-solid fa-envelope fa-2xl"></i>
+                <img src="/images/contact_us/contact_us.png" alt="Contact Us">
                 <h2>CONTACT US</h2>
                 <p>hootrecords@gmail.com</p>
             </div>

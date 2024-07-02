@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/product.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="../js/product-cart.js"></script>
-    <script src="../js/quantitybox.js"></script>
+    <!-- <script src="../js/quantitybox.js"></script> -->
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap');
     </style>
@@ -106,7 +106,7 @@
         </div>
       </div>
     </div>
-    <!-- San pham add o day -->
+    <!-- Sản phẩm sẽ được thêm vào đây -->
   </div>
   <div class="cart-footer">
     <p>Subtotal: <span class="subtotal">$0.00</span></p>

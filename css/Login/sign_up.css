@@ -49,7 +49,8 @@ label {
 }
 
 .email,
-.password {
+.password,
+.confirm_password {
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -73,6 +74,48 @@ p {
     margin-top: 15px;
     font-size: 14px;
     color: #666;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper .eye-icon {
+    right: 10px;
+    bottom: 47%;
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.input-wrapper .password {
+    width: 100%;
+    padding-right: 30px;
+    box-sizing: border-box;
+}
+
+.input-wrapper-confirm {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper-confirm .eye-icon {
+    right: 10px;
+    bottom: 47%;
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.input-wrapper-confirm .confirm_password {
+    width: 100%;
+    padding-right: 30px;
+    box-sizing: border-box;
 }
 
 /* dark mode */

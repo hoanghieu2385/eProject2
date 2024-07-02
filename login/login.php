@@ -15,7 +15,7 @@ if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
 
-    if ($row && password_verify($cookie_password, $row['password'])) {
+    if ($row && password_verify($cookie_password, $row['password']) && $row['token'] === null) {
         $_SESSION['login'] = $row['email'];
         header('Location: ../index.php');
         exit;
@@ -43,16 +43,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
         $row = $result->fetch_assoc();
 
         if ($row && password_verify($password, $row['password'])) {
-            $_SESSION['login'] = true;
-            $_SESSION['user_email'] = $email;
+            if ($row['token'] === null) {
+                $_SESSION['login'] = true;
+                $_SESSION['user_email'] = $email;
 
-            if (isset($_POST['remember'])) {
-                setcookie('email', $email, time() + (86400 * 30), "/");
-                setcookie('password', $password, time() + (86400 * 30), "/");
+                if (isset($_POST['remember'])) {
+                    setcookie('email', $email, time() + (86400 * 30), "/");
+                    setcookie('password', $password, time() + (86400 * 30), "/");
+                }
+
+                header('Location: ../index.php');
+                exit;
+            } else {
+                $error[] = "Account has not been confirmed. Please check your email and confirm your account.";
             }
-
-            header('Location: ../index.php');
-            exit;
         } else {
             $error[] = "Invalid email or password.";
         }
@@ -73,7 +77,7 @@ $conn->close();
     <title>Record Store</title>
     <link rel="icon" type="image/x-icon" href="../images/header/logo.png">
     <link rel="stylesheet" href="../css/Login/login.css">
-    <script src="../js/login and sign_up.js"></script>
+    <script src="../js/login/login.js"></script>
 </head>
 
 <body>
@@ -89,17 +93,17 @@ $conn->close();
             <div class="login-form">
                 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
                     <label for="email">Email <span class="required">*</span></label>
-                    <input class="email" type="email" id="email" name="email" required autofocus>
+                    <input class="email" type="email" id="email" name="email" placeholder="Email" required autofocus>
                     <div class="password-input">
                         <label for="password">Password <span class="required">*</span></label>
                         <div class="input-wrapper">
-                            <input class="password" type="password" id="password" name="password" required>
+                            <input class="password" type="password" id="password" name="password" placeholder="Password" required>
                             <i class="fas fa-eye-slash eye-icon" onclick="togglePasswordVisibility()"></i>
                         </div>
                     </div>
                     <?php
                     if (!empty($error)) {
-                        echo '<p style="color: red;">' . implode('<br>', $error) . '</p>';
+                        echo '<p style="color: red; margin-bottom: 20px;">' . implode('<br>', $error) . '</p>';
                     }
                     ?>
                     <div class="login-options">
