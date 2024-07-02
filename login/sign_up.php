@@ -37,25 +37,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email_body = "
                 <html>
                 <head>
-                    <title>Confirm account registration</title>
+                    <title>Xác nhận đăng ký tài khoản</title>
                 </head>
                 <body>
-                    <h1>Wellcome!</h1>
-                    <p>Thank you for registering an account. Please click the button below to confirm your registration:</p>
+                    <h1>Chào mừng bạn!</h1>
+                    <p>Cảm ơn bạn đã đăng ký tài khoản. Vui lòng nhấn vào nút dưới đây để xác nhận đăng ký của bạn:</p>
                     <a href='$confirm_link' style='display: inline-block; padding: 10px 20px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;'>Xác nhận đăng ký</a>
                 </body>
                 </html>
             ";
 
-            $mail_sent = $mailer->sendMail("Confirm account registration", $email_body, $email);
+            $mail_sent = $mailer->sendMail("Xác nhận đăng ký tài khoản", $email_body, $email);
 
             if ($mail_sent) {
-                $success_message = "Sign Up Success! Confirmation email has been sent. Please check your email.";
+                $success_message = "Đăng ký thành công! Email xác nhận đã được gửi. Vui lòng kiểm tra email của bạn.";
             } else {
-                $error_message = "Registration was successful, but there was an error sending the confirmation email. Please contact admin.";
+                $error_message = "Đăng ký thành công, nhưng có lỗi khi gửi email xác nhận. Vui lòng liên hệ admin.";
             }
         } else {
-            $error_message = "Registration failed. Please try again.";
+            $error_message = "Đăng ký không thành công. Vui lòng thử lại.";
         }
 
         $stmt->close();
@@ -74,6 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Record Store</title>
     <link rel="icon" type="image/x-icon" href="../images/header/logo.png">
     <link rel="stylesheet" href="../css/Login/sign_up.css">
+    <script src="../js/login/sign_up.js"></script>
 </head>
 
 <body>
@@ -95,25 +96,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                     ?>
                     <form action="sign_up.php" method="post">
-<<<<<<< HEAD
-                    <label for="username">Email <span class="required">*</span></label>
-                    <input type="Username" id="username" name="username" required>
-
-                    <label for="password">Password <span class="required">*</span></label>
-                    <input type="password" id="password" name="password" required>
-
-                    <label for="confirm_password">Re-enter Password <span class="required">*</span></label>
-                    <input type="password" id="confirm_password" name="confirm_password" required>
-=======
                         <label for="email">Email <span class="required">*</span></label>
-                        <input class="email" type="email" id="email" name="email" autofocus required>
+                        <input class="email" type="email" id="email" name="email" placeholder="Email" autofocus required>
 
                         <label for="password">Password <span class="required">*</span></label>
-                        <input class="password" type="password" id="password" name="password" required>
+                        <div class="input-wrapper">
+                            <input class="password" type="password" id="password" name="password" placeholder="Password" required>
+                            <i class="fas fa-eye-slash eye-icon" onclick="togglePasswordVisibility('password')"></i>
+                        </div>
 
                         <label for="confirm_password">Re-enter Password <span class="required">*</span></label>
-                        <input class="password" type="password" id="confirm_password" name="confirm_password" required>
->>>>>>> 8bf649c41518fba88c86e2360556b25ae78041e7
+                        <div class="input-wrapper-confirm">
+                            <input class="confirm_password" type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+                            <i class="fas fa-eye-slash eye-icon" onclick="togglePasswordVisibility('confirm_password')"></i>
+                        </div>
 
                         <button type="submit">Sign up</button>
                         <p class="confirm_account">*Confirm your account by clicking the email we sent</p>
