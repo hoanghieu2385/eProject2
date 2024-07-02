@@ -15,7 +15,7 @@ if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
 
-    if ($row && password_verify($cookie_password, $row['password'])) {
+    if ($row && password_verify($cookie_password, $row['password']) && $row['token'] === null) {
         $_SESSION['login'] = $row['email'];
         header('Location: ../index.php');
         exit;
@@ -43,16 +43,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
         $row = $result->fetch_assoc();
 
         if ($row && password_verify($password, $row['password'])) {
-            $_SESSION['login'] = true;
-            $_SESSION['user_email'] = $email;
+            if ($row['token'] === null) {
+                $_SESSION['login'] = true;
+                $_SESSION['user_email'] = $email;
 
-            if (isset($_POST['remember'])) {
-                setcookie('email', $email, time() + (86400 * 30), "/");
-                setcookie('password', $password, time() + (86400 * 30), "/");
+                if (isset($_POST['remember'])) {
+                    setcookie('email', $email, time() + (86400 * 30), "/");
+                    setcookie('password', $password, time() + (86400 * 30), "/");
+                }
+
+                header('Location: ../index.php');
+                exit;
+            } else {
+                $error[] = "Account has not been confirmed. Please check your email and confirm your account.";
             }
-
-            header('Location: ../index.php');
-            exit;
         } else {
             $error[] = "Invalid email or password.";
         }
@@ -78,7 +82,7 @@ $conn->close();
 
 <body>
     <?php include '../includes/header.php' ?>
-    
+
     <main>
         <div class="login-container">
             <div class="form-login">
@@ -99,7 +103,7 @@ $conn->close();
                     </div>
                     <?php
                     if (!empty($error)) {
-                        echo '<p style="color: red;">' . implode('<br>', $error) . '</p>';
+                        echo '<p style="color: red; margin-bottom: 20px;">' . implode('<br>', $error) . '</p>';
                     }
                     ?>
                     <div class="login-options">

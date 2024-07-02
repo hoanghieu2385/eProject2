@@ -1,5 +1,9 @@
 <?php
 session_start();
+require_once '../mail/mail.php';
+
+$error_message = '';
+$success_message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $servername = "localhost";
@@ -22,17 +26,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO site_user (email_address, password) VALUES (?, ?)";
+        $token = bin2hex(random_bytes(16));
+        $sql = "INSERT INTO site_user (email_address, password, token) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $email, $hashed_password);
+        $stmt->bind_param("sss", $email, $hashed_password, $token);
 
         if ($stmt->execute()) {
-            $stmt->close();
-            $conn->close();
-            header("Location: ../my_account.php");
-            exit();
+            $mailer = new Mailer();
+            $confirm_link = "http://localhost:3000/login/confirm.php?token=" . $token;
+            $email_body = "
+                <html>
+                <head>
+                    <title>Confirm account registration</title>
+                </head>
+                <body>
+                    <h1>Wellcome!</h1>
+                    <p>Thank you for registering an account. Please click the button below to confirm your registration:</p>
+                    <a href='$confirm_link' style='display: inline-block; padding: 10px 20px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;'>Xác nhận đăng ký</a>
+                </body>
+                </html>
+            ";
+
+            $mail_sent = $mailer->sendMail("Confirm account registration", $email_body, $email);
+
+            if ($mail_sent) {
+                $success_message = "Sign Up Success! Confirmation email has been sent. Please check your email.";
+            } else {
+                $error_message = "Registration was successful, but there was an error sending the confirmation email. Please contact admin.";
+            }
         } else {
-            $error_message = "Failed to register user";
+            $error_message = "Registration failed. Please try again.";
         }
 
         $stmt->close();
@@ -56,7 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <?php include '../includes/header.php' ?>
-    <div class="header-space" style="height: 100px;"></div>
     <main>
         <div class="form-outer">
             <div class="form-container">
@@ -65,9 +87,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a href="./sign_up.php" class="signup-btn active" style="text-decoration: none;">SIGN UP</a>
                 </div>
                 <div class="signup-form">
+                    <?php
+                    if (!empty($error_message)) {
+                        echo '<p style="color: red;">' . $error_message . '</p>';
+                    }
+                    if (!empty($success_message)) {
+                        echo '<p style="color: green;">' . $success_message . '</p>';
+                    }
+                    ?>
                     <form action="sign_up.php" method="post">
                         <label for="email">Email <span class="required">*</span></label>
-                        <input class="email" type="email" id="email" name="email" autofocus>
+                        <input class="email" type="email" id="email" name="email" autofocus required>
 
                         <label for="password">Password <span class="required">*</span></label>
                         <input class="password" type="password" id="password" name="password" required>
@@ -75,11 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="confirm_password">Re-enter Password <span class="required">*</span></label>
                         <input class="password" type="password" id="confirm_password" name="confirm_password" required>
 
-                        <?php if (isset($error_message)) {
-                            echo '<p style="color: red;">' . $error_message . '</p>';
-                        } ?>
-
-                        <button href="./login.php" type="submit">Sign up</button>
+                        <button type="submit">Sign up</button>
                         <p class="confirm_account">*Confirm your account by clicking the email we sent</p>
                     </form>
                 </div>

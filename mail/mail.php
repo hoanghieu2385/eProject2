@@ -22,7 +22,7 @@ class Mailer
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port = 465;
 
-            $mail->setFrom('accredfingervippro2@gmail.com', 'Dvd');
+            $mail->setFrom('accredfingervippro2@gmail.com', 'Hoot Records');
             $mail->addAddress($addressMail);
 
             $mail->isHTML(true);
@@ -31,14 +31,14 @@ class Mailer
             $mail->AltBody = strip_tags($content);
 
             if ($mail->send()) {
-                echo "Email đã được gửi thành công.";
+                // echo "Email has been sent successfully.";
                 return true;
             } else {
-                echo "Đã xảy ra lỗi khi gửi email.";
+                echo "An error occurred while sending the email.";
                 return false;
             }
         } catch (Exception $e) {
-            echo "Đã xảy ra lỗi khi gửi email: {$mail->ErrorInfo}";
+            echo "An error occurred while sending the email: {$mail->ErrorInfo}";
             return false;
         }
     }
