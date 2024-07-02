@@ -37,25 +37,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email_body = "
                 <html>
                 <head>
-                    <title>Xác nhận đăng ký tài khoản</title>
+                    <title>Confirm account registration</title>
                 </head>
                 <body>
-                    <h1>Chào mừng bạn!</h1>
-                    <p>Cảm ơn bạn đã đăng ký tài khoản. Vui lòng nhấn vào nút dưới đây để xác nhận đăng ký của bạn:</p>
-                    <a href='$confirm_link' style='display: inline-block; padding: 10px 20px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;'>Xác nhận đăng ký</a>
+                    <h1>Wellcome!</h1>
+                    <p>Thank you for registering an account. Please click the button below to confirm your registration:</p>
+                    <a href='$confirm_link' style='display: inline-block; padding: 10px 20px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;'>Confirm registration</a>
                 </body>
                 </html>
             ";
 
-            $mail_sent = $mailer->sendMail("Xác nhận đăng ký tài khoản", $email_body, $email);
+            $mail_sent = $mailer->sendMail("Confirm account registration", $email_body, $email);
 
             if ($mail_sent) {
-                $success_message = "Đăng ký thành công! Email xác nhận đã được gửi. Vui lòng kiểm tra email của bạn.";
+                $success_message = "Sign Up Success! Confirmation email has been sent. Please check your email.";
             } else {
-                $error_message = "Đăng ký thành công, nhưng có lỗi khi gửi email xác nhận. Vui lòng liên hệ admin.";
+                $error_message = "Registration was successful, but there was an error sending the confirmation email. Please contact admin.";
             }
         } else {
-            $error_message = "Đăng ký không thành công. Vui lòng thử lại.";
+            $error_message = "Registration failed. Please try again.";
         }
 
         $stmt->close();

@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
                 header('Location: ../index.php');
                 exit;
             } else {
-                $error[] = "Tài khoản chưa được xác nhận. Vui lòng kiểm tra email và xác nhận tài khoản của bạn.";
+                $error[] = "Account has not been confirmed. Please check your email and confirm your account.";
             }
         } else {
             $error[] = "Invalid email or password.";
@@ -93,11 +93,11 @@ $conn->close();
             <div class="login-form">
                 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
                     <label for="email">Email <span class="required">*</span></label>
-                    <input class="email" type="email" id="email" name="email" required autofocus>
+                    <input class="email" type="email" id="email" name="email" placeholder="Email" required autofocus>
                     <div class="password-input">
                         <label for="password">Password <span class="required">*</span></label>
                         <div class="input-wrapper">
-                            <input class="password" type="password" id="password" name="password" required>
+                            <input class="password" type="password" id="password" name="password" placeholder="Password" required>
                             <i class="fas fa-eye-slash eye-icon" onclick="togglePasswordVisibility()"></i>
                         </div>
                     </div>
