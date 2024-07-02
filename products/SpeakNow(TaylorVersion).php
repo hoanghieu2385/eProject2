@@ -106,7 +106,7 @@
         </div>
       </div>
     </div>
-    <!-- San pham add o day -->
+    <!-- Sản phẩm sẽ được thêm vào đây -->
   </div>
   <div class="cart-footer">
     <p>Subtotal: <span class="subtotal">$0.00</span></p>

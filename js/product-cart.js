@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', function() {
     const addToCartBtn = document.querySelector('.add-to-cart-btn');
     const cartIcon = document.getElementById('cart-icon');
@@ -163,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('Cart script loaded');
 });
-=======
 (function() {
     if (document.querySelector('script[data-cart-initialized]')) {
         console.log("Cart script already initialized. Skipping...");
@@ -328,4 +326,3 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeCart();
     });
 })();
->>>>>>> f08b0a9c558e613e2651b8252a32479125f24a0f
