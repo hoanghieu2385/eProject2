@@ -103,46 +103,92 @@
 
 
 /* Styles for Address Book */
-.address-container {
+/* Styles for Address Book */
+#address-Book {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#address-Book h2 {
+    font-size: 24px;
+    color: #333;
     margin-bottom: 20px;
 }
 
-.address-row {
-    margin-bottom: 10px;
+.address-container {
+    margin-bottom: 30px;
 }
 
-.address-row select,
+.address-row {
+    margin-bottom: 15px;
+}
+
+.address-row label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 500;
+}
+
 .address-row input {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
 }
 
-#addAddressBtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
+.address-row input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.address-row input:disabled {
+    background-color: #f5f5f5;
+    color: #777;
+}
+
+#editAddressButton,
+#updateAddressButton,
+#cancelAddressButton {
+    padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-#addAddressBtn:hover {
-    background-color: #45a049;
+#editAddressButton {
+    background-color: #7d7d7d;
+    color: white;
 }
 
-#addressList {
-    margin-top: 20px;
+#editAddressButton:hover {
+    background-color: #909193;
 }
 
-#addressList p {
-    background-color: #f1f1f1;
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 10px;
+#updateAddressButton {
+    background-color: #7d7d7d;
+    color: white;
 }
 
+#updateAddressButton:hover {
+    background-color: #909193;
+}
+
+#cancelAddressButton {
+    background-color: #7d7d7d;
+    color: white;
+}
+
+#cancelAddressButton:hover {
+    background-color: #909193;
+}
 
 /* Styles for Account Detail */
 .input-with-icon {

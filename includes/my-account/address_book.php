@@ -1,64 +1,77 @@
 <?php
 
-// Database connection
-$conn = new mysqli('localhost', 'root', '', 'project2');
+include '../db_connect.php';
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Assuming you have the user's ID stored in the session
 $user_id = $_SESSION['user_id'];
 
-// Retrieve user's address
-$sql = "SELECT a.*
-        FROM address a
-        INNER JOIN user_address ua ON a.id = ua.address_id
-        WHERE ua.user_id = ?";
-
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-
-$result = $stmt->get_result();
-
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $province = $row['tỉnh_thành_phố'];
-    $district = $row['quận_huyện'];
-    $ward = $row['xã_phường'];
-    $detailedAddress = $row['địa_chỉ'];
-} else {
-    $province = 'Not set';
-    $district = 'Not set';
-    $ward = 'Not set';
-    $detailedAddress = 'Not set';
+// Function to get user's address
+function getUserAddress($conn, $user_id) {
+    $sql = "SELECT a.* FROM address a
+            JOIN user_address ua ON a.id = ua.address_id
+            WHERE ua.user_id = ?";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        return $result->fetch_assoc();
+    } else {
+        return [
+            'tỉnh_thành_phố' => 'Not set',
+            'quận_huyện' => 'Not set',
+            'xã_phường' => 'Not set',
+            'địa_chỉ' => 'Not set'
+        ];
+    }
 }
 
-$stmt->close();
+// Handle POST request for updating address
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $province = $_POST['province'] ?? '';
+    $district = $_POST['district'] ?? '';
+    $ward = $_POST['ward'] ?? '';
+    $detailedAddress = $_POST['detailedAddress'] ?? '';
 
-// Update user's address
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $province = $_POST['province'];
-    $district = $_POST['district'];
-    $ward = $_POST['ward'];
-    $detailedAddress = $_POST['detailedAddress'];
+    // Check if user already has an address
+    $checkSql = "SELECT address_id FROM user_address WHERE user_id = ?";
+    $checkStmt = $conn->prepare($checkSql);
+    $checkStmt->bind_param("i", $user_id);
+    $checkStmt->execute();
+    $checkResult = $checkStmt->get_result();
 
-    $sql = "UPDATE address a
-            INNER JOIN user_address ua ON a.id = ua.address_id
-            SET a.tỉnh_thành_phố = ?, a.quận_huyện = ?, a.xã_phường = ?, a.địa_chỉ = ?
-            WHERE ua.user_id = ?";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssi", $province, $district, $ward, $detailedAddress, $user_id);
-
-    if ($stmt->execute()) {
-        echo "Address updated successfully";
+    if ($checkResult->num_rows > 0) {
+        // Update existing address
+        $addressId = $checkResult->fetch_assoc()['address_id'];
+        $updateSql = "UPDATE address SET tỉnh_thành_phố = ?, quận_huyện = ?, xã_phường = ?, địa_chỉ = ? WHERE id = ?";
+        $updateStmt = $conn->prepare($updateSql);
+        $updateStmt->bind_param("ssssi", $province, $district, $ward, $detailedAddress, $addressId);
+        $updateStmt->execute();
     } else {
-        echo "Error updating address: " . $conn->error;
+        // Insert new address
+        $insertAddressSql = "INSERT INTO address (tỉnh_thành_phố, quận_huyện, xã_phường, địa_chỉ) VALUES (?, ?, ?, ?)";
+        $insertAddressStmt = $conn->prepare($insertAddressSql);
+        $insertAddressStmt->bind_param("ssss", $province, $district, $ward, $detailedAddress);
+        $insertAddressStmt->execute();
+        $addressId = $conn->insert_id;
+
+        // Link address to user
+        $linkAddressSql = "INSERT INTO user_address (user_id, address_id) VALUES (?, ?)";
+        $linkAddressStmt = $conn->prepare($linkAddressSql);
+        $linkAddressStmt->bind_param("ii", $user_id, $addressId);
+        $linkAddressStmt->execute();
     }
 
-    $stmt->close();
+    echo json_encode(['success' => true, 'message' => 'Address updated successfully']);
+    exit;
+}
+
+// Handle GET request for retrieving address
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $address = getUserAddress($conn, $user_id);
+    echo json_encode($address);
+    exit;
 }
 
 $conn->close();

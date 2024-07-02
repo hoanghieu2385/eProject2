@@ -48,20 +48,23 @@
 
             <div id="address-Book" class="content-section">
                 <h2>Address Book</h2>
-                <?php include './includes/my-account/address_book.php' ?>
-                <form id="addressForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <form id="addressForm">
                     <div class="address-container">
                         <div class="address-row">
-                            <input type="text" id="province" name="province" placeholder="Province/City" value="<?php echo $province; ?>" disabled>
+                            <label for="province">Province/City</label>
+                            <input type="text" id="province" name="province" placeholder="Province/City" disabled>
                         </div>
                         <div class="address-row">
-                            <input type="text" id="district" name="district" placeholder="District" value="<?php echo $district; ?>" disabled>
+                            <label for="district">District</label>
+                            <input type="text" id="district" name="district" placeholder="District" disabled>
                         </div>
                         <div class="address-row">
-                            <input type="text" id="ward" name="ward" placeholder="Ward" value="<?php echo $ward; ?>" disabled>
+                            <label for="ward">Ward</label>
+                            <input type="text" id="ward" name="ward" placeholder="Ward" disabled>
                         </div>
                         <div class="address-row">
-                            <input type="text" id="detailedAddress" name="detailedAddress" placeholder="House number, street, etc." value="<?php echo $detailedAddress; ?>" disabled>
+                            <label for="Detailed Address">House number, street, etc.</label>
+                            <input type="text" id="detailedAddress" name="detailedAddress" placeholder="House number, street, etc." disabled>
                         </div>
                     </div>
                     <button id="editAddressButton" type="button">Edit</button>
@@ -193,7 +196,60 @@
 
 
         // Address Book
+        $('#editAddressButton').click(function() {
+            $('#province, #district, #ward, #detailedAddress').prop('disabled', false);
+            $(this).hide();
+            $('#updateAddressButton, #cancelAddressButton').show();
+        });
 
+        $('#cancelAddressButton').click(function() {
+            $('#province, #district, #ward, #detailedAddress').prop('disabled', true);
+            $('#editAddressButton').show();
+            $('#updateAddressButton, #cancelAddressButton').hide();
+        });;
+
+        $(document).ready(function() {
+            // Lấy thông tin địa chỉ khi trang được tải
+            $.ajax({
+                url: './includes/my-account/address_book.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#province').val(data.tỉnh_thành_phố);
+                    $('#district').val(data.quận_huyện);
+                    $('#ward').val(data.xã_phường);
+                    $('#detailedAddress').val(data.địa_chỉ);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching address: " + error);
+                }
+            });
+
+            // Xử lý khi form được submit
+            $('#addressForm').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: './includes/my-account/address_book.php',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            // Disable các input sau khi cập nhật thành công
+                            $('#province, #district, #ward, #detailedAddress').prop('disabled', true);
+                            $('#editAddressButton').show();
+                            $('#updateAddressButton, #cancelAddressButton').hide();
+                        } else {
+                            alert("Error updating address: " + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error updating address: " + error);
+                    }
+                });
+            });
+        });
 
 
 
