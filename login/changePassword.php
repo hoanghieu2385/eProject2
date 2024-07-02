@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "UPDATE site_user SET password='$hashedPassword' WHERE email_address='$email'";
 
         if ($conn->query($sql) === TRUE) {
-            echo "Mật khẩu đã được thay đổi thành công.";
+            echo "Password was successfully changed.";
         } else {
             echo "Lỗi: " . $conn->error;
         }

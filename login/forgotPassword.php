@@ -11,15 +11,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['email'] = $email;
 
     $mailer = new Mailer();
-    $subject = 'Mã xác nhận đổi mật khẩu';
-    $body = 'Mã xác nhận của bạn là: <b>' . $verificationCode . '</b>';
+    $subject = 'Confirmation code to change password';
+    $body = 'Your confirmation code is: <b>' . $verificationCode . '</b>';
 
     if ($mailer->sendMail($subject, $body, $email)) {
-        $_SESSION['message'] = 'Mã xác nhận đã được gửi đến email của bạn.';
+        $_SESSION['message'] = 'The confirmation code has been sent to your email.';
         header('Location: verification.php');
         exit();
     } else {
-        $_SESSION['error'] = 'Đã xảy ra lỗi khi gửi email.';
+        $_SESSION['error'] = 'An error occurred while sending the email.';
         header('Location: forgotPassword.php');
         exit();
     }

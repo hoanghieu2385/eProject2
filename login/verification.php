@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: changePassword.php");
         exit();
     } else {
-        $error_message = "Mã xác nhận không đúng.";
+        $error_message = "Incorrect code.";
     }
 }
 ?>
