@@ -26,3 +26,12 @@ function getCookie(name) {
     let parts = value.split("; " + name + "=");
     if (parts.length == 2) return parts.pop().split(";").shift();
 }
+
+function showNotification(message) {
+    var notification = document.getElementById("notification");
+    notification.innerText = message;
+    notification.classList.add("show");
+    setTimeout(function() {
+        notification.classList.remove("show");
+    }, 5000);
+}

@@ -2,7 +2,7 @@
 session_start();
 $error = array();
 
-$conn = mysqli_connect('localhost', 'root', '', 'project2') or die("Connect failed.");
+$conn = mysqli_connect('localhost', 'root', '', 'project2') or die("Connection failed.");
 mysqli_set_charset($conn, 'utf8');
 
 if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
@@ -27,12 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
     if (!empty($_POST['email'])) {
         $email = $_POST['email'];
     } else {
-        $error[] = "Account name has not been entered.";
+        $error[] = "Please enter your account name.";
     }
     if (!empty($_POST['password'])) {
         $password = $_POST['password'];
     } else {
-        $error[] = "Password not entered.";
+        $error[] = "Please enter a password.";
     }
 
     if (empty($error)) {
@@ -55,10 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
                 header('Location: ../index.php');
                 exit;
             } else {
-                $error[] = "Account has not been confirmed. Please check your email and confirm your account.";
+                $error[] = "Account has not been confirmed. Please check your email and confirm account.";
             }
         } else {
-            $error[] = "Invalid email or password.";
+            $error[] = "Email or password is invalid.";
         }
 
         $stmt->close();
@@ -69,7 +69,7 @@ $conn->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -81,8 +81,8 @@ $conn->close();
 </head>
 
 <body>
-    <?php include '../includes/header.php' ?>
-    
+    <?php include '../includes/header.php'; ?>
+
     <main>
         <div class="login-container">
             <div class="form-login">
@@ -91,7 +91,16 @@ $conn->close();
             </div>
 
             <div class="login-form">
-                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                    <?php
+                    if (isset($_GET['message'])) {
+                        echo '<p class="success-message" style="color: red; margin-bottom: 5px;">' . htmlspecialchars($_GET['message']) . '</p>';
+                    }
+
+                    if (!empty($error)) {
+                        echo '<p style="color: red; margin-bottom: 20px;">' . implode('<br>', $error) . '</p>';
+                    }
+                    ?>
                     <label for="email">Email <span class="required">*</span></label>
                     <input class="email" type="email" id="email" name="email" placeholder="Email" required autofocus>
                     <div class="password-input">
@@ -101,11 +110,6 @@ $conn->close();
                             <i class="fas fa-eye-slash eye-icon" onclick="togglePasswordVisibility()"></i>
                         </div>
                     </div>
-                    <?php
-                    if (!empty($error)) {
-                        echo '<p style="color: red; margin-bottom: 20px;">' . implode('<br>', $error) . '</p>';
-                    }
-                    ?>
                     <div class="login-options">
                         <button type="submit" name="submit-btn" class="submit-btn">Log in</button>
                         <div class="remember-me">
@@ -119,7 +123,7 @@ $conn->close();
         </div>
     </main>
 
-    <?php include '../includes/footer.php' ?>
+    <?php include '../includes/footer.php'; ?>
 </body>
 
 </html>

@@ -17,12 +17,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
 
+    function isEmailRegistered($conn, $email) {
+        $sql = "SELECT * FROM site_user WHERE email_address = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->num_rows > 0;
+    }    
+
     $email = $_POST["email"];
     $password = $_POST["password"];
     $confirm_password = $_POST["confirm_password"];
 
     if ($password !== $confirm_password) {
-        $error_message = "Confirm password does not match";
+        $error_message = "Confirm password does not match.";
+    } else if (isEmailRegistered($conn, $email)) {
+        $error_message = "This email is already registered.";
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -97,7 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ?>
                     <form action="sign_up.php" method="post">
                         <label for="email">Email <span class="required">*</span></label>
-                        <input class="email" type="email" id="email" name="email" placeholder="Email" autofocus required>
+                        <input class="email" type="email" id="email" name="email" placeholder="Email" autofocus onblur="checkEmailAvailability()">
+                        <span id="email-error" style="color: red; margin-bottom: 5px;"></span>
 
                         <label for="password">Password <span class="required">*</span></label>
                         <div class="input-wrapper">
