@@ -26,9 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $conn->close();
-
-        session_unset();
-        session_destroy();
     }
 }
 ?>
