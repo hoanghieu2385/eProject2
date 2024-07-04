@@ -29,11 +29,13 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        margin-bottom: 200px;
     }
     </style>';
     include './includes/header.php';
     echo '<p class="login-message">You must login first</p>';
     echo '<a href="../login/login.php" class="login-button">Login</a>';
+    echo '<div class="footer-space1"> </div>';
     include './includes/footer.php';
     exit;
 }

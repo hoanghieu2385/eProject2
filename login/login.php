@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
 
     if (empty($error)) {
         $stmt = $conn->prepare("SELECT * FROM site_user WHERE email_address = ?");
+
         if ($stmt) {
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -61,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
                     if ($row['token'] === null) {
                         $_SESSION['login'] = true;
                         $_SESSION['user_email'] = $email;
+                        $_SESSION['user_id'] = $row['id']; 
 
                         if (isset($_POST['remember'])) {
                             setcookie('email', $email, time() + (86400 * 30), "/");
@@ -74,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
                     }
                 } else {
                     $error[] = "Email or password is invalid.";
+
                 }
             }
             $stmt->close();

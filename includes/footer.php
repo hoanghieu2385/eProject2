@@ -25,7 +25,7 @@
                     </ul>
                 </div>
                 <div class="col help-col">
-                    <h4>   HELP</h4>
+                    <h4>HELP</h4>
                     <div class="row">
                         <div class="col">
                             <ul>

@@ -1,6 +1,12 @@
 /* ================================ Header ================================ */
-body.dark-mode .logo img {
+body.dark-mode header .logo img {
     content: url('/images/header/logo_darkmode_co_chu.png');
+    width: 50x;
+    height: 60px;
+}
+
+body.dark-mode footer .logo img {
+    content: url('/images/header/logo-dark-mode.png');
     width: 50x;
     height: 60px;
 }
@@ -19,6 +25,7 @@ body.dark-mode .fa-bag-shopping {
 .dark-mode-toggle {
     margin-left: 15px;
     margin-right: 20px;
+    margin-top: 7px;
 }
 
 .dark-mode-toggle input[type="checkbox"] {
