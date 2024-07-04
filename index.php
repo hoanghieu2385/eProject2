@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,13 +11,56 @@
     <title>The Tortured Poets Department</title>
     <link rel="stylesheet" href="./css/index.css">
     <script defer src="./js/index.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        .login-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: blue;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            opacity: 0;
+            font-size: 30px;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .login-notification.show {
+            opacity: 1;
+        }
+    </style>
+
 </head>
 
 <body>
+
     <?php include './includes/header.php' ?>
+
+    <?php if (isset($_GET['message']) && $_GET['message'] === 'success'): ?>
+        <div id="loginNotification" class="login-notification">Login success!</div>
+        <script>
+            window.onload = function() {
+                var notification = document.getElementById('loginNotification');
+                notification.classList.add('show');
+                setTimeout(function() {
+                    notification.classList.remove('show');
+                }, 5000);
+            };
+        </script>
+    <?php endif; ?>
+
     <div class="wrapper">
         <main class="container">
+            <!-- <nav>
+            <ul>
+                <li><a href="#">Vinyl <span class="arrow">&#9660;</span></a></li>
+                <li><a href="#">CDs <span class="arrow">&#9660;</span></a></li>
+                <li><a href="#">Cassettes <span class="arrow">&#9660;</span></a></li>
+                <li><a href="#">Artists <span class="arrow">&#9660;</span></a></li>
+                <li><a href="#">Genres <span class="arrow">&#9660;</span></a></li>
+                <li><a href="#">Accessories <span class="arrow">&#9660;</span></a></li>
+            </ul>
+        </nav> -->
             <section class="banner">
                 <div class="banner-content">
                     <div class="banner-text">
@@ -39,7 +86,7 @@
                 <div class="carousel">
                     <button class="prev">&#10094;</button>
                     <div class="carousel-inner">
-                        <?php for ($i = 0; $i < 8; $i++) : ?>
+                        <?php for ($i = 0; $i < 8; $i++): ?>
                             <div class="album-item">
                                 <img src="https://i.insider.com/6621f3fc10c6b0cde5f0fb36" alt="Product Image">
                                 <p>The Tortured Poets Department<br>The <em>Album Name</em></p>
@@ -56,7 +103,7 @@
                 <div class="carousel">
                     <button class="prev">&#10094;</button>
                     <div class="carousel-inner">
-                        <?php for ($i = 0; $i < 8; $i++) : ?>
+                        <?php for ($i = 0; $i < 8; $i++): ?>
                             <div class="album-item">
                                 <img src="https://i.insider.com/6621f3fc10c6b0cde5f0fb36" alt="Product Image">
                                 <p>The Tortured Poets Department<br>The <em>Album Name</em></p>
@@ -70,6 +117,7 @@
             </section>
         </main>
     </div>
+
     <?php include './includes/footer.php' ?>
 
 </body>
