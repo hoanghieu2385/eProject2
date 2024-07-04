@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,9 +12,12 @@
     <script defer src="./js/index.js"></script>
 </head>
 <body>
+
+<?php include './includes/header.php' ?>
+
 <div class="wrapper">
     <main class="container">
-        <nav>
+        <!-- <nav>
             <ul>
                 <li><a href="#">Vinyl <span class="arrow">&#9660;</span></a></li>
                 <li><a href="#">CDs <span class="arrow">&#9660;</span></a></li>
@@ -19,7 +26,7 @@
                 <li><a href="#">Genres <span class="arrow">&#9660;</span></a></li>
                 <li><a href="#">Accessories <span class="arrow">&#9660;</span></a></li>
             </ul>
-        </nav>
+        </nav> -->
         <section class="banner">
             <div class="banner-content">
                 <div class="banner-text">
@@ -76,5 +83,8 @@
         </section>
     </main>
 </div>
+
+<?php include './includes/footer.php' ?>
+
 </body>
 </html>
