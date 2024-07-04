@@ -35,3 +35,19 @@ function showNotification(message) {
         notification.classList.remove("show");
     }, 5000);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.has('loginSuccess')) {
+        showNotification();
+    }
+});
+
+function showNotification() {
+    var notification = document.getElementById('loginNotification');
+    notification.classList.add('show');
+
+    setTimeout(function() {
+        notification.classList.remove('show');
+    }, 5000);
+}
