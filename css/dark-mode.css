@@ -25,6 +25,7 @@ body.dark-mode .fa-bag-shopping {
 .dark-mode-toggle {
     margin-left: 15px;
     margin-right: 20px;
+    margin-top: 7px;
 }
 
 .dark-mode-toggle input[type="checkbox"] {
