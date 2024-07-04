@@ -11,6 +11,7 @@ session_start();
     <title>The Tortured Poets Department</title>
     <link rel="stylesheet" href="./css/index.css">
     <script defer src="./js/index.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <style>
         .login-notification {
@@ -25,6 +26,7 @@ session_start();
             font-size: 30px;
             transition: opacity 0.5s ease-in-out;
         }
+
         .login-notification.show {
             opacity: 1;
         }
@@ -36,7 +38,7 @@ session_start();
 
     <?php include './includes/header.php' ?>
 
-    <?php if (isset($_GET['message']) && $_GET['message'] === 'success'): ?>
+    <?php if (isset($_GET['message']) && $_GET['message'] === 'success') : ?>
         <div id="loginNotification" class="login-notification">Login success!</div>
         <script>
             window.onload = function() {
@@ -86,7 +88,7 @@ session_start();
                 <div class="carousel">
                     <button class="prev">&#10094;</button>
                     <div class="carousel-inner">
-                        <?php for ($i = 0; $i < 8; $i++): ?>
+                        <?php for ($i = 0; $i < 8; $i++) : ?>
                             <div class="album-item">
                                 <img src="https://i.insider.com/6621f3fc10c6b0cde5f0fb36" alt="Product Image">
                                 <p>The Tortured Poets Department<br>The <em>Album Name</em></p>
@@ -103,7 +105,7 @@ session_start();
                 <div class="carousel">
                     <button class="prev">&#10094;</button>
                     <div class="carousel-inner">
-                        <?php for ($i = 0; $i < 8; $i++): ?>
+                        <?php for ($i = 0; $i < 8; $i++) : ?>
                             <div class="album-item">
                                 <img src="https://i.insider.com/6621f3fc10c6b0cde5f0fb36" alt="Product Image">
                                 <p>The Tortured Poets Department<br>The <em>Album Name</em></p>
