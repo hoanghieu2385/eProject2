@@ -1,63 +1,48 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const carousels = document.querySelectorAll('.carousel');
+    // Banner slider
+    let bannerSlideIndex = 0;
+    const bannerSlides = document.querySelectorAll('.banner-slider .slides img');
+    const bannerDots = document.querySelectorAll('.banner-slider .dot');
 
-    carousels.forEach(carousel => {
-        const inner = carousel.querySelector('.carousel-inner');
-        const items = carousel.querySelectorAll('.album-item');
-        const prev = carousel.querySelector('.prev');
-        const next = carousel.querySelector('.next');
-        let currentIndex = 0;
+    function showBannerSlide(index) {
+        bannerSlides.forEach(slide => slide.style.display = 'none');
+        bannerDots.forEach(dot => dot.classList.remove('active'));
 
-        function updateCarousel() {
-            const itemWidth = items[0].clientWidth;
-            inner.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-        }
-
-        prev.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-            } else {
-                currentIndex = items.length - 4;
-            }
-            updateCarousel();
-        });
-
-        next.addEventListener('click', () => {
-            if (currentIndex < items.length - 4) {
-                currentIndex++;
-            } else {
-                currentIndex = 0;
-            }
-            updateCarousel();
-        });
-
-        updateCarousel();
-    });
-
-    const slides = document.querySelector('.slides');
-    const dots = document.querySelectorAll('.dot');
-    let currentIndex = 0;
-
-    function showSlide(index) {
-        const slideWidth = slides.clientWidth / 3;
-        slides.style.transform = `translateX(-${index * slideWidth}px)`;
-        dots.forEach(dot => dot.classList.remove('active'));
-        dots[index].classList.add('active');
+        bannerSlides[index].style.display = 'block';
+        bannerDots[index].classList.add('active');
     }
 
-    dots.forEach((dot, index) => {
+    function nextBannerSlide() {
+        bannerSlideIndex = (bannerSlideIndex + 1) % bannerSlides.length;
+        showBannerSlide(bannerSlideIndex);
+    }
+
+    setInterval(nextBannerSlide, 5000);
+
+    bannerDots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
-            currentIndex = index;
-            showSlide(index);
+            bannerSlideIndex = index;
+            showBannerSlide(bannerSlideIndex);
         });
     });
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % dots.length;
-        showSlide(currentIndex);
-    }
+    showBannerSlide(bannerSlideIndex);
 
-    setInterval(nextSlide, 3000);
+    // New Release carousel
+    var flkty = new Flickity(newReleaseCarousel, {
+        wrapAround: true,
+        autoPlay: true,
+        groupCells: true,
+        cellAlign: 'left',
+        contain: true
+    });
 
-    showSlide(currentIndex);
+    // Best Seller
+    var flktyBestsellers = new Flickity(bestsellersCarousel, {
+        wrapAround: true,
+        autoPlay: true,
+        groupCells: true,
+        cellAlign: 'left',
+        contain: true
+    });
 });
