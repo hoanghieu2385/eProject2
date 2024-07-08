@@ -29,50 +29,20 @@ document.addEventListener('DOMContentLoaded', function () {
     showBannerSlide(bannerSlideIndex);
 
     // New Release carousel
-    const newReleaseCarousel = document.querySelector('.new-release .carousel-inner');
-    const newReleaseItems = newReleaseCarousel.querySelectorAll('.album-item');
-    const newReleasePrevBtn = document.querySelector('.new-release .prev');
-    const newReleaseNextBtn = document.querySelector('.new-release .next');
-    let newReleaseCurrentIndex = 0;
+    var flkty = new Flickity(newReleaseCarousel, {
+        wrapAround: true,
+        autoPlay: true,
+        groupCells: true,
+        cellAlign: 'left',
+        contain: true
+    });
 
-    function showNewReleaseItems() {
-        newReleaseItems.forEach((item, index) => {
-            if (index >= newReleaseCurrentIndex && index < newReleaseCurrentIndex + 4) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
-
-    // function showNewReleaseItems() {
-    //     newReleaseItems.forEach((item, index) => {
-    //         item.style.transform = `translateX(${(index - newReleaseCurrentIndex) * 100}%)`;
-    //     });
-    // }
-
-    function nextNewReleaseSlide() {
-        newReleaseCurrentIndex = (newReleaseCurrentIndex + 1) % newReleaseItems.length;
-        if (newReleaseCurrentIndex + 4 > newReleaseItems.length) {
-            newReleaseCurrentIndex = 0;
-        }
-        showNewReleaseItems();
-    }
-
-    function prevNewReleaseSlide() {
-        newReleaseCurrentIndex = (newReleaseCurrentIndex - 1 + newReleaseItems.length) % newReleaseItems.length;
-        if (newReleaseCurrentIndex < 0) {
-            newReleaseCurrentIndex = newReleaseItems.length - 4;
-        }
-        showNewReleaseItems();
-    }
-
-    newReleaseNextBtn.addEventListener('click', nextNewReleaseSlide);
-    newReleasePrevBtn.addEventListener('click', prevNewReleaseSlide);
-
-    setInterval(nextNewReleaseSlide, 5000);
-
-    showNewReleaseItems();
-
-    
+    // Best Seller
+    var flktyBestsellers = new Flickity(bestsellersCarousel, {
+        wrapAround: true,
+        autoPlay: true,
+        groupCells: true,
+        cellAlign: 'left',
+        contain: true
+    });
 });
