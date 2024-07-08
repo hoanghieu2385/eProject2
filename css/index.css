@@ -1,13 +1,4 @@
-@import url('https://fonts.adobe.com/fonts/brandon-grotesque');
-
 * {
-    margin: 0;
-    padding: 0;
-    font-family: brandon-grotesque;
-}
-
-body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -27,7 +18,6 @@ nav ul li a {
 nav ul li ul {
     display: none;
     position: absolute;
-    /* background-color: white; */
     top: 100%;
     left: 0;
     padding: 0;
@@ -78,9 +68,10 @@ nav ul li:hover ul {
 }
 
 .slides img {
-    width: 100%;
+    width: 33.33%;
     height: 400px;
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 .indicators {
@@ -133,16 +124,18 @@ h2 {
 .carousel-inner {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    overflow: hidden;
+    width: 400%;
 }
 
 .album-item {
-    background-color: white;
-    /* border: 1px solid #ddd; */
+    flex: 0 0 25%;
     padding: 10px 20px;
     width: 25%;
     text-align: center;
     box-sizing: border-box;
-    flex: 0 0 25%;
+    transform: translateX(0);
+    transition: transform 0.5s ease-in-out;
 }
 
 .album-item:hover {

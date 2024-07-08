@@ -1,63 +1,78 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const carousels = document.querySelectorAll('.carousel');
+    // Banner slider
+    let bannerSlideIndex = 0;
+    const bannerSlides = document.querySelectorAll('.banner-slider .slides img');
+    const bannerDots = document.querySelectorAll('.banner-slider .dot');
 
-    carousels.forEach(carousel => {
-        const inner = carousel.querySelector('.carousel-inner');
-        const items = carousel.querySelectorAll('.album-item');
-        const prev = carousel.querySelector('.prev');
-        const next = carousel.querySelector('.next');
-        let currentIndex = 0;
+    function showBannerSlide(index) {
+        bannerSlides.forEach(slide => slide.style.display = 'none');
+        bannerDots.forEach(dot => dot.classList.remove('active'));
 
-        function updateCarousel() {
-            const itemWidth = items[0].clientWidth;
-            inner.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-        }
-
-        prev.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-            } else {
-                currentIndex = items.length - 4;
-            }
-            updateCarousel();
-        });
-
-        next.addEventListener('click', () => {
-            if (currentIndex < items.length - 4) {
-                currentIndex++;
-            } else {
-                currentIndex = 0;
-            }
-            updateCarousel();
-        });
-
-        updateCarousel();
-    });
-
-    const slides = document.querySelector('.slides');
-    const dots = document.querySelectorAll('.dot');
-    let currentIndex = 0;
-
-    function showSlide(index) {
-        const slideWidth = slides.clientWidth / 3;
-        slides.style.transform = `translateX(-${index * slideWidth}px)`;
-        dots.forEach(dot => dot.classList.remove('active'));
-        dots[index].classList.add('active');
+        bannerSlides[index].style.display = 'block';
+        bannerDots[index].classList.add('active');
     }
 
-    dots.forEach((dot, index) => {
+    function nextBannerSlide() {
+        bannerSlideIndex = (bannerSlideIndex + 1) % bannerSlides.length;
+        showBannerSlide(bannerSlideIndex);
+    }
+
+    setInterval(nextBannerSlide, 5000);
+
+    bannerDots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
-            currentIndex = index;
-            showSlide(index);
+            bannerSlideIndex = index;
+            showBannerSlide(bannerSlideIndex);
         });
     });
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % dots.length;
-        showSlide(currentIndex);
+    showBannerSlide(bannerSlideIndex);
+
+    // New Release carousel
+    const newReleaseCarousel = document.querySelector('.new-release .carousel-inner');
+    const newReleaseItems = newReleaseCarousel.querySelectorAll('.album-item');
+    const newReleasePrevBtn = document.querySelector('.new-release .prev');
+    const newReleaseNextBtn = document.querySelector('.new-release .next');
+    let newReleaseCurrentIndex = 0;
+
+    function showNewReleaseItems() {
+        newReleaseItems.forEach((item, index) => {
+            if (index >= newReleaseCurrentIndex && index < newReleaseCurrentIndex + 4) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
     }
 
-    setInterval(nextSlide, 3000);
+    // function showNewReleaseItems() {
+    //     newReleaseItems.forEach((item, index) => {
+    //         item.style.transform = `translateX(${(index - newReleaseCurrentIndex) * 100}%)`;
+    //     });
+    // }
 
-    showSlide(currentIndex);
+    function nextNewReleaseSlide() {
+        newReleaseCurrentIndex = (newReleaseCurrentIndex + 1) % newReleaseItems.length;
+        if (newReleaseCurrentIndex + 4 > newReleaseItems.length) {
+            newReleaseCurrentIndex = 0;
+        }
+        showNewReleaseItems();
+    }
+
+    function prevNewReleaseSlide() {
+        newReleaseCurrentIndex = (newReleaseCurrentIndex - 1 + newReleaseItems.length) % newReleaseItems.length;
+        if (newReleaseCurrentIndex < 0) {
+            newReleaseCurrentIndex = newReleaseItems.length - 4;
+        }
+        showNewReleaseItems();
+    }
+
+    newReleaseNextBtn.addEventListener('click', nextNewReleaseSlide);
+    newReleasePrevBtn.addEventListener('click', prevNewReleaseSlide);
+
+    setInterval(nextNewReleaseSlide, 5000);
+
+    showNewReleaseItems();
+
+    
 });

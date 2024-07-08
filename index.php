@@ -1,5 +1,34 @@
 <?php
-session_start();
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "project2";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT p.id, p.album, p.description, p.product_image, p.current_price, a.full_name as artist_name 
+        FROM product p
+        JOIN artist a ON p.artist_id = a.id
+        ORDER BY p.id DESC
+        LIMIT 8";
+
+$result = $conn->query($sql);
+
+$products = [];
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +61,6 @@ session_start();
             opacity: 1;
         }
     </style>
-
 </head>
 
 <body>
@@ -54,16 +82,6 @@ session_start();
 
     <div class="wrapper">
         <main class="container">
-            <!-- <nav>
-            <ul>
-                <li><a href="#">Vinyl <span class="arrow">&#9660;</span></a></li>
-                <li><a href="#">CDs <span class="arrow">&#9660;</span></a></li>
-                <li><a href="#">Cassettes <span class="arrow">&#9660;</span></a></li>
-                <li><a href="#">Artists <span class="arrow">&#9660;</span></a></li>
-                <li><a href="#">Genres <span class="arrow">&#9660;</span></a></li>
-                <li><a href="#">Accessories <span class="arrow">&#9660;</span></a></li>
-            </ul>
-        </nav> -->
             <section class="banner">
                 <div class="banner-content">
                     <div class="banner-text">
@@ -89,21 +107,22 @@ session_start();
                 <div class="carousel">
                     <button class="prev">&#10094;</button>
                     <div class="carousel-inner">
-                        <?php for ($i = 0; $i < 8; $i++) : ?>
+                        <?php foreach ($products as $product) : ?>
                             <div class="album-item">
-                                <img src="https://i.insider.com/6621f3fc10c6b0cde5f0fb36" alt="Product Image">
-                                <p>The Tortured Poets Department<br>The <em>Album Name</em></p>
-                                <p>$85.000</p>
-                                <button>Add to Cart</button>
+                                <img src="<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['album']); ?>">
+                                <p><?php echo htmlspecialchars($product['album']); ?><br>by <em><?php echo htmlspecialchars($product['artist_name']); ?></em></p>
+                                <p>$<?php echo number_format($product['current_price'], 2); ?></p>
+                                <button onclick="addToCart(<?php echo $product['id']; ?>)">Add to Cart</button>
                             </div>
-                        <?php endfor; ?>
+                        <?php endforeach; ?>
+                        
                     </div>
                     <button class="next">&#10095;</button>
                 </div>
             </section>
             <section class="bestsellers">
                 <h2>Bestsellers</h2>
-                <div class="carousel">
+                <!-- <div class="carousel">
                     <button class="prev">&#10094;</button>
                     <div class="carousel-inner">
                         <?php for ($i = 0; $i < 8; $i++) : ?>
@@ -116,7 +135,7 @@ session_start();
                         <?php endfor; ?>
                     </div>
                     <button class="next">&#10095;</button>
-                </div>
+                </div> -->
             </section>
         </main>
     </div>
