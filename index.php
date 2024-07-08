@@ -18,13 +18,35 @@ session_start();
             position: fixed;
             bottom: 20px;
             left: 20px;
-            background-color: blue;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 25px 50px;
+            border-radius: 0;
             opacity: 0;
-            font-size: 30px;
+            font-size: 19px;
             transition: opacity 0.5s ease-in-out;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+        }
+
+        .login-notification .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+        .login-notification .progress-bar .progress {
+            width: 100%;
+            height: 100%;
+            background-color: #28a745;
+            transition: width 5s linear;
         }
 
         .login-notification.show {
@@ -39,14 +61,21 @@ session_start();
     <?php include './includes/header.php' ?>
 
     <?php if (isset($_GET['message']) && $_GET['message'] === 'success') : ?>
-        <div id="loginNotification" class="login-notification">Login success!</div>
+        <div id="loginNotification" class="login-notification">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            Login success!
+        </div>
         <script>
             window.onload = function() {
                 var notification = document.getElementById('loginNotification');
+                var progressBar = notification.querySelector('.progress');
                 notification.classList.add('show');
                 setTimeout(function() {
                     notification.classList.remove('show');
                 }, 5000);
+                progressBar.style.width = '0';
             };
         </script>
     <?php endif; ?>
@@ -97,13 +126,13 @@ session_start();
                             </div>
                         <?php endfor; ?>
                     </div>
-                    <button class="next">&#10095;</button>
+                    <button class="next">&#10095;"></button>
                 </div>
             </section>
             <section class="bestsellers">
                 <h2>Bestsellers</h2>
                 <div class="carousel">
-                    <button class="prev">&#10094;</button>
+                    <button class="prev">&#10094;"></button>
                     <div class="carousel-inner">
                         <?php for ($i = 0; $i < 8; $i++) : ?>
                             <div class="album-item">
@@ -114,7 +143,7 @@ session_start();
                             </div>
                         <?php endfor; ?>
                     </div>
-                    <button class="next">&#10095;</button>
+                    <button class="next">&#10095;"></button>
                 </div>
             </section>
         </main>
