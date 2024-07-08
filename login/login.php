@@ -2,7 +2,16 @@
 session_start();
 $error = array();
 
-$conn = mysqli_connect('localhost', 'root', '', 'project2') or die("Connect failed.");
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$conn = mysqli_connect('localhost', 'root', '', 'project2');
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
 mysqli_set_charset($conn, 'utf8');
 
 if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
@@ -10,60 +19,68 @@ if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
     $cookie_password = $_COOKIE['password'];
 
     $stmt = $conn->prepare("SELECT * FROM site_user WHERE email_address = ?");
-    $stmt->bind_param("s", $cookie_email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
+    if ($stmt) {
+        $stmt->bind_param("s", $cookie_email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result) {
+            $row = $result->fetch_assoc();
 
-    if ($row && password_verify($cookie_password, $row['password']) && $row['token'] === null) {
-        $_SESSION['login'] = $row['email'];
-        header('Location: ../index.php');
-        exit;
+            if ($row && password_verify($cookie_password, $row['password']) && $row['token'] === null) {
+                $_SESSION['login'] = $row['email'];
+                header('Location: ../index.php');
+                exit;
+            }
+        }
+        $stmt->close();
     }
-    $stmt->close();
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
     if (!empty($_POST['email'])) {
         $email = $_POST['email'];
     } else {
-        $error[] = "Account name has not been entered.";
+        $error[] = "Please enter your account name.";
     }
     if (!empty($_POST['password'])) {
         $password = $_POST['password'];
     } else {
-        $error[] = "Password not entered.";
+        $error[] = "Please enter a password.";
     }
 
     if (empty($error)) {
         $stmt = $conn->prepare("SELECT * FROM site_user WHERE email_address = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
 
-        if ($row && password_verify($password, $row['password'])) {
-            if ($row['token'] === null) {
-                $_SESSION['login'] = true;
-                $_SESSION['user_email'] = $email;
-                $_SESSION['user_id'] = $row['id']; 
+        if ($stmt) {
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result) {
+                $row = $result->fetch_assoc();
 
+                if ($row && password_verify($password, $row['password'])) {
+                    if ($row['token'] === null) {
+                        $_SESSION['login'] = true;
+                        $_SESSION['user_email'] = $email;
+                        $_SESSION['user_id'] = $row['id']; 
 
-                if (isset($_POST['remember'])) {
-                    setcookie('email', $email, time() + (86400 * 30), "/");
-                    setcookie('password', $password, time() + (86400 * 30), "/");
+                        if (isset($_POST['remember'])) {
+                            setcookie('email', $email, time() + (86400 * 30), "/");
+                            setcookie('password', $password, time() + (86400 * 30), "/");
+                        }
+
+                        header('Location: ../index.php?message=success');
+                        exit;
+                    } else {
+                        $error[] = "Account has not been confirmed. Please check your email and confirm account.";
+                    }
+                } else {
+                    $error[] = "Email or password is invalid.";
+
                 }
-
-                header('Location: ../index.php');
-                exit;
-            } else {
-                $error[] = "Account has not been confirmed. Please check your email and confirm your account.";
             }
-        } else {
-            $error[] = "Invalid email or password.";
+            $stmt->close();
         }
-
-        $stmt->close();
     }
 }
 
@@ -71,7 +88,7 @@ $conn->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -83,8 +100,10 @@ $conn->close();
 </head>
 
 <body>
-    <?php include '../includes/header.php' ?>
-    
+    <?php include '../includes/header.php'; ?>
+
+    <div id="loginNotification" class="login-notification">Đăng nhập thành công!</div>
+
     <main>
         <div class="login-container">
             <div class="form-login">
@@ -93,7 +112,7 @@ $conn->close();
             </div>
 
             <div class="login-form">
-                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                     <label for="email">Email <span class="required">*</span></label>
                     <input class="email" type="email" id="email" name="email" placeholder="Email" required autofocus>
                     <div class="password-input">
@@ -104,6 +123,10 @@ $conn->close();
                         </div>
                     </div>
                     <?php
+                    if (isset($_GET['message'])) {
+                        echo '<p class="success-message" style="color: red; margin-bottom: 5px;">' . htmlspecialchars($_GET['message']) . '</p>';
+                    }
+
                     if (!empty($error)) {
                         echo '<p style="color: red; margin-bottom: 20px;">' . implode('<br>', $error) . '</p>';
                     }
@@ -121,7 +144,7 @@ $conn->close();
         </div>
     </main>
 
-    <?php include '../includes/footer.php' ?>
+    <?php include '../includes/footer.php'; ?>
 </body>
 
 </html>

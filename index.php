@@ -61,10 +61,73 @@ if ($result_bestsellers->num_rows > 0) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+
+    <style>
+        .login-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 25px 50px;
+            border-radius: 0;
+            opacity: 0;
+            font-size: 19px;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+        }
+
+        .login-notification .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+        .login-notification .progress-bar .progress {
+            width: 100%;
+            height: 100%;
+            background-color: #28a745;
+            transition: width 5s linear;
+        }
+
+        .login-notification.show {
+            opacity: 1;
+        }
+    </style>
+
+
 </head>
 
 <body>
     <?php include './includes/header.php' ?>
+
+    <?php if (isset($_GET['message']) && $_GET['message'] === 'success') : ?>
+        <div id="loginNotification" class="login-notification">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            Login success!
+        </div>
+        <script>
+            window.onload = function() {
+                var notification = document.getElementById('loginNotification');
+                var progressBar = notification.querySelector('.progress');
+                notification.classList.add('show');
+                setTimeout(function() {
+                    notification.classList.remove('show');
+                }, 5000);
+                progressBar.style.width = '0';
+            };
+        </script>
+    <?php endif; ?>
 
 
     <div class="wrapper">
@@ -100,6 +163,7 @@ if ($result_bestsellers->num_rows > 0) {
                                 <p>$<?php echo number_format($product['current_price'], 2); ?></p>
                                 <button onclick="addToCart(<?php echo $product['id']; ?>)">Add to Cart</button>
                             </div>
+
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -108,6 +172,7 @@ if ($result_bestsellers->num_rows > 0) {
 
             <section class="bestsellers">
                 <h2>Bestsellers</h2>
+
                 <div class="carousel" data-flickity='{ "wrapAround": true, "autoPlay": true}'>
                     <?php foreach ($bestsellers as $bestseller) : ?>
                         <div class="carousel-cell">
@@ -139,7 +204,5 @@ if ($result_bestsellers->num_rows > 0) {
         });
     </script>
 </body>
-
-
-
 </html>
+
