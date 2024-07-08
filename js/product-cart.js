@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const plusBtn = document.querySelector('.plus-btn');
     const quantitySpan = document.querySelector('.quantity');
 
-    let quantity = 1;
+    let quantity = 0;
     let isAddingToCart = false;
     function updateQuantity(newQuantity) {
         quantity = Math.max(1, newQuantity);
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             newItem.querySelector('img').src = productImage;
             newItem.querySelector('h3').textContent = productTitle;
             newItem.querySelector('.price').textContent = productPrice;
-            newItem.querySelector('.quantity input').value = 1;
+            newItem.querySelector('.quantity input').value = 0;
     
             cartItems.appendChild(newItem);
             console.log('New item added:', newItem);
