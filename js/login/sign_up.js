@@ -26,3 +26,20 @@ function getCookie(name) {
     let parts = value.split("; " + name + "=");
     if (parts.length == 2) return parts.pop().split(";").shift();
 }
+
+function checkEmailAvailability() {
+    var email = document.getElementById('email').value;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = JSON.parse(this.responseText);
+            if (response.exists) {
+                document.getElementById('email-error').innerText = 'This email is already registered.';
+            } else {
+                document.getElementById('email-error').innerText = '';
+            }
+        }
+    };
+    xhr.open("GET", "check_email.php?email=" + email, true);
+    xhr.send();
+}

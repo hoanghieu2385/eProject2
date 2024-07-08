@@ -1,5 +1,51 @@
 <?php
 session_start();
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "project2";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT p.id, p.album, p.description, p.product_image, p.current_price, a.full_name as artist_name 
+        FROM product p
+        JOIN artist a ON p.artist_id = a.id
+        ORDER BY p.id DESC
+        LIMIT 8";
+
+$result = $conn->query($sql);
+
+$products = [];
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+}
+
+$sql_bestsellers = "SELECT p.id, p.album, p.description, p.product_image, p.current_price, a.full_name as artist_name
+                    FROM product p
+                    JOIN artist a ON p.artist_id = a.id
+                    ORDER BY p.current_price DESC
+                    LIMIT 8";
+
+$result_bestsellers = $conn->query($sql_bestsellers);
+
+$bestsellers = [];
+
+if ($result_bestsellers->num_rows > 0) {
+    while ($row = $result_bestsellers->fetch_assoc()) {
+        $bestsellers[] = $row;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -9,61 +55,40 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hoot Records</title>
-    <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
+    <link rel="icon" type="image/x-icon" href="../images/header/logo.png">
     <link rel="stylesheet" href="./css/index.css">
     <script defer src="./js/index.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <style>
-        .login-notification {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: blue;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            opacity: 0;
-            font-size: 30px;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .login-notification.show {
-            opacity: 1;
-        }
-    </style>
-
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 </head>
 
 <body>
-
     <?php include './includes/header.php' ?>
 
     <?php if (isset($_GET['message']) && $_GET['message'] === 'success') : ?>
-        <div id="loginNotification" class="login-notification">Login success!</div>
+        <div id="loginNotification" class="login-notification">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            Login success!
+        </div>
         <script>
             window.onload = function() {
                 var notification = document.getElementById('loginNotification');
+                var progressBar = notification.querySelector('.progress');
                 notification.classList.add('show');
                 setTimeout(function() {
                     notification.classList.remove('show');
                 }, 5000);
+                progressBar.style.width = '0';
             };
         </script>
     <?php endif; ?>
 
+
     <div class="wrapper">
         <main class="container">
-            <!-- <nav>
-            <ul>
-                <li><a href="#">Vinyl <span class="arrow">&#9660;</span></a></li>
-                <li><a href="#">CDs <span class="arrow">&#9660;</span></a></li>
-                <li><a href="#">Cassettes <span class="arrow">&#9660;</span></a></li>
-                <li><a href="#">Artists <span class="arrow">&#9660;</span></a></li>
-                <li><a href="#">Genres <span class="arrow">&#9660;</span></a></li>
-                <li><a href="#">Accessories <span class="arrow">&#9660;</span></a></li>
-            </ul>
-        </nav> -->
             <section class="banner">
                 <div class="banner-content">
                     <div class="banner-text">
@@ -86,43 +111,55 @@ session_start();
             </section>
             <section class="new-release">
                 <h2>New Release</h2>
-                <div class="carousel">
-                    <button class="prev">&#10094;</button>
-                    <div class="carousel-inner">
-                        <?php for ($i = 0; $i < 8; $i++) : ?>
+                <div class="carousel" data-flickity='{ "wrapAround": true, "autoPlay": true }'>
+                    <?php foreach ($products as $product) : ?>
+                        <div class="carousel-cell">
                             <div class="album-item">
-                                <img src="https://i.insider.com/6621f3fc10c6b0cde5f0fb36" alt="Product Image">
-                                <p>The Tortured Poets Department<br>The <em>Album Name</em></p>
-                                <p>$85.000</p>
-                                <button>Add to Cart</button>
+                                <img src="<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['album']); ?>">
+                                <p><?php echo htmlspecialchars($product['album']); ?><br>by <em><?php echo htmlspecialchars($product['artist_name']); ?></em></p>
+                                <p>$<?php echo number_format($product['current_price'], 2); ?></p>
+                                <button onclick="addToCart(<?php echo $product['id']; ?>)">Add to Cart</button>
                             </div>
-                        <?php endfor; ?>
-                    </div>
-                    <button class="next">&#10095;</button>
+
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </section>
+
+
             <section class="bestsellers">
                 <h2>Bestsellers</h2>
-                <div class="carousel">
-                    <button class="prev">&#10094;</button>
-                    <div class="carousel-inner">
-                        <?php for ($i = 0; $i < 8; $i++) : ?>
+
+                <div class="carousel" data-flickity='{ "wrapAround": true, "autoPlay": true}'>
+                    <?php foreach ($bestsellers as $bestseller) : ?>
+                        <div class="carousel-cell">
                             <div class="album-item">
-                                <img src="https://i.insider.com/6621f3fc10c6b0cde5f0fb36" alt="Product Image">
-                                <p>The Tortured Poets Department<br>The <em>Album Name</em></p>
-                                <p>$85.000</p>
-                                <button>Add to Cart</button>
+                                <img src="<?php echo htmlspecialchars($bestseller['product_image']); ?>" alt="<?php echo htmlspecialchars($bestseller['album']); ?>">
+                                <p><?php echo htmlspecialchars($bestseller['album']); ?><br>by <em><?php echo htmlspecialchars($bestseller['artist_name']); ?></em></p>
+                                <p>$<?php echo number_format($bestseller['current_price'], 2); ?></p>
+                                <button onclick="addToCart(<?php echo $bestseller['id']; ?>)">Add to Cart</button>
                             </div>
-                        <?php endfor; ?>
-                    </div>
-                    <button class="next">&#10095;</button>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </section>
+
         </main>
     </div>
 
     <?php include './includes/footer.php' ?>
 
-</body>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var alert = document.querySelector('.alert');
+            if (alert) {
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 5000); // Hiển thị trong 5 giây
+            }
+        });
+    </script>
+</body>
 </html>
+

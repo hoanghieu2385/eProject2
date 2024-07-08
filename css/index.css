@@ -1,13 +1,4 @@
-@import url('https://fonts.adobe.com/fonts/brandon-grotesque');
-
 * {
-    margin: 0;
-    padding: 0;
-    font-family: brandon-grotesque;
-}
-
-body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -27,7 +18,6 @@ nav ul li a {
 nav ul li ul {
     display: none;
     position: absolute;
-    /* background-color: white; */
     top: 100%;
     left: 0;
     padding: 0;
@@ -78,9 +68,10 @@ nav ul li:hover ul {
 }
 
 .slides img {
-    width: 100%;
+    width: 33.33%;
     height: 400px;
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 .indicators {
@@ -123,6 +114,10 @@ h2 {
     padding: 5px 0;
 }
 
+.new-release {
+    padding-bottom: 40px;
+}
+
 .carousel {
     position: relative;
     width: 100%;
@@ -130,32 +125,16 @@ h2 {
     padding-bottom: 10px;
 }
 
-.carousel-inner {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-}
-
 .album-item {
-    background-color: white;
-    /* border: 1px solid #ddd; */
+    flex: 0 0 25%;
     padding: 10px 20px;
-    width: 25%;
     text-align: center;
     box-sizing: border-box;
-    flex: 0 0 25%;
-}
-
-.album-item:hover {
-    border: 1px solid #dedddd;
-    border-radius: 8px;
 }
 
 .album-item img {
-    width: 100%;
+    width: 230px;
     height: auto;
-    object-fit: cover;
-    aspect-ratio: 1/1;
-    border-radius: 3px;
 }
 
 .album-item p {
@@ -171,22 +150,45 @@ h2 {
     background-color: transparent;
 }
 
-.prev, .next {
+
+/* noti css */
+
+.login-notification {
+    position: fixed;
+    bottom: 30px;
+    left: 82%;
+    background-color: #538ed5;
+    color: #ffffff;
+    padding: 25px 50px;
+    border-radius: 3px;
+    opacity: 0;
+    font-size: 19px;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    height: auto;
+}
+
+.login-notification .progress-bar {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: #ffffff;
+    overflow: hidden;
 }
 
-.prev {
-    left: 10px;
+.login-notification .progress-bar .progress {
+    width: 100%;
+    height: 100%;
+    background-color: #57abf4;
+    transition: width 5s linear;
 }
 
-.next {
-    right: 10px;
+.login-notification.show {
+    opacity: 1;
 }
