@@ -134,6 +134,7 @@
 
     <div class="footer-wrapper">
         <?php include './includes/footer.php' ?>
+        <?php include './includes/cart.php'?>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

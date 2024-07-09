@@ -9,7 +9,7 @@
     box-shadow: -2px 0 5px rgba(0,0,0,0.1);
     font-family: Arial, sans-serif;
     transition: right 0.3s ease-in-out;
-    z-index: 1000; /* Đảm bảo cart hiển thị trên các phần tử khác */
+    z-index: 1000; 
     overflow-y: auto; /* Cho phép cuộn nếu nội dung dài */
   }
   
