@@ -14,7 +14,7 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Record Store</title>
+    <title>Record Store - Thanh Toán</title>
     <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
     <link rel="stylesheet" href="./css/checkout.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,9 +32,25 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
             font-size: 0.9rem;
             padding: 1rem;
         }
-        .table { font-size: 0.9rem; }
-        .table th, .table td { border: none; padding: 0.5rem 0; }
-        .form-check-label { font-size: 0.9rem; }
+        .table {
+            font-size: 0.9rem;
+            border-collapse: collapse;
+        }
+        .table th, .table td {
+            border: 1px solid #dee2e6;
+            padding: 0.75rem;
+            vertical-align: top;
+        }
+        .table thead th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .form-check {
+            margin-bottom: 0.5rem;
+        }
+        .form-check-input {
+            margin-top: 0.3rem;
+        }
         .btn-order {
             background-color: #212529;
             border: none;
@@ -43,7 +59,6 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
             text-transform: uppercase;
         }
         h2 { font-size: 1.2rem; font-weight: bold; margin-bottom: 1.5rem; }
-        .total { font-size: 1.1rem; font-weight: bold; margin: 1rem 0; }
     </style>
 </head>
 
@@ -52,7 +67,7 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
 
     <div class="container mt-4">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <h2>CHI TIẾT THANH TOÁN</h2>
                 <form>
                     <div class="mb-3">
@@ -105,53 +120,60 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
                     </div>
                 </form>
             </div>
-            <div class="col-md-6">
-                <h2>PHƯƠNG THỨC THANH TOÁN</h2>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>SẢN PHẨM</th>
-                            <th class="text-end">TẠM TÍNH</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>21 Savage - i am > i was (PA) (2 LP) (150g Vinyl/ Includes Download Insert) × 1</td>
-                            <td class="text-end">1,030,000 ₫</td>
-                        </tr>
-                        <tr>
-                            <td>TẠM TÍNH</td>
-                            <td class="text-end">1,030,000 ₫</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="col-md-7">
+                <h2>ĐƠN HÀNG CỦA BẠN</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>SẢN PHẨM</th>
+                                <th class="text-end">TẠM TÍNH</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>21 Savage - i am > i was (PA) (2 LP) (150g Vinyl/ Includes Download Insert) × 1</td>
+                                <td class="text-end">1,030,000 ₫</td>
+                            </tr>
+                            <tr>
+                                <td>TẠM TÍNH</td>
+                                <td class="text-end">1,030,000 ₫</td>
+                            </tr>
+                            <tr>
+                                <td>GIAO HÀNG</td>
+                                <td class="text-end">50,000 ₫</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TỔNG</strong></td>
+                                <td class="text-end"><strong>1,080,000 ₫</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                <div class="mb-3 d-flex justify-content-between align-items-start">
-                    <span>Thanh Toán</span>
-                    <div>
-                        <div class="form-check text-end">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="transfer" checked>
-                            <label class="form-check-label" for="transfer">
-                                THANH TOÁN CHUYỂN KHOẢN: 50,000 ₫
-                            </label>
-                        </div>
-                        <div class="form-check text-end">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="cod">
-                            <label class="form-check-label" for="cod">
-                                THANH TOÁN KHI NHẬN HÀNG (COD): 65,000 ₫
-                            </label>
-                        </div>
-                        <div class="form-check text-end">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="pickup">
-                            <label class="form-check-label" for="pickup">
-                                NHẬN TẠI 11/133 THÁI HÀ (Thanh toán trước & đến lấy)
-                            </label>
-                        </div>
+                <div class="payment-methods">
+                    <h2>PHƯƠNG THỨC THANH TOÁN</h2>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="transfer" checked>
+                        <label class="form-check-label" for="transfer">
+                            THANH TOÁN CHUYỂN KHOẢN
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="cod">
+                        <label class="form-check-label" for="cod">
+                            THANH TOÁN KHI NHẬN HÀNG (COD)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="pickup">
+                        <label class="form-check-label" for="pickup">
+                            NHẬN TẠI 11/133 THÁI HÀ (Thanh toán trước & đến lấy)
+                        </label>
                     </div>
                 </div>
 
-                <p class="total">TỔNG CỘNG: 1,080,000 ₫</p>
-                <button type="submit" class="btn btn-dark btn-order w-100">ĐẶT HÀNG</button>
+                <button type="submit" class="btn btn-dark btn-order w-100 mt-3">ĐẶT HÀNG</button>
             </div>
         </div>
     </div>
