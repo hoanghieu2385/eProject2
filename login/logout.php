@@ -24,7 +24,7 @@ if (isset($_COOKIE['password'])) {
     setcookie('password', '', time() - 3600, '/');
 }
 
-// Chuyển hướng về trang chủ hoặc trang đăng nhập
-header("Location: ../index.php");
-exit();
+header('Content-Type: application/json');
+echo json_encode(['success' => true]);
+exit;
 ?>

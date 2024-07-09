@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
     const userIconBtn = document.getElementById('user-icon-btn');
     const userMenu = document.getElementById('user-menu');
-    const loginLogoutBtn = document.getElementById('login-logout-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const loginBtn = document.getElementById('login-btn');
     const orderHistoryLink = document.getElementById('orderHistory');
     const accountDetailLink = document.getElementById('accountDetail');
-    const signUpLink = document.getElementById('signUp');
+    const signUpLink = document.getElementById('signUp-btn');
 
 
     function updateLoginStatus() {
@@ -12,17 +13,17 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.isLoggedIn) {
-                    loginLogoutBtn.textContent = 'Logout';
-                    loginLogoutBtn.href = '../login/logout.php';
                     orderHistoryLink.style.display = 'block';
                     accountDetailLink.style.display = 'block';
+                    logoutBtn.style.display = 'block';
+                    loginBtn.style.display = 'none';
                     signUpLink.style.display = 'none';
 
                 } else {
-                    loginLogoutBtn.textContent = 'Login';
-                    loginLogoutBtn.href = '../login/login.php';
                     orderHistoryLink.style.display = 'none';
                     accountDetailLink.style.display = 'none';
+                    logoutBtn.style.display = 'none';
+                    loginBtn.style.display = 'block';
                     signUpLink.style.display = 'block';
 
                 }

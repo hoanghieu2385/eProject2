@@ -1,16 +1,12 @@
-@import url('https://fonts.adobe.com/fonts/brandon-grotesque');
-
 * {
     margin: 0;
     padding: 0;
-    font-family: brandon-grotesque;
 }
 
 .container {
     min-height: 400px;
-    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 20px 0;
     display: flex;
 }
 
@@ -133,7 +129,7 @@
 }
 
 .address-row input {
-    width: 100%;
+    width: 550px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
