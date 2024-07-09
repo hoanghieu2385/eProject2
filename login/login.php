@@ -62,21 +62,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
                     if ($row['token'] === null) {
                         $_SESSION['login'] = true;
                         $_SESSION['user_email'] = $email;
-                        $_SESSION['user_id'] = $row['id']; 
+                        $_SESSION['user_id'] = $row['id'];
 
                         if (isset($_POST['remember'])) {
                             setcookie('email', $email, time() + (86400 * 30), "/");
                             setcookie('password', $password, time() + (86400 * 30), "/");
                         }
 
-                        header('Location: ../index.php?message=success');
+                        $_SESSION['login_success'] = true;
+                        header('Location: ../index.php');
                         exit;
                     } else {
                         $error[] = "Account has not been confirmed. Please check your email and confirm account.";
                     }
                 } else {
                     $error[] = "Email or password is invalid.";
-
                 }
             }
             $stmt->close();

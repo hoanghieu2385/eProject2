@@ -66,7 +66,7 @@ if ($result_bestsellers->num_rows > 0) {
 <body>
     <?php include './includes/header.php' ?>
 
-    <?php if (isset($_GET['message']) && $_GET['message'] === 'success') : ?>
+    <?php if (isset($_SESSION['login_success'])) : ?>
         <div id="loginNotification" class="login-notification">
             <div class="progress-bar">
                 <div class="progress"></div>
@@ -84,6 +84,10 @@ if ($result_bestsellers->num_rows > 0) {
                 progressBar.style.width = '0';
             };
         </script>
+        <?php
+        // Xóa thông báo khỏi session sau khi đã hiển thị
+        unset($_SESSION['login_success']);
+        ?>
     <?php endif; ?>
 
 
@@ -143,7 +147,7 @@ if ($result_bestsellers->num_rows > 0) {
 
         </main>
     </div>
-    <?php include './includes/cart.php'?>
+    <?php include './includes/cart.php' ?>
     <?php include './includes/footer.php' ?>
 
 
