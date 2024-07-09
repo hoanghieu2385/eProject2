@@ -143,7 +143,7 @@ if ($result_bestsellers->num_rows > 0) {
 
         </main>
     </div>
-
+    <?php include './includes/cart.php'?>
     <?php include './includes/footer.php' ?>
 
 

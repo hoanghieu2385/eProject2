@@ -1,4 +1,5 @@
 <!-- cart.php -->
+<link rel="stylesheet" href="../css/cart.css">
 <div class="cart">
     <div class="cart-header">
         <h2>Cart</h2>
