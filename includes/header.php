@@ -93,7 +93,7 @@
 
         </header>
 </body>
-<div class="header-space0" style="height: 140px;"></div>
+<div class="header-space0" style="height: 119px;"></div>
 
     <script src="../js/search.js"></script>
     <script src="../js/dark-mode.js"></script>
