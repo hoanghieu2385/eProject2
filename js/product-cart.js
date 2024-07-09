@@ -17,6 +17,35 @@
         const closeCartBtn = document.querySelector('.cart .close');
         const cartItems = document.querySelector('.cart-items');
         const subtotalElem = document.querySelector('.subtotal');
+        function saveCart() {
+            const items = Array.from(cartItems.querySelectorAll('.item:not([style*="display: none"])'))
+                .map(item => ({
+                    title: item.querySelector('h3').textContent,
+                    price: item.querySelector('.price').textContent,
+                    quantity: item.querySelector('.quantity input').value,
+                    image: item.querySelector('img').src
+                }));
+            localStorage.setItem('cart', JSON.stringify(items));
+            console.log('Cart saved to localStorage');
+        }
+
+        function loadCart() {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                const items = JSON.parse(savedCart);
+                items.forEach(item => {
+                    const newItem = cartItems.querySelector('.item[style*="display: none"]').cloneNode(true);
+                    newItem.style.display = 'flex';
+                    newItem.querySelector('img').src = item.image;
+                    newItem.querySelector('h3').textContent = item.title;
+                    newItem.querySelector('.price').textContent = item.price;
+                    newItem.querySelector('.quantity input').value = item.quantity;
+                    cartItems.appendChild(newItem);
+                });
+                updateSubtotal();
+                console.log('Cart loaded from localStorage');
+            }
+        }
 
         function addToCart(e) {
             e.preventDefault();
@@ -61,6 +90,7 @@
 
             updateSubtotal();
             openCart();
+            saveCart();
         }
 
         function updateSubtotal() {
@@ -140,6 +170,7 @@
                 console.log('Item removed from cart');
             }
             updateSubtotal();
+            saveCart();
         });
 
         document.addEventListener('click', function (e) {
@@ -148,6 +179,8 @@
                 closeCart();
             }
         });
+
+        loadCart();
 
         console.log("Cart initialization complete");
     }
