@@ -109,40 +109,37 @@ if ($result_bestsellers->num_rows > 0) {
                     </div>
                 </div>
             </section>
-            <section class="new-release">
-                <h2>New Release</h2>
-                <div class="carousel" data-flickity='{ "wrapAround": true, "autoPlay": true }'>
-                    <?php foreach ($products as $product) : ?>
-                        <div class="carousel-cell">
-                            <div class="album-item">
+            <!-- Trong phần New Release -->
+            <div class="carousel" data-flickity='{ "wrapAround": true, "autoPlay": true }'>
+                <?php foreach ($products as $product) : ?>
+                    <div class="carousel-cell">
+                        <div class="album-item">
+                            <a href="product-detail.php?id=<?php echo $product['id']; ?>">
                                 <img src="<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['album']); ?>">
                                 <p><?php echo htmlspecialchars($product['album']); ?><br>by <em><?php echo htmlspecialchars($product['artist_name']); ?></em></p>
-                                <p>$<?php echo number_format($product['current_price'], 2); ?></p>
-                                <button onclick="addToCart(<?php echo $product['id']; ?>)">Add to Cart</button>
-                            </div>
-
+                            </a>
+                            <p>$<?php echo number_format($product['current_price'], 2); ?></p>
+                            <button onclick="addToCart(<?php echo $product['id']; ?>)">Add to Cart</button>
                         </div>
-                    <?php endforeach; ?>
-                </div>
-            </section>
+                    </div>
+                <?php endforeach; ?>
+            </div>
 
-
-            <section class="bestsellers">
-                <h2>Bestsellers</h2>
-
-                <div class="carousel" data-flickity='{ "wrapAround": true, "autoPlay": true}'>
-                    <?php foreach ($bestsellers as $bestseller) : ?>
-                        <div class="carousel-cell">
-                            <div class="album-item">
+            <!-- Trong phần Bestsellers -->
+            <div class="carousel" data-flickity='{ "wrapAround": true, "autoPlay": true}'>
+                <?php foreach ($bestsellers as $bestseller) : ?>
+                    <div class="carousel-cell">
+                        <div class="album-item">
+                            <a href="product-detail.php?id=<?php echo $bestseller['id']; ?>">
                                 <img src="<?php echo htmlspecialchars($bestseller['product_image']); ?>" alt="<?php echo htmlspecialchars($bestseller['album']); ?>">
                                 <p><?php echo htmlspecialchars($bestseller['album']); ?><br>by <em><?php echo htmlspecialchars($bestseller['artist_name']); ?></em></p>
-                                <p>$<?php echo number_format($bestseller['current_price'], 2); ?></p>
-                                <button onclick="addToCart(<?php echo $bestseller['id']; ?>)">Add to Cart</button>
-                            </div>
+                            </a>
+                            <p>$<?php echo number_format($bestseller['current_price'], 2); ?></p>
+                            <button onclick="addToCart(<?php echo $bestseller['id']; ?>)">Add to Cart</button>
                         </div>
-                    <?php endforeach; ?>
-                </div>
-            </section>
+                    </div>
+                <?php endforeach; ?>
+            </div>
 
         </main>
     </div>
@@ -161,5 +158,5 @@ if ($result_bestsellers->num_rows > 0) {
         });
     </script>
 </body>
-</html>
 
+</html>

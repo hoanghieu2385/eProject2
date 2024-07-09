@@ -155,8 +155,8 @@ h2 {
 
 .login-notification {
     position: fixed;
-    bottom: 30px;
-    left: 82%;
+    top: 50px;
+    left: 84%;
     background-color: #538ed5;
     color: #ffffff;
     padding: 25px 50px;
