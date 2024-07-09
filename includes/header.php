@@ -32,7 +32,7 @@
                             <li><a href="../login/sign_up.php" id="signUp">Sign Up</a></li>
                         </ul>
                     </div>
-                    <a href="#" id="cart-icon" onclick="openCart(event)"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
+                    <a id="cart-icon"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
                     <div class="dark-mode-toggle">
                         <input type="checkbox" id="dark-mode-checkbox">
                         <label for="dark-mode-checkbox">

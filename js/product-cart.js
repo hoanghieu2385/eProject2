@@ -1,4 +1,4 @@
-(function() {
+(function () {
     if (document.querySelector('script[data-cart-initialized]')) {
         console.log("Cart script already initialized. Skipping...");
         return;
@@ -11,34 +11,31 @@
     function initializeCart() {
         console.log("Initializing cart...");
 
-        const addToCartBtn = document.querySelector('.add-to-cart-btn');
+        const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
         const cartIcon = document.getElementById('cart-icon');
         const cart = document.querySelector('.cart');
         const closeCartBtn = document.querySelector('.cart .close');
         const cartItems = document.querySelector('.cart-items');
         const subtotalElem = document.querySelector('.subtotal');
 
-        console.log("Number of 'Add To Cart' buttons:", document.querySelectorAll('.add-to-cart-btn').length);
-
         function addToCart(e) {
             e.preventDefault();
             e.stopPropagation();
             console.log("addToCart function called at: " + new Date().getTime());
 
-            const productTitle = document.querySelector('.title').textContent;
-            const productPrice = document.querySelector('.price').textContent;
-            const productImage = document.querySelector('.image-container img').src;
+            const productContainer = e.target.closest('.productcontainer') || e.target.closest('.product-item');
+            const productTitle = productContainer.querySelector('.title').textContent;
+            const productPrice = productContainer.querySelector('.price').textContent;
+            const productImage = productContainer.querySelector('img').src;
             const quantity = 1;
 
             console.log('Product details:', { productTitle, productPrice, productImage, quantity });
 
-            const existingItem = Array.from(cartItems.children).find(item => 
-                item.querySelector('h3') && 
-                item.querySelector('h3').textContent === productTitle && 
+            const existingItem = Array.from(cartItems.children).find(item =>
+                item.querySelector('h3') &&
+                item.querySelector('h3').textContent === productTitle &&
                 !item.style.display.includes('none')
             );
-
-            console.log('Existing item found:', existingItem ? 'Yes' : 'No');
 
             if (existingItem) {
                 const quantityInput = existingItem.querySelector('.quantity input');
@@ -64,20 +61,12 @@
 
             updateSubtotal();
             openCart();
-
-            console.log("Current cart items:");
-            Array.from(cartItems.children).forEach(item => {
-                if (item.style.display !== 'none') {
-                    console.log(item.querySelector('h3').textContent + ": " + item.querySelector('.quantity input').value);
-                }
-            });
         }
 
         function updateSubtotal() {
-            console.log("Updating subtotal...");
             const items = cartItems.querySelectorAll('.item:not([style*="display: none"])');
             let total = 0;
-            items.forEach(function(item) {
+            items.forEach(function (item) {
                 const price = parseFloat(item.querySelector('.price').textContent.replace('$', ''));
                 const quantity = parseInt(item.querySelector('.quantity input').value);
                 total += price * quantity;
@@ -87,45 +76,51 @@
         }
 
         function openCart() {
-            if(cart) {
+            if (cart && !cart.classList.contains('open')) {
                 cart.classList.add('open');
                 console.log('Cart opened');
             }
         }
 
         function closeCart() {
-            if(cart) {
+            if (cart && cart.classList.contains('open')) {
                 cart.classList.remove('open');
                 console.log('Cart closed');
             }
         }
 
-        if (addToCartBtn) {
-            addToCartBtn.addEventListener('click', function(e) {
+        addToCartBtns.forEach(btn => {
+            btn.addEventListener('click', function (e) {
                 console.log("Add To Cart button clicked at: " + new Date().getTime());
                 addToCart(e);
             });
-            console.log("Add To Cart event listener added");
-        } else {
-            console.error("Add To Cart button not found");
-        }
+        });
 
         if (cartIcon) {
-            cartIcon.addEventListener('click', function(e) {
+            cartIcon.addEventListener('click', function (e) {
                 e.preventDefault();
+                e.stopPropagation(); // Prevent the click event from propagating to the document level
                 console.log("Cart icon clicked");
-                openCart();
+                if (cart.classList.contains('open')) {
+                    closeCart();
+                } else {
+                    openCart();
+                }
             });
+        } else {
+            console.error("Cart icon not found");
         }
 
         if (closeCartBtn) {
-            closeCartBtn.addEventListener('click', function() {
+            closeCartBtn.addEventListener('click', function () {
                 console.log("Close cart button clicked");
                 closeCart();
             });
+        } else {
+            console.error("Close cart button not found");
         }
 
-        cartItems.addEventListener('click', function(e) {
+        cartItems.addEventListener('click', function (e) {
             e.stopPropagation();
             const item = e.target.closest('.item');
             if (!item) return;
@@ -147,8 +142,8 @@
             updateSubtotal();
         });
 
-        document.addEventListener('click', function(e) {
-            if (cart && cart.classList.contains('open') && !cart.contains(e.target) && e.target !== cartIcon && e.target !== addToCartBtn) {
+        document.addEventListener('click', function (e) {
+            if (cart && cart.classList.contains('open') && !cart.contains(e.target) && e.target !== cartIcon) {
                 console.log('Closing cart due to outside click');
                 closeCart();
             }
@@ -157,7 +152,7 @@
         console.log("Cart initialization complete");
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         console.log("DOMContentLoaded event fired");
         initializeCart();
     });
