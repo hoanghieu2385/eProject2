@@ -22,11 +22,16 @@
     <link id="pagestyle" href="assets/css/material-dashboard.min.css?v=3.0.0" rel="stylesheet" />
 
     <!-- ALERTIFY JS -->
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css" />
 
     <style>
         .form-control {
+            border: 1px solid #b3a1a1 !important;
+            padding: 8px 10px;
+        }
+
+        .form-select {
             border: 1px solid #b3a1a1 !important;
             padding: 8px 10px;
         }

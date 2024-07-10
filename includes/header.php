@@ -28,11 +28,12 @@
                         <ul class="sub-menu" id="user-menu">
                             <li><a href="../my_account.php?section=order-History" id="orderHistory">Orders</a></li>
                             <li><a href="../my_account.php?section=account-Detail" id="accountDetail">Account Detail</a></li>
-                            <li><a href="../login/logout.php" id="login-logout-btn">Logout</a></li>
-                            <li><a href="../login/sign_up.php" id="signUp">Sign Up</a></li>
+                            <li><a href="javascript:void(0);" onclick="logout(); return false;" id="logout-btn">Logout</a></li>
+                            <li><a href="../login/login.php" id="login-btn">Login</a></li>
+                            <li><a href="../login/sign_up.php" id="signUp-btn">Sign Up</a></li>
                         </ul>
                     </div>
-                    <a href="#" id="cart-icon" onclick="openCart(event)"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
+                    <a id="cart-icon"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
                     <div class="dark-mode-toggle">
                         <input type="checkbox" id="dark-mode-checkbox">
                         <label for="dark-mode-checkbox">
@@ -91,14 +92,41 @@
             </ul>
         </nav>
 
-        </header>
+    </header>
 </body>
-<div class="header-space0" style="height: 140px;"></div>
+<div class="header-space0" style="height: 119px;"></div>
 
-    <script src="../js/search.js"></script>
-    <script src="../js/dark-mode.js"></script>
-    <script src="../js/check_login-logout.js"></script>
+<script src="../js/search.js"></script>
+<script src="../js/dark-mode.js"></script>
+<script src="../js/check_login-logout.js"></script>
+<script>
+    function logout() {
+        // Lưu URL hiện tại
+        var currentURL = window.location.href;
 
+        fetch('../login/logout.php', { // Đảm bảo đường dẫn này chính xác
+                method: 'POST',
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Xóa thông tin đăng nhập từ localStorage nếu có
+                    localStorage.removeItem('userLoggedIn');
+                    localStorage.removeItem('userEmail');
+                    // Thêm bất kỳ item nào khác cần xóa
+
+                    // Chuyển hướng đến URL hiện tại
+                    window.location.href = currentURL;
+                } else {
+                    console.error('Logout failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
 
 </body>
 

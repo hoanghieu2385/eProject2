@@ -70,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
 
                 if ($row && password_verify($password, $row['password'])) {
                     if ($row['token'] === null) {
+
                         $_SESSION['auth'] = true;
                         $_SESSION['auth_user'] = [
                             'user_id' => $row['id'],

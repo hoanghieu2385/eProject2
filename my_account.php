@@ -19,10 +19,18 @@
     <div class="container">
         <div class="sidebar">
             <h2 class="sidebar-text">My account</h2>
-            <button onclick="showContent('order-History')"><i class="fa-solid fa-box-open" style="color: #424248;"></i>ORDERS</button>
-            <button onclick="showContent('address-Book')"><i class="fa-solid fa-map-location-dot" style="color: #424248;"></i>ADDRESS BOOK</button>
-            <button onclick="showContent('account-Detail')"><i class="fa-regular fa-user" style="color: #424248;"></i>ACCOUNT DETAIL</button>
-            <button onclick="showContent('change-Password')"><i class="fa-solid fa-lock" style="color: #424248;"></i>CHANGE PASSWORD</button>
+            <button onclick="showContent('order-History')">
+                <i class="fa-solid fa-box-open" style="color: #424248;"></i>ORDERS
+            </button>
+            <button onclick="showContent('address-Book')">
+                <i class="fa-solid fa-map-location-dot" style="color: #424248;"></i>ADDRESS BOOK
+            </button>
+            <button onclick="showContent('account-Detail')">
+                <i class="fa-regular fa-user" style="color: #424248;"></i>ACCOUNT DETAIL
+            </button>
+            <button onclick="showContent('change-Password')">
+                <i class="fa-solid fa-lock" style="color: #424248;"></i>CHANGE PASSWORD
+            </button>
             <button id="logoutButton" onclick="handleLogout()">
                 <i class="fa-solid fa-arrow-right-from-bracket" style="color: #424248;"></i>LOGOUT
             </button>
@@ -74,7 +82,6 @@
 
 
             <div id="account-Detail" class="content-section">
-                <h2>Account Details</h2>
                 <form id="accountDetailsForm">
                     <div class="form-group">
                         <label for="firstName">First Name</label>
@@ -134,6 +141,7 @@
 
     <div class="footer-wrapper">
         <?php include './includes/footer.php' ?>
+        <?php include './includes/cart.php' ?>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -160,6 +168,10 @@
                 section.style.display = 'none';
                 section.classList.remove('active');
             });
+
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('section', sectionId);
+            history.pushState({}, '', newUrl);
 
             // Display the selected section
             document.getElementById(sectionId).style.display = 'block';
@@ -285,7 +297,6 @@
 
 
         // Account Detail
-
         // Retrieving User Data
         var xhr = new XMLHttpRequest();
         xhr.open('GET', './includes/my-account/account-detail.php', true);
@@ -412,7 +423,7 @@
         // Logout button
         function handleLogout() {
             if (confirm("Are you sure you want to log out?")) {
-                window.location.href = "./login/logout.php";
+                logout();
             }
         }
     </script>

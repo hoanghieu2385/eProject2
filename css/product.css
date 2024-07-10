@@ -34,18 +34,14 @@ body {
   flex-direction: column;
   align-items: center;
   max-width: 700px;
-  /* Tăng chiều rộng tối đa để chứa ảnh lớn hơn */
-  /* Bạn có thể thêm height nếu cần thiết */
+
 }
 
 .image-container img {
   max-width: 100%;
-  /* Điều chỉnh để giữ tỷ lệ khung hình */
   height: auto;
   width: 90%;
-  /* Tăng kích thước của ảnh */
   height: auto;
-  /* Đảm bảo ảnh giữ tỷ lệ khung hình */
 }
 
 .description-container {
@@ -58,9 +54,7 @@ body {
   max-width: 600px;
   position: sticky;
   top: 160px;
-  /* Điều chỉnh để không chèn vào header */
   bottom: 5px;
-  /* Giới hạn khoảng cách từ dưới lên để giảm khoảng cách với Related Products */
 }
 
 
