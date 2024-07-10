@@ -30,7 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
     $confirm_password = $_POST["confirm_password"];
 
-    if ($password !== $confirm_password) {
+    if (strlen($password) < 6) {
+        $error_message = "Password must be at least 6 characters long.";
+    } else if ($password !== $confirm_password) {
         $error_message = "Confirm password does not match.";
     } else if (isEmailRegistered($conn, $email)) {
         $error_message = "This email is already registered.";
@@ -53,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <body>
                     <h1>Wellcome!</h1>
                     <p>Thank you for registering an account. Please click the button below to confirm your registration:</p>
-                    <a href='$confirm_link' style='display: inline-block; padding: 10px 20px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;'>Confirm registration</a>
+                    <a href='$confirm_link' style='display: inline-block; padding: 10px 20px; color: #fff; background-color: #007bff; text-decoration: none;'>Confirm registration</a>
                 </body>
                 </html>
             ";
