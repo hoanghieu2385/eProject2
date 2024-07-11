@@ -68,7 +68,7 @@ include('../middleware/adminMiddleware.php');
                             </div>
                             <div class="col-md-12">
                                 <label for="">Album Name</label>
-                                <input type="text" required name="category_name" placeholder="Enter Category Name" class="form-control">
+                                <input type="text" required name="album" placeholder="Enter Category Name" class="form-control">
                             </div> 
                             <div class="col-md-12">
                                 <label for="">Description</label>
@@ -80,10 +80,18 @@ include('../middleware/adminMiddleware.php');
                             </div>
                             <div class="col-md-6">
                                 <label for="">Current Price</label>
-                                <input type="number" name="parent_category_id" placeholder="If available.." class="form-control">
+                                <input type="number" name="current_price" placeholder="Enter current selling price" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Quantity</label>
+                                <input type="number" name="quantity" placeholder="Enter amount of products.." class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Supplier</label>
+                                <input type="number" name="supplier" placeholder="Enter supplier Name" class="form-control">
                             </div>
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary" name="add_category_btn">Add new Category</button>
+                                <button type="submit" class="btn btn-primary" name="add_product_btn">Add new Product</button>
                             </div>
                         </div>
                     </form>

@@ -60,4 +60,6 @@ if (isset($_POST['add_category_btn'])) {
     } else {
         redirect("product_category.php", "Something went wrong with the category deletion.");
     }
+} else if (isset($_POST['add_product_btn'])) {
+    
 }
