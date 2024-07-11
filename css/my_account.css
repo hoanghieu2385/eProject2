@@ -256,8 +256,9 @@
 
 .form-group label {
     display: block;
-    font-size: 18px;
-    color: #666;
+    margin-bottom: 5px;
+        color: #555;
+    font-weight: 500;
 }
 
 .password-input {
@@ -310,4 +311,19 @@
 .footer-wrapper * {
     display: block;
     box-sizing: border-box;
+}
+
+/* Styles for Dark Mode */
+
+body.dark-mode h2.sidebar-text{
+    color: #333;
+}
+
+body.dark-mode .sidebar button:hover {
+    border-right: 2px solid #c16161;
+}
+
+body.dark-mode .sidebar button.active {
+    border-right: 2px solid #c16161;
+    background-color: #dfdbe0;
 }
