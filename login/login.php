@@ -70,6 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
 
                 if ($row && password_verify($password, $row['password'])) {
                     if ($row['token'] === null) {
+                        $_SESSION['login'] = true;
+                        $_SESSION['user_email'] = $email;
+                        $_SESSION['user_id'] = $row['id'];
 
                         $_SESSION['auth'] = true;
                         $_SESSION['auth_user'] = [
@@ -83,6 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
                             setcookie('password', $password, time() + (86400 * 30), "/");
                         }
 
+
+                        $_SESSION['login_success'] = true;
                         if ($row['role_id'] == 1) {
                             header('Location: ../admin/index.php');
                         } else {
