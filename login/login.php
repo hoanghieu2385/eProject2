@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-btn'])) {
                         if ($row['role_id'] == 1) {
                             header('Location: ../admin/index.php');
                         } else {
-                            header('Location: ../index.php?message=success');
+                            header('Location: ../index.php');
                         }
                         exit;
                     } else {
