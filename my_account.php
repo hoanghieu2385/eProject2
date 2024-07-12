@@ -103,9 +103,9 @@
                         <input type="tel" id="phoneNumber" name="phoneNumber" disabled>
                     </div>
                     <div class="form-actions">
-                        <button type="button" id="editButton" onclick="toggleEdit()">Edit</button>
-                        <button type="submit" id="updateButton" style="display: none;">Update</button>
-                        <button type="button" id="cancelButton" onclick="cancelEdit()" style="display: none;">Cancel</button>
+                        <button type="button" id="editAccountButton">Edit</button>
+                        <button type="submit" id="updateAccountButton" style="display: none;">Update</button>
+                        <button type="button" id="cancelAccountButton" style="display: none;">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -297,61 +297,56 @@
 
 
         // Account Detail
-        // Retrieving User Data
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', './includes/my-account/account-detail.php', true);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                var user = JSON.parse(xhr.responseText);
-                document.getElementById('firstName').value = user.first_name || 'Not set';
-                document.getElementById('lastName').value = user.last_name || 'Not set';
-                document.getElementById('email').value = user.email_address || 'Not set';
-                document.getElementById('phoneNumber').value = user.phone_number || 'Not set';
+        $.ajax({
+            url: './includes/my-account/account-detail.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                $('#firstName').val(data.first_name || 'Not set');
+                $('#lastName').val(data.last_name || 'Not set');
+                $('#email').val(data.email_address || 'Not set');
+                $('#phoneNumber').val(data.phone_number || 'Not set');
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching account details: " + error);
             }
-        };
-        xhr.send();
+        });
 
-        function toggleEdit() {
-            const inputs = document.querySelectorAll('#accountDetailsForm input:not([name="email"])');
-            const editButton = document.getElementById('editButton');
-            const updateButton = document.getElementById('updateButton');
-            const cancelButton = document.getElementById('cancelButton');
-
-            inputs.forEach(input => {
-                input.disabled = !input.disabled;
-                if (!input.disabled && input.value === 'Not set') {
-                    input.value = '';
+        $('#editAccountButton').click(function() {
+            $('#firstName, #lastName, #phoneNumber').prop('disabled', false).each(function() {
+                if ($(this).val() === 'Not set') {
+                    $(this).val('');
                 }
             });
-            editButton.style.display = 'none';
-            updateButton.style.display = 'inline-block';
-            cancelButton.style.display = 'inline-block';
-        }
+            $(this).hide();
+            $('#updateAccountButton, #cancelAccountButton').show();
+        });
 
-        function cancelEdit() {
-            const form = document.getElementById('accountDetailsForm');
-            const inputs = form.querySelectorAll('input');
-            const editButton = document.getElementById('editButton');
-            const updateButton = document.getElementById('updateButton');
-            const cancelButton = document.getElementById('cancelButton');
-
-            inputs.forEach(input => {
-                input.disabled = true;
-                if (input.value === '') {
-                    input.value = 'Not set';
+        $('#cancelAccountButton').click(function() {
+            $.ajax({
+                url: './includes/my-account/account-detail.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#firstName').val(data.first_name || 'Not set');
+                    $('#lastName').val(data.last_name || 'Not set');
+                    $('#email').val(data.email_address || 'Not set');
+                    $('#phoneNumber').val(data.phone_number || 'Not set');
+                    $('#firstName, #lastName, #phoneNumber').prop('disabled', true);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching account details: " + error);
                 }
             });
+            $('#editAccountButton').show();
+            $('#updateAccountButton, #cancelAccountButton').hide();
+        });
 
-            editButton.style.display = 'inline-block';
-            updateButton.style.display = 'none';
-            cancelButton.style.display = 'none';
-        }
-
-        document.getElementById('accountDetailsForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+        $('#accountDetailsForm').on('submit', function(e) {
+            e.preventDefault();
 
             // Validate phone number
-            const phoneNumber = document.getElementById('phoneNumber').value;
+            const phoneNumber = $('#phoneNumber').val();
             const phoneRegex = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
 
             if (phoneNumber !== 'Not set' && !phoneRegex.test(phoneNumber)) {
@@ -359,25 +354,25 @@
                 return;
             }
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', './includes/my-account/account-detail.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
+            $.ajax({
+                url: './includes/my-account/account-detail.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
                     if (response.success) {
-                        alert('Account details updated successfully!');
-                        toggleEdit(); // Disable inputs and show edit button
+                        alert(response.message);
+                        $('#firstName, #lastName, #phoneNumber').prop('disabled', true);
+                        $('#editAccountButton').show();
+                        $('#updateAccountButton, #cancelAccountButton').hide();
                     } else {
-                        alert('Error updating account details: ' + response.message);
+                        alert("Error updating account details: " + response.message);
                     }
-                } else {
-                    alert('An error occurred while updating account details.');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error updating account details: " + error);
                 }
-            };
-            xhr.send('firstName=' + encodeURIComponent(document.getElementById('firstName').value) +
-                '&lastName=' + encodeURIComponent(document.getElementById('lastName').value) +
-                '&phoneNumber=' + encodeURIComponent(document.getElementById('phoneNumber').value));
+            });
         });
 
 
