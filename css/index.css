@@ -141,6 +141,10 @@ h2 {
     margin: 10px 0;
 }
 
+body.dark-mode .album-item p{
+    color: #fff;
+}
+
 .album-item button {
     border: none;
     padding: 5px 10px;
@@ -148,6 +152,10 @@ h2 {
     border-radius: 25px;
     border: 1px solid;
     background-color: transparent;
+}
+
+body.dark-mode .album-item button{
+    color: #fff;
 }
 
 
