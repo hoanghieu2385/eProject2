@@ -61,5 +61,36 @@ if (isset($_POST['add_category_btn'])) {
         redirect("product_category.php", "Something went wrong with the category deletion.");
     }
 } else if (isset($_POST['add_product_btn'])) {
-    
+
+    $category_id = $_POST['category_id'];
+    $artist_id = $_POST['artist_id'];
+    $album = $_POST['album'];
+    $description = $_POST['description'];
+    $current_price = $_POST['current_price'];
+
+    $image = $_FILES['image']['name'];
+
+    $path = "../uploads";
+
+    $image_ext = pathinfo($image, PATHINFO_EXTENSION);
+    $filename = time() . '.' . $image_ext;
+
+    if ($category_id != "" && $artist_id != "" && $album != "" && $description != "" && $current_price != "") {
+        $product_query = "INSERT INTO product (category_id, artist_id, album, description, current_price) 
+                            VALUES ('$category_id', '$artist_id', '$album', '$description', '$current_price')";
+
+        $product_query_run = mysqli_query($con, $product_query);
+
+        if ($product_query_run) {
+
+            move_uploaded_file($_FILES['image']['tmp_name'], $path . '/' . $filename);
+
+            redirect("product.php", "Product added Successfully!");
+        } else {
+
+            redirect("product.php", "Something went wrong!");
+        }
+    } else {
+        redirect("product.php", "Please fill in the blanks!");
+    }
 }
