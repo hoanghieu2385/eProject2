@@ -12,13 +12,8 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 999;
+    z-index: 99;
     transition: all 0.3s ease;
-}
-
-header.sticky {
-    background-color: #f0ece8;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .container-header {
@@ -73,16 +68,16 @@ header.sticky {
     left: 0;
     right: 0;
     background-color: white;
-    border: 1px solid #ddd;
+    border: 1px;
     border-top: none;
     list-style-type: none;
     margin: 0;
     padding: 0;
     max-height: 400px;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 10;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 0 0 15px 15px;
+    border-radius: 0 0 10px 10px;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
@@ -97,6 +92,14 @@ header.sticky {
     cursor: pointer;
     align-items: center;
     border-bottom: 1px solid #eee;
+}
+
+.suggestion-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
 }
 
 .suggestion-item:last-child {
@@ -132,17 +135,11 @@ header.sticky {
     color: #333;
 }
 
-.suggestion-price {
+.suggestion-artist,
+.suggestion-price,
+.suggestion-type {
     font-size: 0.9em;
     color: #666;
-}
-
-.suggestion-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    width: 100%;
 }
 
 .suggestion-item:hover {
@@ -177,7 +174,7 @@ header.sticky {
     display: block;
     min-width: 120px;
     margin-top: -1.5px;
-    right: -10px;
+    right: -15px;
     opacity: 1;
     visibility: visible;
 }
