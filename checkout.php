@@ -174,7 +174,7 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="paymentMethod" id="pickup" value="pickup">
                                         <label class="form-check-label" for="pickup">
-                                            NHẬN TẠI 11/133 THÁI HÀ (Thanh toán trước & đến lấy)
+                                            NHẬN TẠI ....(Thanh toán trước & đến lấy)
                                         </label>
                                     </div>
                                 </td>

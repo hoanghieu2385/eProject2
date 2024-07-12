@@ -222,16 +222,16 @@
     cursor: pointer;
 }
 
-#editButton,
-#updateButton,
-#cancelButton {
+#editAccountButton,
+#updateAccountButton,
+#cancelAccountButton {
     background-color: #7d7d7d;
     color: white;
 }
 
-#editButton:hover,
-#updateButton:hover,
-#cancelButton:hover {
+#editAccountButton:hover,
+#updateAccountButton:hover,
+#cancelAccountButton:hover {
     background-color: #919294;
 }
 

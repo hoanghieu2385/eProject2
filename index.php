@@ -150,7 +150,6 @@ if ($result_bestsellers->num_rows > 0) {
     <?php include './includes/cart.php' ?>
     <?php include './includes/footer.php' ?>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var alert = document.querySelector('.alert');
