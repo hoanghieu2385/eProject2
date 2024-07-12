@@ -122,7 +122,7 @@ include('../middleware/adminMiddleware.php');
                                         <td> <?= $item['artist_id']; ?></td>
                                         <td> <?= $item['album']; ?></td>
                                         <td>
-                                            <img src="../uploads/<?= $item['album']; ?>" width="50px" height="50px" alt="<?= $item['album']; ?>">
+                                            <img src="../uploads/<?= $item['product_image']; ?>" width="50px" height="50px" alt="<?= $item['album']; ?>">
                                         </td>
                                         <td> <?= $item['current_price']; ?></td>
 

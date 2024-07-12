@@ -76,14 +76,14 @@ if (isset($_POST['add_category_btn'])) {
     $filename = time() . '.' . $image_ext;
 
     if ($category_id != "" && $artist_id != "" && $album != "" && $description != "" && $current_price != "") {
-        $product_query = "INSERT INTO product (category_id, artist_id, album, description, current_price) 
-                            VALUES ('$category_id', '$artist_id', '$album', '$description', '$current_price')";
+        $product_query = "INSERT INTO product (category_id, artist_id, album, description, product_image, current_price) 
+                            VALUES ('$category_id', '$artist_id', '$album', '$description', '$filename', '$current_price')";
 
         $product_query_run = mysqli_query($con, $product_query);
 
         if ($product_query_run) {
 
-            move_uploaded_file($_FILES['image']['tmp_name'], $path . '/' . $filename);
+            move_uploaded_file($_FILES['image']['tmp_name'], $path .'/'.$filename);
 
             redirect("product.php", "Product added Successfully!");
         } else {
