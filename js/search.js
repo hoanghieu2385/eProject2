@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('search');
     const suggestionsList = document.createElement('ul');
     suggestionsList.className = 'suggestions-list';
@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let debounceTimer;
 
-    searchInput.addEventListener('input', function() {
+    searchInput.addEventListener('input', function () {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             const query = this.value.trim();
@@ -32,23 +32,31 @@ document.addEventListener('DOMContentLoaded', function() {
         suggestions.forEach(suggestion => {
             const li = document.createElement('li');
             li.className = 'suggestion-item';
-            
-            li.innerHTML = `
-                <div class="suggestion-image">
-                    <img src="${suggestion.image}" alt="${suggestion.name}">
-                </div>
-                <div class="suggestion-info">
-                    <div class="suggestion-name">${suggestion.name}</div>
-                    <div class="suggestion-price">$${suggestion.price}</div>
-                </div>
-            `;
-    
-            li.addEventListener('click', () => {
-                searchInput.value = suggestion.name;
-                clearSuggestions();
-                // Implement search functionality here
-                // For example: window.location.href = `search_results.php?q=${encodeURIComponent(suggestion.name)}`;
-            });
+
+            if (suggestion.type === 'album') {
+                li.innerHTML = `
+                    <a href="product-detail.php?id=${suggestion.id}" class="suggestion-link">
+                        <div class="suggestion-image">
+                            <img src="${suggestion.image}" alt="${suggestion.name}">
+                        </div>
+                        <div class="suggestion-info">
+                            <div class="suggestion-name">${suggestion.name}</div>
+                            <div class="suggestion-artist">${suggestion.artist}</div>
+                            <div class="suggestion-price">$${suggestion.price}</div>
+                        </div>
+                    </a>
+                `;
+            } else if (suggestion.type === 'artist') {
+                li.innerHTML = `
+                    <a href="artist-detail.php?id=${suggestion.id}" class="suggestion-link">
+                        <div class="suggestion-info">
+                            <div class="suggestion-name">${suggestion.name}</div>
+                            <div class="suggestion-type">Artist</div>
+                        </div>
+                    </a>
+                `;
+            }
+
             suggestionsList.appendChild(li);
         });
     }
@@ -58,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Close suggestions when clicking outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
         if (!searchInput.contains(event.target) && !suggestionsList.contains(event.target)) {
             clearSuggestions();
         }

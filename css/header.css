@@ -57,7 +57,7 @@ header.sticky {
     border-radius: 15px;
     background-color: #f2f2f2;
     font-size: 16px;
-    width: 300px;
+    width: 250px;
 }
 
 .search-container .fa-magnifying-glass {
@@ -83,6 +83,12 @@ header.sticky {
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     border-radius: 0 0 15px 15px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.suggestions-list::-webkit-scrollbar {
+    display: none;
 }
 
 .suggestion-item {
@@ -129,6 +135,18 @@ header.sticky {
 .suggestion-price {
     font-size: 0.9em;
     color: #666;
+}
+
+.suggestion-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
 }
 
 /* ========= User Icon  ========= */
