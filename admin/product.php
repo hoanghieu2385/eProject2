@@ -18,7 +18,7 @@ include('../middleware/adminMiddleware.php');
                         <div class="row gy-2">
                             <div class="col-md-6">
                                 <label class="mb-0">Select Category</label>
-                                <select name="category_id" class="form-select mb-2">
+                                <select name="category_id" required class="form-select mb-2">
                                     <option selected>Select Product Category</option>
 
                                     <?php
@@ -43,7 +43,7 @@ include('../middleware/adminMiddleware.php');
                             </div>
                             <div class="col-md-6">
                                 <label class="mb-0">Select Artist</label>
-                                <select name="artist_id" class="form-select mb-2">
+                                <select name="artist_id" required class="form-select mb-2">
                                     <option selected>Select Artist</option>
 
                                     <?php
@@ -80,7 +80,7 @@ include('../middleware/adminMiddleware.php');
                             </div>
                             <div class="col-md-6">
                                 <label class="mb-0">Current Price</label>
-                                <input type="number" name="current_price" placeholder="Enter current selling price" class="form-control mb-2" min="0" value="0" step=".01">
+                                <input type="number" readonly name="current_price" placeholder="Enter current selling price" class="form-control mb-2" min="0" value="0" step=".01">
                             </div>
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary" name="add_product_btn">Add New Product</button>
