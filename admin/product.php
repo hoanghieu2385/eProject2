@@ -80,7 +80,7 @@ include('../middleware/adminMiddleware.php');
                             </div>
                             <div class="col-md-6">
                                 <label class="mb-0">Current Price</label>
-                                <input type="number" readonly name="current_price" placeholder="Enter current selling price" class="form-control mb-2" min="0" value="0" step=".01">
+                                <input type="number" required name="current_price" placeholder="Enter current selling price" class="form-control mb-2" min="0" value="0" step=".01">
                             </div>
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary" name="add_product_btn">Add New Product</button>
