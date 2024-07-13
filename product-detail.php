@@ -65,7 +65,7 @@ $related_products = $result_related->fetch_all(MYSQLI_ASSOC);
     <?php include './includes/header.php' ?>
     <div class="productcontainer">
         <div class="image-container">
-            <img src="<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['album']); ?>">
+            <img src="./uploads/ <?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['album']); ?>">
             <!-- Add additional image if available -->
         </div>
         <div class="description-container">

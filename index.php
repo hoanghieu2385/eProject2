@@ -114,12 +114,13 @@ if ($result_bestsellers->num_rows > 0) {
                 </div>
             </section>
             <!-- Trong phần New Release -->
+            <h2>NEW RELEASE</h2>
             <div class="carousel" data-flickity='{ "wrapAround": true, "autoPlay": true }'>
                 <?php foreach ($products as $product) : ?>
                     <div class="carousel-cell">
                         <div class="album-item">
                             <a href="product-detail.php?id=<?php echo $product['id']; ?>">
-                                <img src="<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['album']); ?>">
+                                <img src="./uploads/<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['album']); ?>">
                                 <p><?php echo htmlspecialchars($product['album']); ?><br>by <em><?php echo htmlspecialchars($product['artist_name']); ?></em></p>
                             </a>
                             <p>$<?php echo number_format($product['current_price'], 2); ?></p>
@@ -130,12 +131,13 @@ if ($result_bestsellers->num_rows > 0) {
             </div>
 
             <!-- Trong phần Bestsellers -->
+            <h2>BESTSELLERS</h2>
             <div class="carousel" data-flickity='{ "wrapAround": true, "autoPlay": true}'>
                 <?php foreach ($bestsellers as $bestseller) : ?>
                     <div class="carousel-cell">
                         <div class="album-item">
                             <a href="product-detail.php?id=<?php echo $bestseller['id']; ?>">
-                                <img src="<?php echo htmlspecialchars($bestseller['product_image']); ?>" alt="<?php echo htmlspecialchars($bestseller['album']); ?>">
+                                <img src="./uploads/<?php echo htmlspecialchars($bestseller['product_image']); ?>" alt="<?php echo htmlspecialchars($bestseller['album']); ?>">
                                 <p><?php echo htmlspecialchars($bestseller['album']); ?><br>by <em><?php echo htmlspecialchars($bestseller['artist_name']); ?></em></p>
                             </a>
                             <p>$<?php echo number_format($bestseller['current_price'], 2); ?></p>
