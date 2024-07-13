@@ -149,7 +149,7 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
                         </thead>
                         <tbody>
                             <tr>
-                                <td>21 Savage - i am > i was (PA) (2 LP) (150g Vinyl/ Includes Download Insert) × 1</td>
+                                <td>21 Savage - i am > i was (PA) (2 LP) (150g Vinyl/ Includes Download Insert) <b>× 1</b></td>
                                 <td class="text-end">1,030,000 ₫</td>
                             </tr>
                             <tr>
