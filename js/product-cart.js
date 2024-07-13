@@ -94,13 +94,30 @@
         }
 
         function updateSubtotal() {
+            // Cập nhật số lượng sản phẩm trong giỏ hàng
+            const cartCountElement = document.getElementById('cart-count');
+            if (!cartCountElement) {
+                console.error("Cart count element not found");
+                return;
+            }
+
             const items = cartItems.querySelectorAll('.item:not([style*="display: none"])');
+            let totalItems = 0;
             let total = 0;
+
             items.forEach(function (item) {
                 const price = parseFloat(item.querySelector('.price').textContent.replace('$', ''));
                 const quantity = parseInt(item.querySelector('.quantity input').value);
+                totalItems += quantity;
                 total += price * quantity;
             });
+
+            // Cập nhật số lượng sản phẩm
+            cartCountElement.textContent = totalItems;
+            cartCountElement.style.display = totalItems > 0 ? 'flex' : 'none';
+            console.log('Cart count updated:', totalItems);
+
+            // Cập nhật tổng giá trị
             subtotalElem.textContent = '$' + total.toFixed(2);
             console.log('New subtotal:', subtotalElem.textContent);
         }
@@ -181,6 +198,8 @@
         });
 
         loadCart();
+
+        updateSubtotal();
 
         console.log("Cart initialization complete");
     }
