@@ -191,6 +191,13 @@
         });
 
         document.addEventListener('click', function (e) {
+            if (!e.target.classList.contains('quantity-input')) {
+                updateSubtotal();
+                saveCart();
+            }
+        });
+
+        document.addEventListener('click', function (e) {
             if (cart && cart.classList.contains('open') && !cart.contains(e.target) && e.target !== cartIcon) {
                 console.log('Closing cart due to outside click');
                 closeCart();
