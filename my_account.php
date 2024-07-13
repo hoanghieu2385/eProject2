@@ -222,10 +222,10 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
-                    $('#province').val(data.tỉnh_thành_phố);
-                    $('#district').val(data.quận_huyện);
-                    $('#ward').val(data.xã_phường);
-                    $('#detailedAddress').val(data.địa_chỉ);
+                    $('#province').val(data.city);
+                    $('#district').val(data.district);
+                    $('#ward').val(data.ward);
+                    $('#detailedAddress').val(data.address);
                     $('#province, #district, #ward, #detailedAddress').prop('disabled', true);
                 },
                 error: function(xhr, status, error) {
@@ -243,10 +243,10 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
-                    $('#province').val(data.tỉnh_thành_phố);
-                    $('#district').val(data.quận_huyện);
-                    $('#ward').val(data.xã_phường);
-                    $('#detailedAddress').val(data.địa_chỉ);
+                    $('#province').val(data.city);
+                    $('#district').val(data.district);
+                    $('#ward').val(data.ward);
+                    $('#detailedAddress').val(data.address);
                 },
                 error: function(xhr, status, error) {
                     console.error("Error fetching address: " + error);
