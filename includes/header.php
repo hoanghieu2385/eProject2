@@ -52,43 +52,18 @@
             <ul id="main-menu">
                 <li>
                     <a href="#">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
-                    <ul class="sub-menu">
-                        <li><a href="./residential.html">Residential</a></li>
-                        <li><a href="./commercial.html">Commercial</a></li>
-                        <li><a href="./fact_and_methods.html">Facts</a></li>
-                    </ul>
                 </li>
                 <li>
                     <a href="#">CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
-                    <ul class="sub-menu">
-                        <li><a href="./residential.html">Residential</a></li>
-                        <li><a href="./commercial.html">Commercial</a></li>
-                        <li><a href="./fact_and_methods.html">Facts</a></li>
-                    </ul>
                 </li>
                 <li>
                     <a href="#">Cassettes <span><i class="fa-solid fa-caret-down"></i></span></a>
-                    <ul class="sub-menu">
-                        <li><a href="./residential.html">Residential</a></li>
-                        <li><a href="./commercial.html">Commercial</a></li>
-                        <li><a href="./fact_and_methods.html">Facts</a></li>
-                    </ul>
                 </li>
                 <li>
                     <a href="#">Artists<span><i class="fa-solid fa-caret-down"></i></span></a>
-                    <ul class="sub-menu">
-                        <li><a href="./residential.html">Residential</a></li>
-                        <li><a href="./commercial.html">Commercial</a></li>
-                        <li><a href="./fact_and_methods.html">Facts</a></li>
-                    </ul>
                 </li>
                 <li>
                     <a href="#">Genres<span><i class="fa-solid fa-caret-down"></i></span></a>
-                    <ul class="sub-menu">
-                        <li><a href="./residential.html">Residential</a></li>
-                        <li><a href="./commercial.html">Commercial</a></li>
-                        <li><a href="./fact_and_methods.html">Facts</a></li>
-                    </ul>
                 </li>
                 </li>
 
