@@ -134,10 +134,13 @@ if (isset($_POST['add_category_btn'])) {
             }
         }
 
-        redirect("edit_product.php?id=$product_id", "Product Updated Successfully!");
+        // redirect("edit_product.php?id=$product_id", "Product Updated Successfully!");
+        redirect("product.php", "Product Updated Successfully!");
+
     } else {
 
-        redirect("edit_product.php?id=$product_id", "Something went wrong!");
+       // redirect("edit_product.php?id=$product_id", "Something went wrong!");
+       redirect("product.php", "Something went wrong!");
     }
 } else {
     header('Location: ../index.php');
