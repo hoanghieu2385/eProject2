@@ -76,11 +76,11 @@ include('../middleware/adminMiddleware.php');
                             </div>
                             <div class="col-md-6">
                                 <label class="mb-0">Upload Image</label>
-                                <input type="file" name="image" class="form-control mb-2">
+                                <input type="file" required name="image" class="form-control mb-2">
                             </div>
                             <div class="col-md-6">
                                 <label class="mb-0">Current Price</label>
-                                <input type="number" name="current_price" placeholder="Enter current selling price" class="form-control mb-2">
+                                <input type="number" name="current_price" placeholder="Enter current selling price" class="form-control mb-2" min="0" value="0" step=".01">
                             </div>
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary" name="add_product_btn">Add New Product</button>
@@ -122,7 +122,7 @@ include('../middleware/adminMiddleware.php');
                                         <td> <?= $item['artist_id']; ?></td>
                                         <td> <?= $item['album']; ?></td>
                                         <td>
-                                            <img src="../uploads/<?= $item['product_image']; ?>" width="50px" height="50px" alt="<?= $item['album']; ?>">
+                                            <img src="../uploads/<?= $item['product_image']; ?>" width="70px" height="70px" alt="<?= $item['album']; ?>">
                                         </td>
                                         <td> <?= $item['current_price']; ?></td>
 

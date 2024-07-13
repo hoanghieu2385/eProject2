@@ -83,7 +83,7 @@ if (isset($_POST['add_category_btn'])) {
 
         if ($product_query_run) {
 
-            move_uploaded_file($_FILES['image']['tmp_name'], $path .'/'.$filename);
+            move_uploaded_file($_FILES['image']['tmp_name'], $path . '/' . $filename);
 
             redirect("product.php", "Product added Successfully!");
         } else {
@@ -93,4 +93,52 @@ if (isset($_POST['add_category_btn'])) {
     } else {
         redirect("product.php", "Please fill in the blanks!");
     }
+} else if (isset($_POST['update_product_btn'])) {
+
+    $product_id = $_POST['product_id'];
+    $category_id = $_POST['category_id'];
+    $artist_id = $_POST['artist_id'];
+    $album = $_POST['album'];
+    $description = $_POST['description'];
+    $current_price = $_POST['current_price'];
+
+    $path = "../uploads";
+
+    $new_image = $_FILES['image']['name'];
+    $old_image = $_POST['old_image'];
+
+    if ($new_image != "") {
+
+        $image_ext = pathinfo($new_image, PATHINFO_EXTENSION);
+        $update_filename = time() . '.' . $image_ext;
+    } else {
+
+        $update_filename = $old_image;
+    }
+
+    $update_product_query = "UPDATE product 
+    SET category_id = '$category_id', artist_id = '$artist_id', album = ' $album', description = '$description', current_price = '$current_price', product_image = '$update_filename' 
+    WHERE id = $product_id";
+
+    $update_product_query_run = mysqli_query($con, $update_product_query);
+
+    if ($update_product_query_run) {
+
+        if ($_FILES['image']['name'] != "") {
+
+            move_uploaded_file($_FILES['image']['tmp_name'], $path . '/' . $update_filename);
+
+            if (file_exists("../uploads/" . $old_image)) {
+
+                unlink("../uploads/" . $old_image);
+            }
+        }
+
+        redirect("edit_product.php?id=$product_id", "Product Updated Successfully!");
+    } else {
+
+        redirect("edit_product.php?id=$product_id", "Something went wrong!");
+    }
+} else {
+    header('Location: ../index.php');
 }
