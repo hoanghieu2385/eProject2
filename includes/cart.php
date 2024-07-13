@@ -24,7 +24,7 @@
     <div class="cart-footer">
         <p>Subtotal: <span class="subtotal">$0.00</span></p>
         <p class="shipping-note">Shipping and taxes calculated at checkout</p>
-        <button class="view-cart">VIEW CART</button>
+        <button class="view-cart">CHECKOUT</button>
     </div>
 </div>
 
