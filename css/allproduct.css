@@ -1,0 +1,206 @@
+.hoot-records {
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.hoot-records__title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.hoot-records__description {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.hoot-records__content {
+    display: flex;
+}
+
+.hoot-records__filters {
+    width: 200px;
+    margin-right: 20px;
+}
+
+.hoot-records__main {
+    flex: 1;
+}
+
+.hoot-records__sort {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.hoot-records__sort label {
+    margin-right: 10px;
+}
+
+.hoot-records__sort select {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.hoot-records__filters-detail {
+    display: flex;
+    flex-direction: column;
+}
+
+.hoot-records__filter-group {
+    width: 100%;
+}
+
+.filter-item {
+    margin-bottom: 10px;
+}
+
+.filter-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    padding: 10px 0;
+}
+
+.filter-content {
+    display: none;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+    padding-left: 20px;
+}
+
+.filter-content label {
+    display: block;
+    margin: 5px 0;
+}
+
+.arrow {
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    transition: transform 0.3s;
+}
+
+.arrow.up {
+    transform: rotate(-135deg);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 10px 0;
+}
+
+.hoot-records__filter-group h4 {
+    margin-bottom: 10px;
+}
+
+.hoot-records__records {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.hoot-records__record {
+    width: calc(22% - 20px);
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.hoot-records__record:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+.hoot-records__record img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.hoot-records__record h3 {
+    font-size: 16px;
+    margin: 10px 0 5px;
+}
+
+.hoot-records__record p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.hoot-records__price {
+    font-weight: bold;
+    color: #333;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.pagination a, .pagination span {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin: 0 4px;
+    border-radius: 4px;
+    transition: background-color .3s, color .3s;
+}
+
+.pagination a {
+    cursor: pointer;
+}
+
+.pagination a.active, .pagination a:hover {
+    background-color: #f0f0f0;
+    border-color: #bbb;
+    text-decoration: none;
+}
+
+.pagination span {
+    border: none;
+    padding: 8px 16px;
+}
+
+.pagination a.disabled {
+    pointer-events: none;
+    color: #bbb;
+}
+
+.pagination a:first-child, .pagination a:last-child {
+    padding: 8px;
+}
+
+.pagination a:first-child:hover, .pagination a:last-child:hover {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+
+@media (max-width: 768px) {
+    .hoot-records__record {
+        width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .hoot-records__record {
+        width: 100%;
+    }
+}
