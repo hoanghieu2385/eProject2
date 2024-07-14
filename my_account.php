@@ -169,6 +169,7 @@
                 section.classList.remove('active');
             });
 
+            // Update the browser's history state
             const newUrl = new URL(window.location);
             newUrl.searchParams.set('section', sectionId);
             history.pushState({}, '', newUrl);
@@ -203,6 +204,16 @@
         } else {
             showContent('order-History');
         }
+
+        // Listen for popstate events
+        window.addEventListener('popstate', function(event) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const section = urlParams.get('section');
+
+            if (section) {
+                showContent(section);
+            }
+        });
 
 
         // Address Book
