@@ -119,9 +119,34 @@ if (!$items_result) {
             <div class="order-container payment-info">
                 <h3>Thông tin thanh toán</h3>
                 <div class="product-item">
-                    <table class="table table-striped table-hover">
-                        <!-- ... (giữ nguyên nội dung) ... -->
-                    </table>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col-1">STT</th>
+                            <th scope="col" class="col-7">Product</th>
+                            <th scope="col" class="col-1">Price</th>
+                            <th scope="col" class="col-1">Quantity</th>
+                            <th scope="col" class="col-1">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $stt = 1;
+                        while ($item = $items_result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<th scope='row'>" . $stt++ . "</th>";
+                            echo "<td>" . $item['album'] . "</td>";
+                            echo "<td>$" . number_format($item['price_at_order'], 2) . "</td>";
+                            echo "<td>" . $item['qty'] . "</td>";
+                            echo "<td>$" . number_format($item['price_at_order'] * $item['qty'], 2) . "</td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                        <!-- <tr>
+                            <td colspan="3">Doanh thu đơn hàng</td>
+                        </tr> -->
+                    </tbody>
+                </table>
                 </div>
 
                 <div class="product-item total">
