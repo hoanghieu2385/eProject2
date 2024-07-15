@@ -79,23 +79,15 @@
 <script src="../js/check_login-logout.js"></script>
 <script>
     function logout() {
-        // Lưu URL hiện tại
-        var currentURL = window.location.href;
-
-        fetch('../login/logout.php', { // Đảm bảo đường dẫn này chính xác
+        fetch('../login/logout_reload.php', {
                 method: 'POST',
                 credentials: 'same-origin'
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Xóa thông tin đăng nhập từ localStorage nếu có
-                    localStorage.removeItem('userLoggedIn');
-                    localStorage.removeItem('userEmail');
-                    // Thêm bất kỳ item nào khác cần xóa
-
-                    // Chuyển hướng đến URL hiện tại
-                    window.location.href = currentURL;
+                    // Tải lại trang hiện tại
+                    window.location.href = window.location.href;
                 } else {
                     console.error('Logout failed');
                 }
