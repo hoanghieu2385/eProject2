@@ -1,12 +1,10 @@
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+// edit_address.js
 $(document).ready(function() {
-   
     let originalAddress = $('#address').text();
     let originalWard = $('#ward').text();
     let originalDistrict = $('#district').text();
     let originalCity = $('#city').text();
 
- 
     $('#editBtn').click(function() {
         $('#userInfo').hide();
         $('#editForm').show();
@@ -16,7 +14,6 @@ $(document).ready(function() {
         $('#editCity').val($('#city').text());
     });
 
- 
     $('#cancelBtn').click(function() {
         $('#editForm').hide();
         $('#userInfo').show();
