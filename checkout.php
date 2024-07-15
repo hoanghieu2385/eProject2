@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Record Store - Thanh Toán</title>
+    <title>Record Store - Checkout</title>
     <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
     <link rel="stylesheet" href="./css/checkout.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -116,34 +116,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-5">
-                <h2>CHI TIẾT THANH TOÁN</h2>
+                <h2>SHIPPING INFO</h2>
                 <div id="userInfo">
-                    <p><strong>Họ và tên:</strong> <span id="fullName"><?php echo $user_data['first_name'] . ' ' . $user_data['last_name']; ?></span></p>
-                    <p><strong>Số điện thoại:</strong> <span id="phone"><?php echo $user_data['phone_number']; ?></span></p>
-                    <p><strong>Địa chỉ email:</strong> <span id="email"><?php echo $user_data['email_address']; ?></span></p>
-                    <p><strong>Địa chỉ:</strong> <span id="address"><?php echo $address_data['address']; ?></span></p>
-                    <p><strong>Xã/Phường:</strong> <span id="ward"><?php echo $address_data['ward']; ?></span></p>
-                    <p><strong>Quận/Huyện:</strong> <span id="district"><?php echo $address_data['district']; ?></span></p>
-                    <p><strong>Tỉnh/Thành phố:</strong> <span id="city"><?php echo $address_data['city']; ?></span></p>
+                    <p><strong>NAME:</strong> <span id="fullName"><?php echo $user_data['first_name'] . ' ' . $user_data['last_name']; ?></span></p>
+                    <p><strong>PHONE NUMBER:</strong> <span id="phone"><?php echo $user_data['phone_number']; ?></span></p>
+                    <p><strong>EMAIL:</strong> <span id="email"><?php echo $user_data['email_address']; ?></span></p>
+                    <p><strong>ADDRESS:</strong> <span id="address"><?php echo $address_data['address']; ?></span></p>
+                    <p><strong>WARD:</strong> <span id="ward"><?php echo $address_data['ward']; ?></span></p>
+                    <p><strong>DISTRICT:</strong> <span id="district"><?php echo $address_data['district']; ?></span></p>
+                    <p><strong>CITY:</strong> <span id="city"><?php echo $address_data['city']; ?></span></p>
                 </div>
                 <div id="editForm" style="display: none;">
-                    <input type="text" id="editAddress" placeholder="Địa chỉ">
-                    <input type="text" id="editWard" placeholder="Xã/Phường">
-                    <input type="text" id="editDistrict" placeholder="Quận/Huyện">
-                    <input type="text" id="editCity" placeholder="Tỉnh/Thành phố">
-                    <button id="saveBtn">Lưu</button>
-                    <button id="cancelBtn">Hủy</button>
+                    <input type="text" id="editAddress" placeholder="Address">
+                    <input type="text" id="editWard" placeholder="Ward">
+                    <input type="text" id="editDistrict" placeholder="District">
+                    <input type="text" id="editCity" placeholder="City">
+                    <button id="saveBtn">Save</button>
+                    <button id="cancelBtn">Cancel</button>
                 </div>
-                <button id="editBtn">Chỉnh sửa địa chỉ</button>
+                <button id="editBtn">EDIT</button>
             </div>
             <div class="col-md-7">
-                <h2>ĐƠN HÀNG CỦA BẠN</h2>
+                <h2>YOUR ORDER</h2>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>SẢN PHẨM</th>
-                                <th class="text-end">TẠM TÍNH</th>
+                                <th>PRODUCT</th>
+                                <th class="text-end">TOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -163,11 +163,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
                                 </tr>
                             <?php } ?>
                             <tr>
-                                <td>TẠM TÍNH</td>
+                                <td>PROVISIONAL INVOICE</td>
                                 <td class="text-end"><?php echo number_format($totalPrice, 0, ',', '.'); ?> ₫</td>
                             </tr>
                             <tr>
-                                <td>GIAO HÀNG</td>
+                                <td>SHIPPING</td>
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="paymentMethod" id="transfer" value="transfer" checked>
@@ -178,25 +178,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="cod">
                                         <label class="form-check-label" for="cod">
-                                            THANH TOÁN KHI NHẬN HÀNG (COD): 65,000 ₫
+                                            THANH TOÁN KHI NHẬN HÀNG (COD): 50,000 ₫
                                         </label>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paymentMethod" id="pickup" value="pickup">
-                                        <label class="form-check-label" for="pickup">
-                                            NHẬN TẠI ....(Thanh toán trước & đến lấy)
-                                        </label>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>TỔNG</strong></td>
+                                <td><strong>TOTAL</strong></td>
                                 <td class="text-end"><strong id="totalPrice"><?php echo number_format($totalPrice, 0, ',', '.'); ?> ₫</strong></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <button type="button" id="orderButton" class="btn btn-dark btn-order w-100 mt-3">ĐẶT HÀNG</button>
+                <button type="button" id="orderButton" class="btn btn-dark btn-order w-100 mt-3">PLACE ORDER</button>
             </div>
         </div>
     </div>
@@ -212,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
                 if (this.value === 'transfer') {
                     shippingCost = 50000;
                 } else if (this.value === 'cod') {
-                    shippingCost = 65000;
+                    shippingCost = 50000;
                 }
 
                 let subtotal = <?php echo $totalPrice; ?>;
