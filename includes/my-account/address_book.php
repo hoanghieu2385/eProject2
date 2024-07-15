@@ -25,10 +25,10 @@ function getUserAddress($conn, $user_id) {
         return $address;
     } else {
         return [
-            'tỉnh_thành_phố' => 'Not set',
-            'quận_huyện' => 'Not set',
-            'xã_phường' => 'Not set',
-            'địa_chỉ' => 'Not set'
+            'city' => 'Not set',
+            'district' => 'Not set',
+            'ward' => 'Not set',
+            'address' => 'Not set'
         ];
     }
 }
@@ -56,13 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($checkResult->num_rows > 0) {
         // Update existing address
         $addressId = $checkResult->fetch_assoc()['address_id'];
-        $updateSql = "UPDATE address SET tỉnh_thành_phố = ?, quận_huyện = ?, xã_phường = ?, địa_chỉ = ? WHERE id = ?";
+        $updateSql = "UPDATE address SET city = ?, district = ?, ward = ?, address = ? WHERE id = ?";
         $updateStmt = $conn->prepare($updateSql);
         $updateStmt->bind_param("ssssi", $province, $district, $ward, $detailedAddress, $addressId);
         $updateStmt->execute();
     } else {
         // Insert new address
-        $insertAddressSql = "INSERT INTO address (tỉnh_thành_phố, quận_huyện, xã_phường, địa_chỉ) VALUES (?, ?, ?, ?)";
+        $insertAddressSql = "INSERT INTO address (city, district, ward, address) VALUES (?, ?, ?, ?)";
         $insertAddressStmt = $conn->prepare($insertAddressSql);
         $insertAddressStmt->bind_param("ssss", $province, $district, $ward, $detailedAddress);
         $insertAddressStmt->execute();
