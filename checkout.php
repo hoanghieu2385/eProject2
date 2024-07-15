@@ -1,6 +1,29 @@
 <?php
 session_start();
 
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "project2";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connect failed. " . $conn->connect_error);
+}
+
+$user_id = $_SESSION['user_id'];
+
+$user_query = "SELECT * FROM site_user WHERE id = $user_id";
+$user_result = $conn->query($user_query);
+$user_data = $user_result->fetch_assoc();
+
+$address_query = "SELECT * FROM address WHERE id = $user_id";
+$address_result = $conn->query($address_query);
+$address_data = $address_result->fetch_assoc();
+
+$conn->close();
+
 if (isset($_POST['dark_mode'])) {
     $_SESSION['dark_mode'] = $_POST['dark_mode'];
 }
@@ -18,6 +41,7 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
     <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
     <link rel="stylesheet" href="./css/checkout.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./js/edit_address.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -90,52 +114,24 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
         <div class="row">
             <div class="col-md-5">
                 <h2>CHI TIẾT THANH TOÁN</h2>
-                <form id="orderForm">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Họ và tên *</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Họ tên của bạn" required maxlength="40">
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="phone" class="form-label">Số điện thoại *</label>
-                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Số điện thoại của bạn" required maxlength="13" pattern="[0-9]{10}">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="email" class="form-label">Địa chỉ email *</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email của bạn" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="city" class="form-label">Tỉnh/Thành phố *</label>
-                            <select class="form-select" id="city" name="city" required>
-                                <option selected>Hà Nội</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="district" class="form-label">Quận/Huyện *</label>
-                            <select class="form-select" id="district" name="district" required>
-                                <option selected>Chọn quận huyện</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="ward" class="form-label">Xã/Phường *</label>
-                            <select class="form-select" id="ward" name="ward" required>
-                                <option selected>Chọn xã/phường</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="address" class="form-label">Địa chỉ *</label>
-                            <input type="text" class="form-control" id="address" name="address" placeholder="Ví dụ: Số 20, ngõ 90" required>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="note" class="form-label">Ghi chú đơn hàng (tùy chọn)</label>
-                        <textarea class="form-control" id="note" name="note" rows="3" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn."></textarea>
-                    </div>
-                </form>
+                <div id="userInfo">
+                    <p><strong>Họ và tên:</strong> <span id="fullName"><?php echo $user_data['first_name'] . ' ' . $user_data['last_name']; ?></span></p>
+                    <p><strong>Số điện thoại:</strong> <span id="phone"><?php echo $user_data['phone_number']; ?></span></p>
+                    <p><strong>Địa chỉ email:</strong> <span id="email"><?php echo $user_data['email_address']; ?></span></p>
+                    <p><strong>Địa chỉ:</strong> <span id="address"><?php echo $address_data['address']; ?></span></p>
+                    <p><strong>Xã/Phường:</strong> <span id="ward"><?php echo $address_data['ward']; ?></span></p>
+                    <p><strong>Quận/Huyện:</strong> <span id="district"><?php echo $address_data['district']; ?></span></p>
+                    <p><strong>Tỉnh/Thành phố:</strong> <span id="city"><?php echo $address_data['city']; ?></span></p>
+                </div>
+                <div id="editForm" style="display: none;">
+                    <input type="text" id="editAddress" placeholder="Địa chỉ">
+                    <input type="text" id="editWard" placeholder="Xã/Phường">
+                    <input type="text" id="editDistrict" placeholder="Quận/Huyện">
+                    <input type="text" id="editCity" placeholder="Tỉnh/Thành phố">
+                    <button id="saveBtn">Lưu</button>
+                    <button id="cancelBtn">Hủy</button>
+                </div>
+                <button id="editBtn">Chỉnh sửa địa chỉ</button>
             </div>
             <div class="col-md-7">
                 <h2>ĐƠN HÀNG CỦA BẠN</h2>
@@ -251,6 +247,79 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
             }
 
             updateTotalPrice();
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            let originalAddress = $('#address').text();
+            let originalWard = $('#ward').text();
+            let originalDistrict = $('#district').text();
+            let originalCity = $('#city').text();
+
+
+            $('#editBtn').click(function() {
+                $('#userInfo').hide();
+                $('#editForm').show();
+                $('#editAddress').val($('#address').text());
+                $('#editWard').val($('#ward').text());
+                $('#editDistrict').val($('#district').text());
+                $('#editCity').val($('#city').text());
+            });
+
+
+            $('#cancelBtn').click(function() {
+                $('#editForm').hide();
+                $('#userInfo').show();
+                $('#address').text(originalAddress);
+                $('#ward').text(originalWard);
+                $('#district').text(originalDistrict);
+                $('#city').text(originalCity);
+            });
+
+            $('#saveBtn').click(function() {
+                let newAddress = $('#editAddress').val();
+                let newWard = $('#editWard').val();
+                let newDistrict = $('#editDistrict').val();
+                let newCity = $('#editCity').val();
+
+                console.log('Sending AJAX request...');
+                $.ajax({
+                    url: 'update_address.php',
+                    method: 'POST',
+                    data: {
+                        address: newAddress,
+                        ward: newWard,
+                        district: newDistrict,
+                        city: newCity
+                    },
+                    success: function(response) {
+                        console.log('AJAX response:', response);
+                        if(response === 'success') {
+                            $('#address').text(newAddress);
+                            $('#ward').text(newWard);
+                            $('#district').text(newDistrict);
+                            $('#city').text(newCity);
+
+                            originalAddress = newAddress;
+                            originalWard = newWard;
+                            originalDistrict = newDistrict;
+                            originalCity = newCity;
+                            
+                            $('#editForm').hide();
+                            $('#userInfo').show();
+                            alert('Cập nhật địa chỉ thành công!');
+                        } else {
+                            alert('Có lỗi xảy ra khi cập nhật địa chỉ.');
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX error:', textStatus, errorThrown);
+                        alert('Có lỗi xảy ra khi kết nối với server.');
+                    }
+                });
+            });
         });
     </script>
 </body>
