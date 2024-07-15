@@ -27,7 +27,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
             echo "<td>" . $status_name . "</td>";
             echo "<td>$" . number_format($row['order_total'], 2) . "</td>";
             echo "<td>" . $row['shipment_tracking_id'] . "</td>";
-            echo "<td><button class='view-button'>View</button></td>";
+            echo "<td><a href='order-detail.php?id=" . $row['id'] . "' class='view-button'>View</a></td>";
             echo "</tr>";
         }
     } else {

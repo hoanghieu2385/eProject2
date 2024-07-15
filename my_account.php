@@ -169,6 +169,7 @@
                 section.classList.remove('active');
             });
 
+            // Update the browser's history state
             const newUrl = new URL(window.location);
             newUrl.searchParams.set('section', sectionId);
             history.pushState({}, '', newUrl);
@@ -204,6 +205,16 @@
             showContent('order-History');
         }
 
+        // Listen for popstate events
+        window.addEventListener('popstate', function(event) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const section = urlParams.get('section');
+
+            if (section) {
+                showContent(section);
+            }
+        });
+
 
         // Address Book
         $('#editAddressButton').click(function() {
@@ -222,10 +233,10 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
-                    $('#province').val(data.tỉnh_thành_phố);
-                    $('#district').val(data.quận_huyện);
-                    $('#ward').val(data.xã_phường);
-                    $('#detailedAddress').val(data.địa_chỉ);
+                    $('#province').val(data.city);
+                    $('#district').val(data.district);
+                    $('#ward').val(data.ward);
+                    $('#detailedAddress').val(data.address);
                     $('#province, #district, #ward, #detailedAddress').prop('disabled', true);
                 },
                 error: function(xhr, status, error) {
@@ -243,10 +254,10 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
-                    $('#province').val(data.tỉnh_thành_phố);
-                    $('#district').val(data.quận_huyện);
-                    $('#ward').val(data.xã_phường);
-                    $('#detailedAddress').val(data.địa_chỉ);
+                    $('#province').val(data.city);
+                    $('#district').val(data.district);
+                    $('#ward').val(data.ward);
+                    $('#detailedAddress').val(data.address);
                 },
                 error: function(xhr, status, error) {
                     console.error("Error fetching address: " + error);
