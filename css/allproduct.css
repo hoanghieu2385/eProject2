@@ -81,7 +81,7 @@
 }
 
 .filter-content.show {
-    max-height: 200px;
+    max-height: max-content;
     opacity: 1;
     padding: 10px 0 10px 20px;
 }
@@ -224,7 +224,7 @@ hr {
 }
 
 .filter-checkbox {
-    width: 20px;  /* kích thước rộng của checkbox */
+    width: auto;  /* kích thước rộng của checkbox */
     height: 20px; /* kích thước cao của checkbox */
     margin-right: 10px; /* khoảng cách giữa checkbox và văn bản */
 }

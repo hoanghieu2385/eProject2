@@ -10,47 +10,52 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Lấy danh sách các category
 $category_sql = "SELECT * FROM product_category";
 $category_result = $conn->query($category_sql);
 
-// Lấy danh sách các genre
 $genre_sql = "SELECT * FROM genre";
 $genre_result = $conn->query($genre_sql);
 
-// Lấy danh sách các artist
 $artist_sql = "SELECT * FROM artist";
 $artist_result = $conn->query($artist_sql);
 
-// Lấy danh sách các country
 $country_sql = "SELECT * FROM country";
 $country_result = $conn->query($country_sql);
 
 $conditions = [];
 
-if (isset($_GET['category']) && is_array($_GET['category'])) {
-    $category_ids = array_map('intval', $_GET['category']);
+$selected_categories = isset($_GET['category']) ? $_GET['category'] : [];
+$selected_genres = isset($_GET['genre']) ? $_GET['genre'] : [];
+$selected_artists = isset($_GET['artist']) ? $_GET['artist'] : [];
+$selected_countries = isset($_GET['country']) ? $_GET['country'] : [];
+
+if (!empty($selected_categories)) {
+    $category_ids = array_map('intval', $selected_categories);
     $category_list = implode(',', $category_ids);
     $conditions[] = "product.category_id IN ($category_list)";
 }
 
-if (isset($_GET['genre']) && is_array($_GET['genre'])) {
-    $genre_ids = array_map('intval', $_GET['genre']);
+if (!empty($selected_genres)) {
+    $genre_ids = array_map('intval', $selected_genres);
     $genre_list = implode(',', $genre_ids);
     $conditions[] = "artist_genre.genre_id IN ($genre_list)";
 }
 
-if (isset($_GET['artist']) && is_array($_GET['artist'])) {
-    $artist_ids = array_map('intval', $_GET['artist']);
+if (!empty($selected_artists)) {
+    $artist_ids = array_map('intval', $selected_artists);
     $artist_list = implode(',', $artist_ids);
     $conditions[] = "product.artist_id IN ($artist_list)";
 }
 
-if (isset($_GET['country']) && is_array($_GET['country'])) {
-    $country_ids = array_map('intval', $_GET['country']);
+if (!empty($selected_countries)) {
+    $country_ids = array_map('intval', $selected_countries);
     $country_list = implode(',', $country_ids);
     $conditions[] = "artist.country_id IN ($country_list)";
 }
+
+$products_per_page = 12;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $products_per_page;
 
 $sql = "SELECT DISTINCT product.id, product.album, product.description, product.product_image, product.current_price 
         FROM product 
@@ -62,30 +67,21 @@ if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
-$genre_filter = isset($_GET['genre']) ? $_GET['genre'] : [];
-$product_type_filter = isset($_GET['product_type']) ? $_GET['product_type'] : [];
 $sort_order = isset($_GET['sort']) ? $_GET['sort'] : 'best-selling';
 
-$sql = "SELECT product.id, product.album, product.description, product.product_image, product.current_price 
-        FROM product 
-        INNER JOIN artist_genre ON product.artist_id = artist_genre.artist_id
-        INNER JOIN genre ON artist_genre.genre_id = genre.id";
-
-$conditions = [];
-
-if (!empty($genre_filter)) {
-    $genre_list = implode("','", array_map([$conn, 'real_escape_string'], $genre_filter));
-    $conditions[] = "genre.genre_name IN ('$genre_list')";
-}
-
-if (!empty($product_type_filter)) {
-    $product_type_list = implode("','", array_map([$conn, 'real_escape_string'], $product_type_filter));
-    $conditions[] = "product.category_id IN (SELECT id FROM product_category WHERE category_name IN ('$product_type_list'))";
-}
+$total_sql = "SELECT COUNT(DISTINCT product.id) AS total 
+              FROM product 
+              INNER JOIN artist ON product.artist_id = artist.id
+              INNER JOIN artist_genre ON artist.id = artist_genre.artist_id
+              INNER JOIN genre ON artist_genre.genre_id = genre.id";
 
 if (!empty($conditions)) {
-    $sql .= " WHERE " . implode(" AND ", $conditions);
+    $total_sql .= " WHERE " . implode(" AND ", $conditions);
 }
+
+$total_result = $conn->query($total_sql);
+$total_products = $total_result->fetch_assoc()['total'];
+$total_pages = ceil($total_products / $products_per_page);
 
 switch ($sort_order) {
     case 'price-low-high':
@@ -99,9 +95,11 @@ switch ($sort_order) {
         break;
     case 'best-selling':
     default:
-        // Sắp xếp mặc định nếu cần
+        $sql .= " ORDER BY product.id DESC";
         break;
 }
+
+$sql .= " LIMIT $products_per_page OFFSET $offset";
 
 $result = $conn->query($sql);
 
@@ -163,7 +161,9 @@ $conn->close();
                                 <div class="filter-content">
                                     <?php while ($category = $category_result->fetch_assoc()): ?>
                                         <label>
-                                            <input type="checkbox" class="filter-checkbox" name="category[]" value="<?php echo htmlspecialchars($category['id']); ?>">
+                                            <input type="checkbox" class="filter-checkbox" name="category[]" 
+                                                   value="<?php echo htmlspecialchars($category['id']); ?>"
+                                                   <?php echo in_array($category['id'], $selected_categories) ? 'checked' : ''; ?>>
                                             <?php echo htmlspecialchars($category['category_name']); ?>
                                         </label>
                                     <?php endwhile; ?>
@@ -175,7 +175,9 @@ $conn->close();
                                 <div class="filter-content">
                                     <?php while ($genre = $genre_result->fetch_assoc()): ?>
                                         <label>
-                                            <input type="checkbox" class="filter-checkbox" name="genre[]" value="<?php echo htmlspecialchars($genre['id']); ?>">
+                                            <input type="checkbox" class="filter-checkbox" name="genre[]" 
+                                                   value="<?php echo htmlspecialchars($genre['id']); ?>"
+                                                   <?php echo in_array($genre['id'], $selected_genres) ? 'checked' : ''; ?>>
                                             <?php echo htmlspecialchars($genre['genre_name']); ?>
                                         </label>
                                     <?php endwhile; ?>
@@ -187,49 +189,19 @@ $conn->close();
                                 <div class="filter-content">
                                     <?php while ($artist = $artist_result->fetch_assoc()): ?>
                                         <label>
-                                            <input type="checkbox" class="filter-checkbox" name="artist[]" value="<?php echo htmlspecialchars($artist['id']); ?>">
+                                            <input type="checkbox" class="filter-checkbox" name="artist[]" 
+                                                   value="<?php echo htmlspecialchars($artist['id']); ?>"
+                                                   <?php echo in_array($artist['id'], $selected_artists) ? 'checked' : ''; ?>>
                                             <?php echo htmlspecialchars($artist['full_name']); ?>
                                         </label>
                                     <?php endwhile; ?>
                                 </div>
                             </div>
                             <hr>
-                            <!-- <div class="filter-item">
-                                <button type="button" class="filter-btn">Availability <span class="arrow"></span></button>
-                                <div class="filter-content">
-                                    <label><input type="checkbox" class="filter-checkbox" name="availability[]" value="In Stock"> In Stock</label>
-                                    <label><input type="checkbox" class="filter-checkbox" name="availability[]" value="Out of Stock"> Out of Stock</label>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="filter-item">
-                                <button type="button" class="filter-btn">Size <span class="arrow"></span></button>
-                                <div class="filter-content">
-                                    <label><input type="checkbox" class="filter-checkbox" name="size[]" value="7 inch"> 7 inch</label>
-                                    <label><input type="checkbox" class="filter-checkbox" name="size[]" value="10 inch"> 10 inch</label>
-                                    <label><input type="checkbox" class="filter-checkbox" name="size[]" value="12 inch"> 12 inch</label>
-                                    <label><input type="checkbox" class="filter-checkbox" name="size[]" value="Set"> Set</label>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="filter-item">
-                                <button type="button" class="filter-btn">Production Time <span class="arrow"></span></button>
-                                <div class="filter-content">
-                                    <label><input type="checkbox" class="filter-checkbox" name="production_time[]" value="1920s"> 1920s</label>
-                                    <label><input type="checkbox" class="filter-checkbox" name="production_time[]" value="1930s"> 1930s</label>
-                                    <label><input type="checkbox" class="filter-checkbox" name="production_time[]" value="1980s"> 1980s</label>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="filter-item">
-                                <button type="button" class="filter-btn">Label <span class="arrow"></span></button>
-                                <div class="filter-content">
-                                    <label><input type="checkbox" class="filter-checkbox" name="label[]" value="Label1"> Label1</label>
-                                    <label><input type="checkbox" class="filter-checkbox" name="label[]" value="Label2"> Label2</label>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
+                    <input type="hidden" name="sort" value="<?php echo htmlspecialchars($sort_order); ?>">
+                    <input type="hidden" name="page" value="1">
                     <button type="submit" class="apply-filters-btn">Apply Filters</button>
                 </form>
             </aside>
@@ -244,6 +216,19 @@ $conn->close();
                             <option value="price-high-low" <?php echo $sort_order == 'price-high-low' ? 'selected' : ''; ?>>Price, high to low</option>
                         </select>
                     </div>
+                    <?php
+                    foreach ($_GET as $key => $value) {
+                        if ($key != 'sort' && $key != 'page') {
+                            if (is_array($value)) {
+                                foreach ($value as $v) {
+                                    echo '<input type="hidden" name="' . htmlspecialchars($key) . '[]" value="' . htmlspecialchars($v) . '">';
+                                }
+                            } else {
+                                echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
+                            }
+                        }
+                    }
+                    ?>
                 </form>
                 <div class="hoot-records__records">
                     <?php
@@ -264,13 +249,27 @@ $conn->close();
             </div>
         </div>
         <div class="pagination">
-            <a href="#">&laquo;</a>
-            <a href="#" class="active">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <span>...</span>
-            <a href="#">10</a>
-            <a href="#">Next &raquo;</a>
+            <?php
+            $params = $_GET;
+            unset($params['page']);
+            $query_string = http_build_query($params);
+
+            if ($page > 1) {
+                echo '<a href="?page=' . ($page - 1) . '&' . $query_string . '">&laquo; Previous</a>';
+            }
+
+            for ($i = 1; $i <= $total_pages; $i++) {
+                if ($i == $page) {
+                    echo '<span class="current">' . $i . '</span>';
+                } else {
+                    echo '<a href="?page=' . $i . '&' . $query_string . '">' . $i . '</a>';
+                }
+            }
+
+            if ($page < $total_pages) {
+                echo '<a href="?page=' . ($page + 1) . '&' . $query_string . '">Next &raquo;</a>';
+            }
+            ?>
         </div>
     </main>
 
