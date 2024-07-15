@@ -24,11 +24,14 @@ $address_data = $address_result->fetch_assoc();
 
 $conn->close();
 
-if (isset($_POST['dark_mode'])) {
-    $_SESSION['dark_mode'] = $_POST['dark_mode'];
+// Xử lý dữ liệu giỏ hàng
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
+    $cartItems = json_decode($_POST['cartData'], true);
+} else {
+    // Nếu không có dữ liệu giỏ hàng, chuyển hướng người dùng về trang chủ
+    header('Location: index.php');
+    exit();
 }
-
-$dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
 ?>
 
 <!DOCTYPE html>
@@ -144,13 +147,24 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>21 Savage - i am > i was (PA) (2 LP) (150g Vinyl/ Includes Download Insert) <b>× 1</b></td>
-                                <td class="text-end">1,030,000 ₫</td>
-                            </tr>
+                            <?php
+                            $totalPrice = 0;
+                            foreach ($cartItems as $item) {
+                                // Chuyển đổi giá và số lượng thành số
+                                $price = floatval(str_replace(['$', ','], '', $item['price']));
+                                $quantity = intval($item['quantity']);
+
+                                $itemTotal = $price * $quantity;
+                                $totalPrice += $itemTotal;
+                            ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($item['title']); ?> <b>× <?php echo $quantity; ?></b></td>
+                                    <td class="text-end"><?php echo number_format($itemTotal, 0, ',', '.'); ?> ₫</td>
+                                </tr>
+                            <?php } ?>
                             <tr>
                                 <td>TẠM TÍNH</td>
-                                <td class="text-end">1,030,000 ₫</td>
+                                <td class="text-end"><?php echo number_format($totalPrice, 0, ',', '.'); ?> ₫</td>
                             </tr>
                             <tr>
                                 <td>GIAO HÀNG</td>
@@ -177,7 +191,7 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
                             </tr>
                             <tr>
                                 <td><strong>TỔNG</strong></td>
-                                <td class="text-end"><strong id="totalPrice">1,080,000 ₫</strong></td>
+                                <td class="text-end"><strong id="totalPrice"><?php echo number_format($totalPrice, 0, ',', '.'); ?> ₫</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -188,137 +202,28 @@ $dark_mode = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <?php include './includes/footer.php' ?>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded');
-
-            const orderButton = document.getElementById('orderButton');
-            const orderForm = document.getElementById('orderForm');
-            const totalPriceElement = document.getElementById('totalPrice');
-
-            if (orderButton && orderForm) {
-                console.log('Order button and form found');
-                orderButton.addEventListener('click', handleOrderSubmission);
-            } else {
-                console.error('Order button or form not found');
-            }
-
-            function handleOrderSubmission(event) {
-                event.preventDefault();
-                console.log('Order submission handled');
-
-                const formData = new FormData(orderForm);
-                const orderInfo = Object.fromEntries(formData);
-
-                const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-                orderInfo.paymentMethod = paymentMethod ? paymentMethod.value : '';
-
-                console.log('Order info:', orderInfo);
-                alert('Đơn hàng của bạn đã được ghi nhận!');
-            }
-
-            const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
-            paymentMethods.forEach(method => {
-                method.addEventListener('change', updateTotalPrice);
-            });
-
-            function updateTotalPrice() {
-                if (!totalPriceElement) {
-                    console.error('Total price element not found');
-                    return;
-                }
-
-                const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
-                const basePrice = 1030000; // Gia goc
-                let shippingFee = 0;
-
-                if (selectedMethod) {
-                    if (selectedMethod.value === 'transfer') {
-                        shippingFee = 50000;
-                    } else if (selectedMethod.value === 'cod') {
-                        shippingFee = 65000;
-                    }
-                }
-
-                const totalPrice = basePrice + shippingFee;
-                totalPriceElement.textContent = totalPrice.toLocaleString('vi-VN') + ' ₫';
-            }
-
-            updateTotalPrice();
-        });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
         $(document).ready(function() {
+            $('input[name="paymentMethod"]').change(function() {
+                let shippingCost = 0;
+                if (this.value === 'transfer') {
+                    shippingCost = 50000;
+                } else if (this.value === 'cod') {
+                    shippingCost = 65000;
+                }
 
-            let originalAddress = $('#address').text();
-            let originalWard = $('#ward').text();
-            let originalDistrict = $('#district').text();
-            let originalCity = $('#city').text();
+                let subtotal = <?php echo $totalPrice; ?>;
+                let total = subtotal + shippingCost;
 
-
-            $('#editBtn').click(function() {
-                $('#userInfo').hide();
-                $('#editForm').show();
-                $('#editAddress').val($('#address').text());
-                $('#editWard').val($('#ward').text());
-                $('#editDistrict').val($('#district').text());
-                $('#editCity').val($('#city').text());
+                $('#totalPrice').text(total.toLocaleString('vi-VN') + ' ₫');
             });
 
-
-            $('#cancelBtn').click(function() {
-                $('#editForm').hide();
-                $('#userInfo').show();
-                $('#address').text(originalAddress);
-                $('#ward').text(originalWard);
-                $('#district').text(originalDistrict);
-                $('#city').text(originalCity);
-            });
-
-            $('#saveBtn').click(function() {
-                let newAddress = $('#editAddress').val();
-                let newWard = $('#editWard').val();
-                let newDistrict = $('#editDistrict').val();
-                let newCity = $('#editCity').val();
-
-                console.log('Sending AJAX request...');
-                $.ajax({
-                    url: 'update_address.php',
-                    method: 'POST',
-                    data: {
-                        address: newAddress,
-                        ward: newWard,
-                        district: newDistrict,
-                        city: newCity
-                    },
-                    success: function(response) {
-                        console.log('AJAX response:', response);
-                        if(response === 'success') {
-                            $('#address').text(newAddress);
-                            $('#ward').text(newWard);
-                            $('#district').text(newDistrict);
-                            $('#city').text(newCity);
-
-                            originalAddress = newAddress;
-                            originalWard = newWard;
-                            originalDistrict = newDistrict;
-                            originalCity = newCity;
-                            
-                            $('#editForm').hide();
-                            $('#userInfo').show();
-                            alert('Cập nhật địa chỉ thành công!');
-                        } else {
-                            alert('Có lỗi xảy ra khi cập nhật địa chỉ.');
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error('AJAX error:', textStatus, errorThrown);
-                        alert('Có lỗi xảy ra khi kết nối với server.');
-                    }
-                });
+            $('#orderButton').click(function() {
+                // Xử lý đặt hàng ở đây
+                alert('Đơn hàng của bạn đã được đặt thành công!');
             });
         });
     </script>

@@ -1,9 +1,9 @@
+// product-cart.js
 (function () {
     if (document.querySelector('script[data-cart-initialized]')) {
         console.log("Cart script already initialized. Skipping...");
         return;
     }
-
     document.currentScript.dataset.cartInitialized = 'true';
 
     console.log("Cart script loaded. Version: " + new Date().getTime());
@@ -17,6 +17,7 @@
         const closeCartBtn = document.querySelector('.cart .close');
         const cartItems = document.querySelector('.cart-items');
         const subtotalElem = document.querySelector('.subtotal');
+        const checkoutBtn = document.querySelector('.view-cart');
 
         function saveCart() {
             const items = Array.from(cartItems.querySelectorAll('.item:not([style*="display: none"])'))
@@ -219,6 +220,27 @@
                 quantitySpan.textContent = quantity;
                 updateSubtotal();
                 saveCart();
+            }
+        });
+
+        // Xử lý nút CHECKOUT
+        checkoutBtn.addEventListener('click', function() {
+            const cartData = localStorage.getItem('cart');
+            if (cartData) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'checkout.php';
+                
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'cartData';
+                input.value = cartData;
+                
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            } else {
+                alert('Your cart is empty!');
             }
         });
 
