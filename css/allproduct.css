@@ -73,10 +73,17 @@
 }
 
 .filter-content {
-    display: none;
+    max-height: 0;
+    opacity: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-out;
-    padding-left: 20px;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+    padding: 0 0 0 20px;
+}
+
+.filter-content.show {
+    max-height: 200px;
+    opacity: 1;
+    padding: 10px 0 10px 20px;
 }
 
 .filter-content label {
@@ -192,6 +199,35 @@ hr {
     border-color: transparent;
 }
 
+.apply-filters-btn {
+    background-color: #3c3c3c;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.apply-filters-btn:hover {
+    background-color: #747474;
+}
+
+.filter-content label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* khoảng cách giữa các dòng */
+}
+
+.filter-checkbox {
+    width: 20px;  /* kích thước rộng của checkbox */
+    height: 20px; /* kích thước cao của checkbox */
+    margin-right: 10px; /* khoảng cách giữa checkbox và văn bản */
+}
 
 @media (max-width: 768px) {
     .hoot-records__record {
