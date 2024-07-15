@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check if all fields are empty or just whitespace
     if (empty($province) && empty($district) && empty($ward) && empty($detailedAddress)) {
-        echo json_encode(['success' => false, 'message' => 'All fields cannot be empty']);
+        echo json_encode(['success' => true, 'message' => 'Address updated successfully']);
         exit;
     }
 

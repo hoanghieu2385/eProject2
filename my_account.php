@@ -16,6 +16,8 @@
 <body>
     <?php include './includes/header.php' ?>
 
+    <div id="notification" class="notification" style="display: none;"></div>
+
     <div class="container">
         <div class="sidebar">
             <h2 class="sidebar-text">My account</h2>
@@ -215,6 +217,18 @@
             }
         });
 
+        function showNotification(message, isSuccess) {
+            const notification = $('#notification');
+            notification.text(message);
+            notification.removeClass('success error');
+            notification.addClass(isSuccess ? 'success' : 'error');
+            notification.fadeIn();
+
+            setTimeout(() => {
+                notification.fadeOut();
+            }, 3000);
+        }
+
 
         // Address Book
         $('#editAddressButton').click(function() {
@@ -289,17 +303,16 @@
                     dataType: 'json',
                     success: function(response) {
                         if (response.success) {
-                            alert(response.message);
-                            // Disable các input sau khi cập nhật thành công
+                            showNotification(response.message, true);
                             $('#province, #district, #ward, #detailedAddress').prop('disabled', true);
                             $('#editAddressButton').show();
                             $('#updateAddressButton, #cancelAddressButton').hide();
                         } else {
-                            alert("Error updating address: " + response.message);
+                            showNotification(response.message, false);
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error("Error updating address: " + error);
+                        showNotification("An error occurred while updating the address.", false);
                     }
                 });
             });
@@ -372,16 +385,17 @@
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
-                        alert(response.message);
+                        showNotification(response.message, true);
                         $('#firstName, #lastName, #phoneNumber').prop('disabled', true);
                         $('#editAccountButton').show();
                         $('#updateAccountButton, #cancelAccountButton').hide();
                     } else {
-                        alert("Error updating account details: " + response.message);
+                        showNotification("Error updating account details: " + response.message, false);
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error("Error updating account details: " + error);
+                    showNotification("An error occurred while updating account details.", false);
                 }
             });
         });
@@ -391,38 +405,23 @@
         document.getElementById('changePasswordForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', './includes/my-account/change_password.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                console.log("Response status:", this.status);
-                console.log("Response text:", this.responseText);
-                if (this.status == 200) {
-                    try {
-                        // Find the start of JSON in response
-                        var jsonStartIndex = this.responseText.indexOf('{');
-                        if (jsonStartIndex !== -1) {
-                            var jsonResponse = this.responseText.substr(jsonStartIndex);
-                            var response = JSON.parse(jsonResponse);
-                            if (response.success) {
-                                alert("Success: " + response.message);
-                            } else {
-                                alert("Error: " + response.message);
-                            }
-                        } else {
-                            throw new Error("Invalid JSON response");
-                        }
-                    } catch (e) {
-                        console.error("JSON parse error:", e);
-                        alert("An error occurred while processing your request");
+            $.ajax({
+                url: './includes/my-account/change_password.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        showNotification(response.message, true);
+                        $('#currentPassword, #newPassword, #confirmPassword').val('');
+                    } else {
+                        showNotification(response.message, false);
                     }
-                } else {
-                    alert("An error occurred while processing your request. Please try again later.");
+                },
+                error: function(xhr, status, error) {
+                    showNotification("An error occurred while changing the password.", false);
                 }
-            };
-            xhr.send('currentPassword=' + encodeURIComponent(document.getElementById('currentPassword').value) +
-                '&newPassword=' + encodeURIComponent(document.getElementById('newPassword').value) +
-                '&confirmPassword=' + encodeURIComponent(document.getElementById('confirmPassword').value));
+            });
         });
 
 
