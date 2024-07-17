@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-    $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'],"/")+1);
+$page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 1);
 
 ?>
 
@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page == "index.php"? 'active bg-gradient-primary':''; ?> " href="index.php">
+                <a class="nav-link text-white <?= $page == "index.php" ? 'active bg-gradient-primary' : ''; ?> " href="index.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div>
@@ -23,65 +23,65 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page == "product.php"? 'active bg-gradient-primary':''; ?> " href="product.php">
+                <a class="nav-link text-white <?= $page == "product.php" ? 'active bg-gradient-primary' : ''; ?> " href="product.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
+                        <i class="material-icons opacity-10">library_music</i>
                     </div>
                     <span class="nav-link-text ms-1">Products</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page == "user.php"? 'active bg-gradient-primary':''; ?> " href="user.php">
+                <a class="nav-link text-white <?= $page == "site_user.php" ? 'active bg-gradient-primary' : ''; ?> " href="site_user.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
+                        <i class="material-icons opacity-10">people</i>
                     </div>
                     <span class="nav-link-text ms-1">Users</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page == "order.php"? 'active bg-gradient-primary':''; ?> " href="order.php">
+                <a class="nav-link text-white <?= $page == "order.php" ? 'active bg-gradient-primary' : ''; ?> " href="order.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
+                        <i class="material-icons opacity-10">receipt</i>
                     </div>
                     <span class="nav-link-text ms-1">Orders</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page == "payment_shipment.php"? 'active bg-gradient-primary':''; ?> " href="payment_shipment.php">
+                <a class="nav-link text-white <?= $page == "payment_shipment.php" ? 'active bg-gradient-primary' : ''; ?> " href="payment_shipment.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
+                        <i class="material-icons opacity-10">attach_money</i>
                     </div>
                     <span class="nav-link-text ms-1">Payment and Shipment</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page == "product_category.php"? 'active bg-gradient-primary':''; ?> " href="product_category.php">
+                <a class="nav-link text-white <?= $page == "product_category.php" ? 'active bg-gradient-primary' : ''; ?> " href="product_category.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
+                        <i class="material-icons opacity-10">label</i>
                     </div>
                     <span class="nav-link-text ms-1">Categories</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page == "artist.php"? 'active bg-gradient-primary':''; ?>" href="artist.php">
+                <a class="nav-link text-white <?= $page == "artist.php" ? 'active bg-gradient-primary' : ''; ?>" href="artist.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
+                        <i class="material-icons opacity-10">face</i>
                     </div>
                     <span class="nav-link-text ms-1">Artists</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page == "genre.php"? 'active bg-gradient-primary':''; ?>" href="genre.php">
+                <a class="nav-link text-white <?= $page == "genre.php" ? 'active bg-gradient-primary' : ''; ?>" href="genre.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
+                        <i class="material-icons opacity-10">headset</i>
                     </div>
                     <span class="nav-link-text ms-1">Genres</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page == "country.php"? 'active bg-gradient-primary':''; ?>" href="country.php">
+                <a class="nav-link text-white <?= $page == "country.php" ? 'active bg-gradient-primary' : ''; ?>" href="country.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
+                        <i class="material-icons opacity-10">map</i>
                     </div>
                     <span class="nav-link-text ms-1">Countries</span>
                 </a>
