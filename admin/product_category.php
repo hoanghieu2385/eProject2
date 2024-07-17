@@ -2,7 +2,7 @@
 
 include('includes/header.php');
 include('../middleware/adminMiddleware.php');
-
+// the header.php include was previously on top of adminMiddleware include
 
 ?>
 
@@ -64,15 +64,15 @@ include('../middleware/adminMiddleware.php');
                 <div class="card-header">
                     <h4>Product Categories</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="categories_table">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Category Name</th>
-                                <th>Parent Category</th>
-                                <th>Update</th>
-                                <th>Remove</th>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Category Name</th>
+                                <!-- <th>Parent Category</th> -->
+                                <th class="text-center">Update</th>
+                                <th class="text-center">Remove</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,20 +85,21 @@ include('../middleware/adminMiddleware.php');
 
                             ?>
                                     <tr>
-                                        <td> <?= $item['id']; ?></td>
-                                        <td> <?= $item['category_name']; ?></td>
+                                        <td class="text-center"> <?= $item['id']; ?></td>
+                                        <td class="text-center"> <?= $item['category_name']; ?></td>
 
                                         <!-- Change the Parent Category ID from being a number to being the Category Name -->
-                                        <td> <?= $item['parent_category_id']; ?></td>
+                                        <!-- <td> ?= $item['parent_category_id']; ?></td> -->
                                         
-                                        <td>
-                                            <a href="edit_product_category.php?id=<?= $item['id']; ?>" class="btn btn-primary">Edit</a>
+                                        <td class="text-center">
+                                            <a href="edit_product_category.php?id=<?= $item['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
                                         </td>
-                                        <td>
-                                            <form action="code.php" method="POST">
+                                        <td class="text-center">
+                                            <!-- <form action="code.php" method="POST">
                                                 <input type="hidden" name="category_id" value="<?= $item['id']; ?>">
-                                                <button type="submit" class="btn btn-danger" name="delete_category_btn">Delete</button>
-                                            </form>
+                                                <button type="submit" class="btn btn-sm btn-danger" name="delete_category_btn">Delete</button>
+                                            </form> -->
+                                            <button type="button" class="btn btn-sm btn-danger delete_category_btn" value="<?= $item['id']; ?>">Delete</button>
                                         </td>
                                     </tr>
                             <?php

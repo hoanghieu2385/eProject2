@@ -2,6 +2,8 @@
 
 include('includes/header.php');
 include('../middleware/adminMiddleware.php');
+// the header.php include was previously on top of adminMiddleware include
+
 
 ?>
 

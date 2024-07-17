@@ -2,7 +2,7 @@
 
 include('includes/header.php');
 include('../middleware/adminMiddleware.php');
-
+// the header.php include was previously on top of adminMiddleware include
 
 ?>
 
@@ -93,23 +93,31 @@ include('../middleware/adminMiddleware.php');
                 <div class="card-header">
                     <h4>All Products</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="products_table">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Category</th>
-                                <th>Artist</th>
-                                <th>Album</th>
-                                <th>Product Image</th>
-                                <th>Current Price</th>
-                                <th>Update</th>
-                                <th>Remove</th>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Category</th>
+                                <th class="text-center">Artist</th>
+                                <th class="text-center">Album</th>
+                                <th class="text-center">Product Image</th>
+                                <th class="text-center">Current Price</th>
+                                <th class="text-center">Update</th>
+                                <th class="text-center">Remove</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $product = getAll("product");
+
+                            $query = "
+                            SELECT p.id, pc.category_name, a.full_name as artist_name, p.album, p.product_image, p.current_price 
+                            FROM product p
+                            JOIN product_category pc ON p.category_id = pc.id
+                            JOIN artist a ON p.artist_id = a.id
+                            ";
+
+                            $product = mysqli_query($con, $query);
 
                             if (mysqli_num_rows($product) > 0) {
 
@@ -117,24 +125,21 @@ include('../middleware/adminMiddleware.php');
 
                             ?>
                                     <tr>
-                                        <td> <?= $item['id']; ?></td>
-                                        <td> <?= $item['category_id']; ?></td>
-                                        <td> <?= $item['artist_id']; ?></td>
-                                        <td> <?= $item['album']; ?></td>
-                                        <td>
+                                        <td class="text-center"> <?= $item['id']; ?></td>
+                                        <td class="text-center"> <?= $item['category_name']; ?></td>
+                                        <td class="text-center"> <?= $item['artist_name']; ?></td>
+                                        <td class="text-center"> <?= $item['album']; ?></td>
+                                        <td class="text-center">
                                             <img src="../uploads/<?= $item['product_image']; ?>" width="70px" height="70px" alt="<?= $item['album']; ?>">
                                         </td>
-                                        <td> <?= $item['current_price']; ?></td>
+                                        <td class="text-center"> <?= $item['current_price']; ?></td>
 
 
-                                        <td>
-                                            <a href="edit_product.php?id=<?= $item['id']; ?>" class="btn btn-primary">Edit</a>
+                                        <td class="text-center">
+                                            <a href="edit_product.php?id=<?= $item['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
                                         </td>
-                                        <td>
-                                            <form action="code.php" method="POST">
-                                                <input type="hidden" name="product_id" value="<?= $item['id']; ?>">
-                                                <button type="submit" class="btn btn-danger" name="delete_category_btn">Delete</button>
-                                            </form>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-sm btn-danger delete_product_btn" value="<?= $item['id']; ?>">Delete</button>
                                         </td>
                                     </tr>
                             <?php

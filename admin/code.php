@@ -26,7 +26,7 @@ if (isset($_POST['add_category_btn'])) {
         redirect("product_category.php", "Category added Successfully!");
     } else {
 
-        redirect("product_category.php", "Something went wrong!");
+        redirect("product_category.php", "Something went wrong while adding the Category!");
     }
 } else if (isset($_POST['update_category_btn'])) {
 
@@ -56,9 +56,11 @@ if (isset($_POST['add_category_btn'])) {
     $delete_query_run = mysqli_query($con, $delete_query);
 
     if ($delete_query) {
-        redirect("product_category.php", "Category deleted Successfully.");
+        // redirect("product_category.php", "Category deleted Successfully.");
+        echo 200;
     } else {
-        redirect("product_category.php", "Something went wrong with the category deletion.");
+        // redirect("product_category.php", "Something went wrong with the Category deletion.");
+        echo 500;
     }
 } else if (isset($_POST['add_product_btn'])) {
 
@@ -88,7 +90,7 @@ if (isset($_POST['add_category_btn'])) {
             redirect("product.php", "Product added Successfully!");
         } else {
 
-            redirect("product.php", "Something went wrong!");
+            redirect("product.php", "Something went wrong while adding the Product!");
         }
     } else {
         redirect("product.php", "Please fill in the blanks!");
@@ -140,8 +142,33 @@ if (isset($_POST['add_category_btn'])) {
     } else {
 
        // redirect("edit_product.php?id=$product_id", "Something went wrong!");
-       redirect("product.php", "Something went wrong!");
+       redirect("product.php", "Something went wrong while updating the Product!");
     }
+} else if (isset($_POST['delete_product_btn'])) {
+
+    $product_id = mysqli_real_escape_string($con, $_POST['product_id']);
+
+    $product_query = "SELECT * FROM product WHERE id = '$product_id'";
+    $product_query_run = mysqli_query($con, $product_query);
+    $product_data = mysqli_fetch_array($product_query_run);
+    $image = $product_data['product_image'];
+
+    $delete_query = "DELETE FROM product WHERE id = '$product_id'";
+    $delete_query_run = mysqli_query($con, $delete_query);
+
+    if ($delete_query_run) {
+
+        if (file_exists("../uploads/".$image)) {
+            unlink("../uploads/".$image);
+        }
+
+        // redirect("product.php", "Product deleted Successfully");
+        echo 200;
+    } else {
+        // redirect("product.php", "Something went wrong while deleting the Product!");
+        echo 500;
+    }
+
 } else {
     header('Location: ../index.php');
 }

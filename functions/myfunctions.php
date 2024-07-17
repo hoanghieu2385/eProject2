@@ -1,5 +1,7 @@
 <?php
 
+// session_start() was previously in includes/header.php
+// session_start(); 
 include('../config/dbcon.php');
 
 function getAll($table) {

@@ -1,4 +1,5 @@
 <?php session_start(); ?>
+<!-- PREVIOUSLY HAD SESSION START IN HERE, now moved to myfunctions.php  -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +21,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="assets/css/material-dashboard.min.css?v=3.0.0" rel="stylesheet" />
+    <link href="../assets/css/tables.css" rel="stylesheet" />
+
+
 
     <!-- ALERTIFY JS -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
