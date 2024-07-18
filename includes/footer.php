@@ -29,15 +29,15 @@
                     <div class="row">
                         <div class="col">
                             <ul>
-                                <li><a href="#">Payment</a></li>
-                                <li><a href="#">Shipping information</a></li>
+                                <li><a href="../help/payment.php">Payment</a></li>
+                                <li><a href="../help/shipping_information.php">Shipping information</a></li>
                                 <li><a href="#">Contact us</a></li>
                             </ul>
                         </div>
                         <div class="col">
                             <ul>
-                                <li><a href="#">Policy</a></li>
-                                <li><a href="#">Purchase instructions</a></li>
+                                <li><a href="../help/policy.php">Policy</a></li>
+                                <li><a href="../help/purchase_instructions.php">Purchase instructions</a></li>
                             </ul>
                         </div>
                     </div>
