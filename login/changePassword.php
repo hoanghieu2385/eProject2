@@ -9,8 +9,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newPassword = $_POST['new_password'];
     $confirmPassword = $_POST['confirm_password'];
 
-    if ($newPassword !== $confirmPassword) {
-        $error_message = "Password incorrect.";
+    if (strlen($newPassword) < 6) {
+        $error_message = "Password must be at least 6 characters long.";
+    } elseif ($newPassword !== $confirmPassword) {
+        $error_message = "Passwords do not match.";
     } else {
         $conn = new mysqli('localhost', 'root', '', 'project2');
 
@@ -30,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: login.php?message=Password changed successfully. Please log in again.");
             exit();
         } else {
-            $error_message = "error: " . $stmt->error;
+            $error_message = "Error: " . $stmt->error;
         }
 
         $stmt->close();
@@ -38,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="vi">

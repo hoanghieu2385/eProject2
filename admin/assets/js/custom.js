@@ -156,8 +156,83 @@ $(document).ready(function () {
     });
   });
 
+  $(document).on("click", ".delete_genre_btn", function (e) {
+    e.preventDefault();
 
+    var id = $(this).val();
 
+    // alert(id); TESTING PURPOSES
+
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, the genre will no longer be available!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+          method: "POST",
+          url: "code.php",
+          data: {
+            genre_id: id,
+            delete_genre_btn: true,
+          },
+          success: function (response) {
+            if (response == 200) {
+              swal("Success!", "Genre deleted Successfully!", "success");
+              $("#genres_table").load(location.href + " #genres_table");
+            } else if (response == 500) {
+              swal(
+                "Error!",
+                "Something went wrong while deleting the Genre!",
+                "error"
+              );
+            }
+          },
+        });
+      }
+    });
+  });
+
+  $(document).on("click", ".delete_artist_btn", function (e) {
+    e.preventDefault();
+
+    var id = $(this).val();
+
+    // alert(id); TESTING PURPOSES
+
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, the artist will no longer be available!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+          method: "POST",
+          url: "code.php",
+          data: {
+            artist_id: id,
+            delete_artist_btn: true,
+          },
+          success: function (response) {
+            if (response == 200) {
+              swal("Success!", "Artist deleted Successfully!", "success");
+              $("#artists_table").load(location.href + " #artists_table");
+            } else if (response == 500) {
+              swal(
+                "Error!",
+                "Something went wrong while deleting the Artist!",
+                "error"
+              );
+            }
+          },
+        });
+      }
+    });
+  });
 
 
 

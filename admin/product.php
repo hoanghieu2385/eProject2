@@ -1,8 +1,8 @@
 <?php
 
-include('includes/header.php');
 include('../middleware/adminMiddleware.php');
 // the header.php include was previously on top of adminMiddleware include
+include('includes/header.php');
 
 ?>
 
@@ -115,6 +115,7 @@ include('../middleware/adminMiddleware.php');
                             FROM product p
                             JOIN product_category pc ON p.category_id = pc.id
                             JOIN artist a ON p.artist_id = a.id
+                            ORDER BY p.id DESC
                             ";
 
                             $product = mysqli_query($con, $query);

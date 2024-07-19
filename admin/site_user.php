@@ -1,8 +1,8 @@
 <?php
 
-include('includes/header.php');
 include('../middleware/adminMiddleware.php');
 // the header.php include was previously on top of adminMiddleware include
+include('includes/header.php');
 
 ?>
 
@@ -22,7 +22,7 @@ include('../middleware/adminMiddleware.php');
                                 <th class="text-center">Phone Number</th>
                                 <th class="text-center">First Name</th>
                                 <th class="text-center">Last Name</th>
-                                <th class="text-center">Role ID</th>
+                                <th class="text-center">Role</th>
                                 <th class="text-center">Update</th>
                                 <th class="text-center">Remove</th>
                             </tr>
@@ -34,6 +34,7 @@ include('../middleware/adminMiddleware.php');
                             SELECT u.id, u.email_address, u.phone_number, u.first_name, u.last_name, r.role_name as role
                             FROM site_user u
                             JOIN role r ON u.role_id = r.id
+                            ORDER BY u.id ASC
                             ";
 
                             $user = mysqli_query($con, $query);
