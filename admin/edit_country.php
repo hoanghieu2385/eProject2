@@ -1,8 +1,8 @@
 <?php
 
-include('includes/header.php');
 include('../middleware/adminMiddleware.php');
 // the header.php include was previously on top of adminMiddleware include
+include('includes/header.php');
 
 ?>
 
@@ -34,7 +34,7 @@ include('../middleware/adminMiddleware.php');
                                         <input type="text" value="<?= $data['country_name'] ?>" name="country_name" placeholder="Enter Country Name" class="form-control">
                                     </div>
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary" name="update_country_btn">Update</button>
+                                        <button type="submit" class="btn btn-primary" name="update_country_btn" style="margin-top: 15px;">Update</button>
                                     </div>
                                 </div>
                             </form>

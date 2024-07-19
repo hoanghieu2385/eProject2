@@ -1,8 +1,8 @@
 <?php
 
-include('includes/header.php');
 include('../middleware/adminMiddleware.php');
 // the header.php include was previously on top of adminMiddleware include
+include('includes/header.php');
 
 
 
@@ -53,7 +53,7 @@ include('../middleware/adminMiddleware.php');
                                         <input type="number" value="<?= $data['role_id'] ?>" name="role_id" placeholder="Enter Role ID" class="form-control">
                                     </div>
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary" name="update_user_btn">Update</button>
+                                        <button type="submit" class="btn btn-primary" name="update_user_btn" style="margin-top: 15px;">Update</button>
                                     </div>
                                 </div>
                             </form>
