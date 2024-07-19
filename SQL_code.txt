@@ -195,3 +195,38 @@ CREATE TABLE user_address (
     FOREIGN KEY (address_id) REFERENCES address(id)
 );
 
+
+
+-- trigger
+DELIMITER //
+CREATE TRIGGER set_default_role -- để khi tạo tài khoản mới thì nó tự động add role là "user"
+BEFORE INSERT ON site_user
+FOR EACH ROW
+BEGIN
+    IF NEW.role_id IS NULL THEN
+        SET NEW.role_id = (SELECT id FROM role WHERE is_default = TRUE LIMIT 1);
+    END IF;
+END; //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER set_default_order_status -- để khi tạo order mới thì nó tự động add status là "Pending"
+BEFORE INSERT ON shop_order
+FOR EACH ROW
+BEGIN
+    IF NEW.order_status_id IS NULL THEN
+        SET NEW.order_status_id = (SELECT id FROM order_status WHERE is_default = TRUE);
+    END IF;
+END; //
+
+
+DELIMITER //
+CREATE TRIGGER set_default_shipment_tracking_id
+BEFORE INSERT ON shop_order
+FOR EACH ROW
+BEGIN
+    IF NEW.shipment_tracking_id IS NULL THEN
+        SET NEW.shipment_tracking_id = 'Not yet available';
+    END IF;
+END; //
+DELIMITER ;
