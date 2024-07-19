@@ -53,6 +53,7 @@ if (!empty($selected_countries)) {
     $conditions[] = "artist.country_id IN ($country_list)";
 }
 
+
 $products_per_page = 12;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $products_per_page;

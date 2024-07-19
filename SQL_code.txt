@@ -32,6 +32,9 @@ CREATE TABLE site_user (
     first_name VARCHAR(100),
     last_name VARCHAR(100),
     role_id INT,
+    token VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (role_id) REFERENCES role(id)
 );
 
