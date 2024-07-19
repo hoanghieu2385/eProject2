@@ -46,6 +46,7 @@ if ($result_bestsellers->num_rows > 0) {
     }
 }
 
+$conn->close();
 ?>
 
 <!DOCTYPE html>

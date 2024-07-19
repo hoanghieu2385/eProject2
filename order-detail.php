@@ -78,13 +78,13 @@ if (!$items_result) {
                     <div class="row d-flex icon-content">
                         <i class="icon fa-regular fa-calendar-check"></i>
                         <div class="d-flex flex-column">
-                            <p class="font-weight-bold">Order<br>Processed</p>
+                            <p class="font-weight-bold">Pending</p>
                         </div>
                     </div>
                     <div class="row d-flex icon-content">
                         <i class="icon fa-solid fa-box"></i>
                         <div class="d-flex flex-column">
-                            <p class="font-weight-bold">Order<br>Shipped</p>
+                            <p class="font-weight-bold">In process</p>
                         </div>
                     </div>
                     <div class="row d-flex icon-content">
@@ -160,6 +160,7 @@ if (!$items_result) {
     <?php endif; ?>
 
     <?php include './includes/footer.php' ?>
+    <?php include './includes/cart.php' ?>
 </body>
 
 </html>

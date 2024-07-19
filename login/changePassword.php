@@ -48,8 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Record Store</title>
-    <link rel="icon" type="image/x-icon" href="./images/header/logo.png">
+    <link rel="icon" type="image/x-icon" href="../images/header/logo.png">
     <link rel="stylesheet" href="../css/Login/changePassword.css">
+    <script src="../js/login/changePassword.js"></script>
 </head>
 
 <body>
@@ -64,10 +65,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
         <form class="password-change-form" method="post" action="">
             <label class="form-label" for="new_password">A new password <span class="required">*</span></label>
-            <input class="form-input" type="password" id="new_password" name="new_password" required>
+            <div class="input-wrapper">
+                <input class="form-input" type="password" id="new_password" name="new_password" required>
+                <i class="fas fa-eye-slash eye-icon" onclick="togglePasswordVisibility('new_password')"></i>
+            </div>
             <br>
             <label class="form-label" for="confirm_password">Confirm password <span class="required">*</span></label>
-            <input class="form-input" type="password" id="confirm_password" name="confirm_password" required>
+            <div class="input-wrapper">
+                <input class="form-input" type="password" id="confirm_password" name="confirm_password" required>
+                <i class="fas fa-eye-slash eye-icon" onclick="togglePasswordVisibility('confirm_password')"></i>
+            </div>
             <br>
             <button class="form-button" type="submit">Change Password</button>
         </form>

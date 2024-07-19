@@ -275,6 +275,7 @@ $conn->close();
     </main>
 
     <?php include './includes/footer.php' ?>
+    <?php include './includes/cart.php' ?>
 </body>
 
 </html>

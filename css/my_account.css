@@ -106,6 +106,8 @@
 }
 
 .view-button {
+    color: #333;
+    text-decoration: none;
     padding: 5px 15px;
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
@@ -114,6 +116,7 @@
 }
 
 .view-button:hover {
+    text-decoration: underline;
     background-color: #e9ecef;
 }
 
@@ -326,11 +329,6 @@
 
 .btn-change-password:hover {
     background-color: #919294;
-}
-
-.footer-wrapper * {
-    display: block;
-    box-sizing: border-box;
 }
 
 /* Styles for Dark Mode */

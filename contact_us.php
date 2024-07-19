@@ -16,17 +16,17 @@
         </div>
         <div class="contact-info">
             <div class="contact-item">
-                <img src="/images/contact_us/visit_us.png" alt="Visit Us">
+                <i class="fa-solid fa-house fa-2xl"></i>
                 <h2>VISIT US</h2>
                 <p>Hanoi, Vietnam</p>
             </div>
             <div class="contact-item">
-                <img src="/images/contact_us/call_us.png" alt="Call Us">
+                <i class="fa-solid fa-phone fa-2xl"></i>
                 <h2>CALL US</h2>
                 <p>+84123456789</p>
             </div>
             <div class="contact-item">
-                <img src="/images/contact_us/contact_us.png" alt="Contact Us">
+                <i class="fa-solid fa-envelope fa-2xl"></i>
                 <h2>CONTACT US</h2>
                 <p>hootrecords@gmail.com</p>
             </div>
@@ -36,5 +36,6 @@
         </div>
     </div>
     <?php include './includes/footer.php'?>
+    <?php include './includes/cart.php' ?>
 </body>
 </html>
