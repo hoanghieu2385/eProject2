@@ -1,8 +1,9 @@
 <?php
 
+
+include('includes/header.php');
 include('../middleware/adminMiddleware.php');
 // the header.php include was previously on top of adminMiddleware include
-include('includes/header.php');
 
 ?>
 
@@ -16,14 +17,14 @@ include('includes/header.php');
                 <div class="card-body">
                     <form action="code.php" method="POST" enctype="multipart/form-data">
                         <div class="row gy-2">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label for="" style="font-weight: bold;">Category Name</label>
                                 <input type="text" required name="category_name" placeholder="Enter Category Name" class="form-control">
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <label for="" style="font-weight: bold;">Parent Category ID</label>
                                 <input type="text" name="parent_category_id" placeholder="If available.." class="form-control">
-                            </div>
+                            </div> -->
 
                             <!-- Potential option for Select Dropdown for "Parent Category ID". Taken from product.php. Continue -->
                             <!-- <div class="col-md-6">
