@@ -79,3 +79,17 @@ footer {
 .help-col ul li a:hover {
     text-decoration: underline;
 }
+
+/* **************** DARK MODE **************** */
+body.dark-mode  .logo-footer img {
+    content: url('../images/header/logo-dark-mode.png');
+}
+
+body.dark-mode .info-col h4 {
+    color: #fff;
+}
+
+body.dark-mode .info-col ul li a,
+body.dark-mode .help-col ul li a {
+    color: #fff;
+}
