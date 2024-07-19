@@ -132,6 +132,16 @@ h2 {
     box-sizing: border-box;
 }
 
+.album-item a{
+    color: #333;
+    text-decoration: none;
+}
+
+.album-item a:hover{
+    color: #333;
+    text-decoration: underline;
+}
+
 .album-item img {
     width: 230px;
     height: 230px;

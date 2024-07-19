@@ -8,7 +8,7 @@ footer {
     padding: 0 15px;
 }
 
-.row {
+.container-footer .row {
     display: flex;
     flex-wrap: nowrap;
     /* justify-content: space-between; */
@@ -17,23 +17,23 @@ footer {
     align-items: flex-start;
 }
 
-.col {
+.container-footer .row .col {
     padding: 0 15px;
 }
 
-.logo-col {
+.container-footer .row .logo-col {
     flex: 0 0 20%;
     max-width: 20%;
     text-align: center;
 }
 
-.info-col,
-.help-col {
+.container-footer .row .info-col,
+.container-footer .row .help-col {
     flex: 0 0 50%;
     max-width: 30%;
 }
 
-.logo {
+.logo-footer {
     max-width: 100%;
     height: auto;
 }
@@ -51,27 +51,31 @@ footer {
     max-width: 50%;
 }
 
-h4 {
+.info-col h4 {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
-ul {
+.info-col ul,
+.help-col ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-li {
+.info-col ul li,
+.help-col ul li {
     margin-bottom: 5px;
 }
 
-a {
+.info-col ul li a,
+.help-col ul li a {
     color: #333;
     text-decoration: none;
 }
 
-a:hover {
+.info-col ul li a:hover,
+.help-col ul li a:hover {
     text-decoration: underline;
 }

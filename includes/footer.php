@@ -4,16 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer</title>
     <link rel="stylesheet" href="../css/footer.css">
 </head>
 
 <body>
-<!-- <div class="footer-container">   -->
+    <!-- <div class="footer-container">   -->
     <footer>
         <div class="container-footer">
             <div class="row">
                 <div class="col logo-col">
-                    <a href="../index.php" class="logo">
+                    <a href="../index.php" class="logo-footer">
                         <img src="/images/header/logo.png" alt="Record Store" width="50" height="60">
                     </a>
                 </div>

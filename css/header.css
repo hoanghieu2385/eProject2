@@ -23,7 +23,7 @@ header {
     background-color: #f0ece8;
 }
 
-.logo {
+.container-header .logo {
     margin-left: 5%;
 }
 
@@ -33,7 +33,7 @@ header {
     margin-right: 5%;
 }
 
-.icons {
+.header-right .icons {
     display: flex;
     align-items: center;
 }
@@ -179,19 +179,20 @@ header {
     visibility: visible;
 }
 
-.sub-menu li {
+.user-icon .sub-menu li {
     list-style: none;
     margin-bottom: 5px;
 }
 
-.sub-menu li a {
+.user-icon .sub-menu li a {
     text-decoration: none;
     padding: 5px;
     display: block;
     border-radius: 2px;
+    color: #333;
 }
 
-.sub-menu li a:hover {
+.user-icon .sub-menu li a:hover {
     background-color: #f2f2f2;
 }
 
