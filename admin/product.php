@@ -115,6 +115,7 @@ include('includes/header.php');
                             FROM product p
                             JOIN product_category pc ON p.category_id = pc.id
                             JOIN artist a ON p.artist_id = a.id
+                            ORDER BY p.id DESC
                             ";
 
                             $product = mysqli_query($con, $query);

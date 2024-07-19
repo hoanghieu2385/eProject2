@@ -34,6 +34,7 @@ include('includes/header.php');
                             SELECT u.id, u.email_address, u.phone_number, u.first_name, u.last_name, r.role_name as role
                             FROM site_user u
                             JOIN role r ON u.role_id = r.id
+                            ORDER BY u.id ASC
                             ";
 
                             $user = mysqli_query($con, $query);
