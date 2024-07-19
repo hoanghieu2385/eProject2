@@ -132,13 +132,27 @@ h2 {
     box-sizing: border-box;
 }
 
+.album-item a{
+    color: #333;
+    text-decoration: none;
+}
+
+.album-item a:hover{
+    color: #333;
+    text-decoration: underline;
+}
+
 .album-item img {
     width: 230px;
-    height: auto;
+    height: 230px;
 }
 
 .album-item p {
     margin: 10px 0;
+}
+
+body.dark-mode .album-item p{
+    color: #fff;
 }
 
 .album-item button {
@@ -148,6 +162,10 @@ h2 {
     border-radius: 25px;
     border: 1px solid;
     background-color: transparent;
+}
+
+body.dark-mode .album-item button{
+    color: #fff;
 }
 
 

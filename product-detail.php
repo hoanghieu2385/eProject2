@@ -65,7 +65,7 @@ $related_products = $result_related->fetch_all(MYSQLI_ASSOC);
     <?php include './includes/header.php' ?>
     <div class="productcontainer">
         <div class="image-container">
-            <img src="<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['album']); ?>">
+            <img src="./uploads/<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['album']); ?>" onerror="this.onerror=null;this.src='./images/placeholder.jpg';">
             <!-- Add additional image if available -->
         </div>
         <div class="description-container">
@@ -88,7 +88,7 @@ $related_products = $result_related->fetch_all(MYSQLI_ASSOC);
         <div class="product-grid">
             <?php foreach ($related_products as $related_product) : ?>
                 <div class="product-item">
-                    <img src="<?php echo htmlspecialchars($related_product['product_image']); ?>" alt="<?php echo htmlspecialchars($related_product['album']); ?>">
+                    <img src="./uploads/<?php echo htmlspecialchars($related_product['product_image']); ?>" alt="<?php echo htmlspecialchars($related_product['album']); ?>" onerror="this.onerror=null;this.src='./images/placeholder.jpg';">
                     <h3><?php echo htmlspecialchars($related_product['album']); ?></h3>
                     <p class="price">$<?php echo number_format($related_product['current_price'], 2); ?></p>
                     <button class="view-product" onclick="location.href='product-detail.php?id=<?php echo $related_product['id']; ?>'">VIEW PRODUCT</button>

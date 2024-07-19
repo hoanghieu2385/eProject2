@@ -1,9 +1,9 @@
+// product-cart.js
 (function () {
     if (document.querySelector('script[data-cart-initialized]')) {
         console.log("Cart script already initialized. Skipping...");
         return;
     }
-
     document.currentScript.dataset.cartInitialized = 'true';
 
     console.log("Cart script loaded. Version: " + new Date().getTime());
@@ -17,12 +17,14 @@
         const closeCartBtn = document.querySelector('.cart .close');
         const cartItems = document.querySelector('.cart-items');
         const subtotalElem = document.querySelector('.subtotal');
+        const checkoutBtn = document.querySelector('.view-cart');
+
         function saveCart() {
             const items = Array.from(cartItems.querySelectorAll('.item:not([style*="display: none"])'))
                 .map(item => ({
                     title: item.querySelector('h3').textContent,
                     price: item.querySelector('.price').textContent,
-                    quantity: item.querySelector('.quantity input').value,
+                    quantity: item.querySelector('.quantity input') ? item.querySelector('.quantity input').value : item.querySelector('.quantity').textContent,
                     image: item.querySelector('img').src
                 }));
             localStorage.setItem('cart', JSON.stringify(items));
@@ -56,7 +58,8 @@
             const productTitle = productContainer.querySelector('.title').textContent;
             const productPrice = productContainer.querySelector('.price').textContent;
             const productImage = productContainer.querySelector('img').src;
-            const quantity = 1;
+            const quantityBox = productContainer.querySelector('.quantity-box');
+            const quantity = quantityBox ? parseInt(quantityBox.querySelector('.quantity').textContent) : 1;
 
             console.log('Product details:', { productTitle, productPrice, productImage, quantity });
 
@@ -94,13 +97,27 @@
         }
 
         function updateSubtotal() {
+            const cartCountElement = document.getElementById('cart-count');
+            if (!cartCountElement) {
+                console.error("Cart count element not found");
+                return;
+            }
+
             const items = cartItems.querySelectorAll('.item:not([style*="display: none"])');
+            let totalItems = 0;
             let total = 0;
+
             items.forEach(function (item) {
                 const price = parseFloat(item.querySelector('.price').textContent.replace('$', ''));
                 const quantity = parseInt(item.querySelector('.quantity input').value);
+                totalItems += quantity;
                 total += price * quantity;
             });
+
+            cartCountElement.textContent = totalItems;
+            cartCountElement.style.display = totalItems > 0 ? 'flex' : 'none';
+            console.log('Cart count updated:', totalItems);
+
             subtotalElem.textContent = '$' + total.toFixed(2);
             console.log('New subtotal:', subtotalElem.textContent);
         }
@@ -129,7 +146,7 @@
         if (cartIcon) {
             cartIcon.addEventListener('click', function (e) {
                 e.preventDefault();
-                e.stopPropagation(); // Prevent the click event from propagating to the document level
+                e.stopPropagation();
                 console.log("Cart icon clicked");
                 if (cart.classList.contains('open')) {
                     closeCart();
@@ -174,13 +191,62 @@
         });
 
         document.addEventListener('click', function (e) {
+            if (!e.target.classList.contains('quantity-input')) {
+                updateSubtotal();
+                saveCart();
+            }
+        });
+
+        document.addEventListener('click', function (e) {
             if (cart && cart.classList.contains('open') && !cart.contains(e.target) && e.target !== cartIcon) {
                 console.log('Closing cart due to outside click');
                 closeCart();
             }
         });
 
+        // Thêm xử lý sự kiện cho nút tăng/giảm số lượng
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('minus-btn') || e.target.classList.contains('plus-btn')) {
+                const quantityBox = e.target.closest('.quantity-box');
+                const quantitySpan = quantityBox.querySelector('.quantity');
+                let quantity = parseInt(quantitySpan.textContent);
+
+                if (e.target.classList.contains('minus-btn') && quantity > 1) {
+                    quantity--;
+                } else if (e.target.classList.contains('plus-btn')) {
+                    quantity++;
+                }
+
+                quantitySpan.textContent = quantity;
+                updateSubtotal();
+                saveCart();
+            }
+        });
+
+        // Xử lý nút CHECKOUT
+        checkoutBtn.addEventListener('click', function() {
+            const cartData = localStorage.getItem('cart');
+            if (cartData) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'checkout.php';
+                
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'cartData';
+                input.value = cartData;
+                
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            } else {
+                alert('Your cart is empty!');
+            }
+        });
+
         loadCart();
+
+        updateSubtotal();
 
         console.log("Cart initialization complete");
     }

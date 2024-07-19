@@ -33,7 +33,10 @@
                             <li><a href="../login/sign_up.php" id="signUp-btn">Sign Up</a></li>
                         </ul>
                     </div>
-                    <a id="cart-icon"><i class="fa-solid fa-bag-shopping fa-xl"></i></a>
+                    <a id="cart-icon">
+                        <i class="fa-solid fa-bag-shopping fa-xl"></i>
+                        <span id="cart-count" class="cart-count">0</span>
+                    </a>
                     <div class="dark-mode-toggle">
                         <input type="checkbox" id="dark-mode-checkbox">
                         <label for="dark-mode-checkbox">
@@ -49,43 +52,18 @@
             <ul id="main-menu">
                 <li>
                     <a href="#">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
-                    <ul class="sub-menu">
-                        <li><a href="./residential.html">Residential</a></li>
-                        <li><a href="./commercial.html">Commercial</a></li>
-                        <li><a href="./fact_and_methods.html">Facts</a></li>
-                    </ul>
                 </li>
                 <li>
                     <a href="#">CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
-                    <ul class="sub-menu">
-                        <li><a href="./residential.html">Residential</a></li>
-                        <li><a href="./commercial.html">Commercial</a></li>
-                        <li><a href="./fact_and_methods.html">Facts</a></li>
-                    </ul>
                 </li>
                 <li>
                     <a href="#">Cassettes <span><i class="fa-solid fa-caret-down"></i></span></a>
-                    <ul class="sub-menu">
-                        <li><a href="./residential.html">Residential</a></li>
-                        <li><a href="./commercial.html">Commercial</a></li>
-                        <li><a href="./fact_and_methods.html">Facts</a></li>
-                    </ul>
                 </li>
                 <li>
                     <a href="#">Artists<span><i class="fa-solid fa-caret-down"></i></span></a>
-                    <ul class="sub-menu">
-                        <li><a href="./residential.html">Residential</a></li>
-                        <li><a href="./commercial.html">Commercial</a></li>
-                        <li><a href="./fact_and_methods.html">Facts</a></li>
-                    </ul>
                 </li>
                 <li>
                     <a href="#">Genres<span><i class="fa-solid fa-caret-down"></i></span></a>
-                    <ul class="sub-menu">
-                        <li><a href="./residential.html">Residential</a></li>
-                        <li><a href="./commercial.html">Commercial</a></li>
-                        <li><a href="./fact_and_methods.html">Facts</a></li>
-                    </ul>
                 </li>
                 </li>
 
@@ -101,23 +79,15 @@
 <script src="../js/check_login-logout.js"></script>
 <script>
     function logout() {
-        // Lưu URL hiện tại
-        var currentURL = window.location.href;
-
-        fetch('../login/logout.php', { // Đảm bảo đường dẫn này chính xác
+        fetch('../login/logout_reload.php', {
                 method: 'POST',
                 credentials: 'same-origin'
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Xóa thông tin đăng nhập từ localStorage nếu có
-                    localStorage.removeItem('userLoggedIn');
-                    localStorage.removeItem('userEmail');
-                    // Thêm bất kỳ item nào khác cần xóa
-
-                    // Chuyển hướng đến URL hiện tại
-                    window.location.href = currentURL;
+                    // Tải lại trang hiện tại
+                    window.location.href = window.location.href;
                 } else {
                     console.error('Logout failed');
                 }

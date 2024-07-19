@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+<!-- ?php session_start(); ?> -->
+<!-- PREVIOUSLY HAD SESSION START IN HERE, now moved to myfunctions.php  -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>
-        Ecommerce Admin Page
+        Hoot Records Admin
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -20,6 +21,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="assets/css/material-dashboard.min.css?v=3.0.0" rel="stylesheet" />
+    <link href="../assets/css/tables.css" rel="stylesheet" />
+
+
 
     <!-- ALERTIFY JS -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />

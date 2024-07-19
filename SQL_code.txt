@@ -1,0 +1,232 @@
+CREATE TABLE country (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    country_name VARCHAR(80)
+);
+
+INSERT INTO country (country_name) 
+VALUES 
+('USA'), ('Canada'), ('UK'), ('France'), ('Cuba');
+
+CREATE TABLE genre (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    genre_name VARCHAR(50)
+);
+
+INSERT INTO genre (genre_name) 
+VALUES 
+('Rock'), ('Pop'), ('Hip Hop'), ('Jazz'), ('Classical'), ('Metal'), ('Raggae'), ('Electronic Dance Music (EDM)'), ('Country'), ('Blues'), ('R&B'), ('Punk'), ('Nu-Metal'), ('Grunge');
+
+CREATE TABLE role (
+    id INT PRIMARY KEY,
+    role_name VARCHAR(100) NOT NULL,
+    is_default BOOLEAN DEFAULT FALSE
+);
+
+INSERT INTO role (id, role_name, is_default) VALUES (1, 'admin', FALSE), (2, 'user', TRUE);
+
+CREATE TABLE site_user (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email_address VARCHAR(255) NOT NULL UNIQUE,
+    phone_number VARCHAR(25) NOT NULL,
+    password VARCHAR(300) NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    role_id INT,
+    FOREIGN KEY (role_id) REFERENCES role(id)
+);
+
+CREATE TABLE address (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    city VARCHAR(100),
+    district VARCHAR(100),
+    ward VARCHAR(100),
+    address VARCHAR(300)
+);
+
+INSERT INTO address (city, district, ward, address) 
+VALUES 
+('Hanoi', 'Hoai Duc', 'An Khanh', 'KDT Splendora'), 
+('Hanoi', 'Thanh Xuan', 'Thuong Dinh', 'KDT Royal City');
+
+CREATE TABLE product_category (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_category_id INT NULL,
+    category_name VARCHAR(50),
+    FOREIGN KEY (parent_category_id) REFERENCES product_category(id)
+);
+
+INSERT INTO product_category (category_name) VALUES ('Vinyl'), ('CDs'), ('Cassettes');
+
+CREATE TABLE artist (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255),
+    country_id INT,
+    FOREIGN KEY (country_id) REFERENCES country(id)
+);
+
+INSERT INTO artist (full_name, country_id) 
+VALUES 
+('Taylor Swift', 1), ('Billie Eilish', 1), ('Taylor Swift', 1), ('Nirvana', 1), ('Linkin Park', 1), ('Buena Vista Social Club', 5), ('Daft Punk', 4);
+
+CREATE TABLE artist_genre (
+    artist_id INT,
+    genre_id INT,
+    PRIMARY KEY (artist_id, genre_id),
+    FOREIGN KEY (artist_id) REFERENCES artist(id),
+    FOREIGN KEY (genre_id) REFERENCES genre(id)
+);
+
+INSERT INTO artist_genre (artist_id, genre_id) VALUES (1, 2), (2, 2), (3, 2), (4, 14), (5, 13);
+
+CREATE TABLE supplier (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    supplier_name VARCHAR(255),
+    contact_information VARCHAR(255),
+    email_address VARCHAR(100),
+    country_id INT,
+    FOREIGN KEY (country_id) REFERENCES country(id)
+);
+
+INSERT INTO supplier (supplier_name, contact_information) 
+VALUES 
+('Christina', 'Facebook'), 
+('Target', 'https://www.target.com'), 
+('Taylor Swift UK Store', 'https://storeuk.taylorswift.com');
+
+CREATE TABLE shipment_option (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    shipment_method VARCHAR(255)
+);
+
+INSERT INTO shipment_option (shipment_method) VALUES ('Lấy tại cửa hàng'), ('Ship');
+
+CREATE TABLE payment_option (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    payment_method VARCHAR(100)
+);
+
+INSERT INTO payment_option (payment_method) VALUES ('Quẹt Mã QR'), ('COD');
+
+CREATE TABLE payment_shipment (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    payment_option_id INT,
+    shipment_option_id INT,
+    FOREIGN KEY (payment_option_id) REFERENCES payment_option(id),
+    FOREIGN KEY (shipment_option_id) REFERENCES shipment_option(id)
+);
+
+INSERT INTO payment_shipment (shipment_option_id, payment_option_id) VALUES (1, 1), (2, 1), (2, 2);
+
+CREATE TABLE product (
+    id INT AUTO_INCREMENT PRIMARY KEY,  -- artist_id + album + category_id
+    category_id INT,
+    artist_id INT,
+    album VARCHAR(255),
+    version VARCHAR(255),
+    edition VARCHAR(255),
+    description VARCHAR(1000),
+    product_image VARCHAR(255),
+    current_price DECIMAL(10, 2),
+    created_at DATETIME,
+    updated_at DATETIME,
+    FOREIGN KEY (category_id) REFERENCES product_category(id),
+    FOREIGN KEY (artist_id) REFERENCES artist(id)
+);
+
+CREATE TABLE product_inventory (
+    product_id INT,
+    supplier_id INT,
+    supply_price DECIMAL (10, 2),
+    qty INT,
+    supply_date DATE,
+    PRIMARY KEY (product_id, supplier_id, supply_price),
+    FOREIGN KEY (product_id) REFERENCES product(id),
+    FOREIGN KEY (supplier_id) REFERENCES supplier(id)
+);
+
+CREATE TABLE shopping_cart (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    site_user_id INT,
+    product_id INT,
+    qty INT,
+    FOREIGN KEY (site_user_id) REFERENCES site_user(id),
+    FOREIGN KEY (product_id) REFERENCES product(id)
+);
+
+CREATE TABLE order_status (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    status VARCHAR(50),
+    is_default BOOLEAN DEFAULT FALSE
+);
+
+INSERT INTO order_status (status, is_default) 
+VALUES 
+('Pending', TRUE), ('In Process', FALSE), ('In Delivery', FALSE), ('Complete', FALSE), ('Canceled', FALSE);
+
+CREATE TABLE shop_order (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    site_user_id INT,
+    order_date DATE,
+    payment_shipment_id INT,
+    order_total DECIMAL(10, 2),
+    order_status_id INT,
+    shipment_tracking_id VARCHAR(100) NULL,
+    est_delivery_date DATE NULL,
+    FOREIGN KEY (site_user_id) REFERENCES site_user(id),
+    FOREIGN KEY (payment_shipment_id) REFERENCES payment_shipment(id),
+    FOREIGN KEY (order_status_id) REFERENCES order_status(id)
+);
+
+CREATE TABLE order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    shop_order_id INT,
+    product_id INT,
+    qty INT,
+    price_at_order DECIMAL(10, 2),
+    FOREIGN KEY (product_id) REFERENCES product(id),
+    FOREIGN KEY (shop_order_id) REFERENCES shop_order(id)
+);
+
+CREATE TABLE user_address (
+    user_id INT,
+    address_id INT,
+    PRIMARY KEY (user_id, address_id),
+    FOREIGN KEY (user_id) REFERENCES site_user(id),
+    FOREIGN KEY (address_id) REFERENCES address(id)
+);
+
+
+
+-- trigger
+DELIMITER //
+CREATE TRIGGER set_default_role -- để khi tạo tài khoản mới thì nó tự động add role là "user"
+BEFORE INSERT ON site_user
+FOR EACH ROW
+BEGIN
+    IF NEW.role_id IS NULL THEN
+        SET NEW.role_id = (SELECT id FROM role WHERE is_default = TRUE LIMIT 1);
+    END IF;
+END; //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER set_default_order_status -- để khi tạo order mới thì nó tự động add status là "Pending"
+BEFORE INSERT ON shop_order
+FOR EACH ROW
+BEGIN
+    IF NEW.order_status_id IS NULL THEN
+        SET NEW.order_status_id = (SELECT id FROM order_status WHERE is_default = TRUE);
+    END IF;
+END; //
+
+
+DELIMITER //
+CREATE TRIGGER set_default_shipment_tracking_id
+BEFORE INSERT ON shop_order
+FOR EACH ROW
+BEGIN
+    IF NEW.shipment_tracking_id IS NULL THEN
+        SET NEW.shipment_tracking_id = 'Not yet available';
+    END IF;
+END; //
+DELIMITER ;

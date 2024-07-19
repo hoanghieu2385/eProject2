@@ -3,6 +3,26 @@
     padding: 0;
 }
 
+.notification {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    z-index: 1000;
+    display: none;
+}
+
+.notification.success {
+    background-color: #538ed5;
+}
+
+.notification.error {
+    background-color: #f44336;
+}
+
 .container {
     min-height: 400px;
     margin: 0 auto;
@@ -86,6 +106,8 @@
 }
 
 .view-button {
+    color: #333;
+    text-decoration: none;
     padding: 5px 15px;
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
@@ -94,6 +116,7 @@
 }
 
 .view-button:hover {
+    text-decoration: underline;
     background-color: #e9ecef;
 }
 
@@ -222,16 +245,16 @@
     cursor: pointer;
 }
 
-#editButton,
-#updateButton,
-#cancelButton {
+#editAccountButton,
+#updateAccountButton,
+#cancelAccountButton {
     background-color: #7d7d7d;
     color: white;
 }
 
-#editButton:hover,
-#updateButton:hover,
-#cancelButton:hover {
+#editAccountButton:hover,
+#updateAccountButton:hover,
+#cancelAccountButton:hover {
     background-color: #919294;
 }
 
@@ -256,8 +279,9 @@
 
 .form-group label {
     display: block;
-    font-size: 18px;
-    color: #666;
+    margin-bottom: 5px;
+        color: #555;
+    font-weight: 500;
 }
 
 .password-input {
@@ -307,7 +331,17 @@
     background-color: #919294;
 }
 
-.footer-wrapper * {
-    display: block;
-    box-sizing: border-box;
+/* Styles for Dark Mode */
+
+body.dark-mode h2.sidebar-text{
+    color: #333;
+}
+
+body.dark-mode .sidebar button:hover {
+    border-right: 2px solid #c16161;
+}
+
+body.dark-mode .sidebar button.active {
+    border-right: 2px solid #c16161;
+    background-color: #dfdbe0;
 }

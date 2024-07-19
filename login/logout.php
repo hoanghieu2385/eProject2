@@ -24,7 +24,5 @@ if (isset($_COOKIE['password'])) {
     setcookie('password', '', time() - 3600, '/');
 }
 
-header('Content-Type: application/json');
-echo json_encode(['success' => true]);
-exit;
+header('Location: ../login/login.php');
 ?>
