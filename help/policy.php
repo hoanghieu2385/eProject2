@@ -7,59 +7,58 @@
     <title>Hoot Records</title>
     <link rel="icon" type="image/x-icon" href="../images/header/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">d
-            <style>
-                .payment-content {
-                    max-width: 1000px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    font-family: Arial, sans-serif;
-                }
+    <style>
+        .payment-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
 
-                .payment-content h1 {
-                    text-align: center;
-                    color: #333;
-                }
+        .payment-content h1 {
+            text-align: center;
+            color: #333;
+        }
 
-                .payment-content h2 {
-                    color: #333;
-                    padding-bottom: 10px;
-                    margin-top: 20px;
-                }
+        .payment-content h2 {
+            color: #333;
+            padding-bottom: 10px;
+            margin-top: 20px;
+        }
 
-                .payment-content h2 {
-                    color: #333;
-                    padding-bottom: 10px;
-                    margin-top: 20px;
-                }
+        .payment-content h2 {
+            color: #333;
+            padding-bottom: 10px;
+            margin-top: 20px;
+        }
 
-                .payment-content p {
-                    line-height: 1.6;
-                    margin-bottom: 10px;
-                }
+        .payment-content p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
 
-                .payment-content .payment-info {
-                    background-color: #f9f9f9;
-                    padding: 20px;
-                    border-radius: 5px;
-                }
+        .payment-content .payment-info {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+        }
 
-                .payment-content strong {
-                    font-weight: bold;
-                }
+        .payment-content strong {
+            font-weight: bold;
+        }
 
-                /* dark mode */
+        /* dark mode */
 
-                body.dark-mode .payment-info {
-                    background-color: #383535;
-                }
+        body.dark-mode .payment-info {
+            background-color: #383535;
+        }
 
-                body.dark-mode .payment-info h2,
-                body.dark-mode .payment-info h3,
-                body.dark-mode .payment-info h1
-                {
-                    color: white;
-                }
-            </style>
+        body.dark-mode .payment-info h2,
+        body.dark-mode .payment-info h3,
+        body.dark-mode .payment-info h1 {
+            color: white;
+        }
+    </style>
 </head>
 
 <body>

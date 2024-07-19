@@ -51,8 +51,7 @@
     }
 
     body.dark-mode .payment-info h2,
-    body.dark-mode .payment-info h3
-    {
+    body.dark-mode .payment-info h3 {
         color: white;
     }
 </style>
@@ -64,7 +63,7 @@
     <main class="payment-content">
         <div class="payment-info">
             <h2>SHIPPING INFORMATION</h2>
-            
+
             <h3>Shipping Company Name :</h3>
             <p>Giao Hàng Nhanh</p>
             <p>Giao hàng tiết kiệm</p>

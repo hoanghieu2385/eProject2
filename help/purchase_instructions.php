@@ -58,8 +58,7 @@
 
     body.dark-mode .payment-info h2,
     body.dark-mode .payment-info h3,
-    body.dark-mode .payment-info h1
-    {
+    body.dark-mode .payment-info h1 {
         color: white;
     }
 </style>
@@ -72,7 +71,7 @@
         <div class="payment-info">
             <h1>PURCHASE INSTRUCTIONS</h1>
             <h2>CUSTOMERS CAN ORDER ON THE WEBSITE THROUGH 4 STEPS:</h2>
-            
+
             <h3>STEP 1</h3>
             <p>Select the product you are interested in to view product information, price, status, list of songs on vinyl,...</p>
 
@@ -86,7 +85,7 @@
 
             <h3>STEP 3</h3>
             <p>To place an order, customers can create a <strong>new account</strong>. If you already have an account, you can log in with your email and password to automatically fill in delivery information. In addition to logging in, customers can <strong>update the shipping status</strong> of their orders through the system.</p>
-            
+
             <h3>STEP 4</h3>
             <p>Choose a payment method and review the products, amount and shipping fee. You complete your order by clicking "Proceed to payment" and following the instructions on the checkout page. As soon as the order is received, Hoot Records will send an email confirming the order and instructing the next procedures in the email.</p>
         </div>
