@@ -25,4 +25,3 @@ if (isset($_COOKIE['password'])) {
 }
 
 header('Location: ../login/login.php');
-?>

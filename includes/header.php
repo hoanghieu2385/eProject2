@@ -28,7 +28,7 @@
                         <ul class="sub-menu" id="user-menu">
                             <li><a href="../my_account.php?section=order-History" id="orderHistory">Orders</a></li>
                             <li><a href="../my_account.php?section=account-Detail" id="accountDetail">Account Detail</a></li>
-                            <li><a href="javascript:void(0);" onclick="logout(); return false;" id="logout-btn">Logout</a></li>
+                            <li><a href="../login/logout.php"id="logout-btn">Logout</a></li>
                             <li><a href="../login/login.php" id="login-btn">Login</a></li>
                             <li><a href="../login/sign_up.php" id="signUp-btn">Sign Up</a></li>
                         </ul>
@@ -77,26 +77,6 @@
 <script src="../js/search.js"></script>
 <script src="../js/dark-mode.js"></script>
 <script src="../js/check_login-logout.js"></script>
-<script>
-    function logout() {
-        fetch('../login/logout_reload.php', {
-                method: 'POST',
-                credentials: 'same-origin'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Tải lại trang hiện tại
-                    window.location.href = window.location.href;
-                } else {
-                    console.error('Logout failed');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-</script>
 
 </body>
 

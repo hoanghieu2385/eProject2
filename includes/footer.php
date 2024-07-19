@@ -9,20 +9,26 @@
 </head>
 
 <body>
-    <!-- <div class="footer-container">   -->
     <footer>
         <div class="container-footer">
-            <div class="row">
-                <div class="col logo-col">
+            <div class="row justify-content-md-center">
+                <div class="col align-self-center logo-col">
                     <a href="../index.php" class="logo-footer">
                         <img src="/images/header/logo.png" alt="Record Store" width="50" height="60">
                     </a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate omnis nam autem!</p>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
 
                 <div class="col help-col">
-                    <h4>SUPPORT</h4>
-                    <div class="row">
+                    <div class="row justify-content-md-center">
                         <div class="col">
+                            <h4>SUPPORT</h4>
                             <ul>
                                 <li><a href="../help/payment.php">Payment</a></li>
                                 <li><a href="../help/shipping_information.php">Shipping information</a></li>
@@ -33,10 +39,10 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col info-col">
-                    <h4>INFORMATION</h4>
                     <ul>
+                        <h4>INFORMATION</h4>
                         <li><a href="../contact_us.php">About Us</a></li>
                         <li><a href="#">Newsletter</a></li>
                     </ul>
@@ -44,7 +50,6 @@
             </div>
         </div>
     </footer>
-    <!-- </div> -->
 </body>
 
 </html>

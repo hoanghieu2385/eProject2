@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  
+
   $(document).on("click", ".delete_product_btn", function (e) {
     e.preventDefault();
 
@@ -26,12 +26,14 @@ $(document).ready(function () {
             if (response == 200) {
               swal("Success!", "Product deleted Successfully!", "success");
               $("#products_table").load(location.href + " #products_table");
+              console.log("Product deleted.");
             } else if (response == 500) {
               swal(
                 "Error!",
                 "Something went wrong while deleting the Product!",
                 "error"
               );
+              console.log("Product not deleted.");
             }
           },
         });
@@ -233,7 +235,5 @@ $(document).ready(function () {
       }
     });
   });
-
-
-
+  
 });

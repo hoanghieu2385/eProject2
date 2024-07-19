@@ -11,7 +11,7 @@ footer {
 .container-footer .row {
     display: flex;
     flex-wrap: nowrap;
-    /* justify-content: space-between; */
+    justify-content: space-between;
     /* justify-content: center; */
 
     align-items: flex-start;
@@ -33,9 +33,15 @@ footer {
     max-width: 30%;
 }
 
-.logo-footer {
+.logo-col .logo-footer {
     max-width: 100%;
     height: auto;
+}
+
+.logo-col .fa-brands {
+    font-size: 25px;
+    color: #333;
+    margin: 0 5px;
 }
 
 .help-col .row {

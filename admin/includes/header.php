@@ -1,4 +1,4 @@
-<!-- ?php session_start(); ?> -->
+<?php session_start(); ?>
 <!-- PREVIOUSLY HAD SESSION START IN HERE, now moved to myfunctions.php  -->
 
 <!DOCTYPE html>
