@@ -76,7 +76,10 @@
     max-height: 0;
     opacity: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+    transition:
+        max-height 0.3s ease-out,
+        opacity 0.3s ease-out,
+        padding 0.3s ease-out;
     padding: 0 0 0 20px;
 }
 
@@ -124,7 +127,9 @@ hr {
     width: calc(22% - 20px);
     border: 1px solid #e0e0e0;
     padding: 10px;
-    transition: box-shadow 0.3s, transform 0.3s;
+    transition:
+        box-shadow 0.3s,
+        transform 0.3s;
 }
 
 .hoot-records__record:hover {
@@ -161,20 +166,24 @@ hr {
     font-family: Arial, sans-serif;
 }
 
-.pagination a, .pagination span {
+.pagination a,
+.pagination span {
     color: black;
     padding: 8px 16px;
     text-decoration: none;
     margin: 0 4px;
     border-radius: 4px;
-    transition: background-color .3s, color .3s;
+    transition:
+        background-color 0.3s,
+        color 0.3s;
 }
 
 .pagination a {
     cursor: pointer;
 }
 
-.pagination a.active, .pagination a:hover {
+.pagination a.active,
+.pagination a:hover {
     background-color: #f0f0f0;
     border-color: #bbb;
     text-decoration: none;
@@ -190,11 +199,13 @@ hr {
     color: #bbb;
 }
 
-.pagination a:first-child, .pagination a:last-child {
+.pagination a:first-child,
+.pagination a:last-child {
     padding: 8px;
 }
 
-.pagination a:first-child:hover, .pagination a:last-child:hover {
+.pagination a:first-child:hover,
+.pagination a:last-child:hover {
     background-color: transparent;
     border-color: transparent;
 }
@@ -220,13 +231,33 @@ hr {
 .filter-content label {
     display: flex;
     align-items: center;
-    margin-bottom: 10px; /* khoảng cách giữa các dòng */
+    margin-bottom: 10px;
 }
 
 .filter-checkbox {
-    width: auto;  /* kích thước rộng của checkbox */
-    height: 20px; /* kích thước cao của checkbox */
-    margin-right: 10px; /* khoảng cách giữa checkbox và văn bản */
+    width: auto;
+    height: 20px;
+    margin-right: 10px;
+}
+
+/* **************** DARK MODE **************** */
+body.dark-mode .pagination a,
+body.dark-mode .pagination,
+body.dark-mode .filter-btn {
+    color: white;
+}
+
+body.dark-mode .pagination .current {
+    color: white;
+    font-weight: bold;
+}
+
+body.dark-mode .pagination a:hover {
+    color: #000000;
+}
+
+body.dark-mode .arrow {
+    color: white;
 }
 
 @media (max-width: 768px) {

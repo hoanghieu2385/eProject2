@@ -19,15 +19,11 @@ $genre_result = $conn->query($genre_sql);
 $artist_sql = "SELECT * FROM artist";
 $artist_result = $conn->query($artist_sql);
 
-$country_sql = "SELECT * FROM country";
-$country_result = $conn->query($country_sql);
-
 $conditions = [];
 
 $selected_categories = isset($_GET['category']) ? $_GET['category'] : [];
 $selected_genres = isset($_GET['genre']) ? $_GET['genre'] : [];
 $selected_artists = isset($_GET['artist']) ? $_GET['artist'] : [];
-$selected_countries = isset($_GET['country']) ? $_GET['country'] : [];
 
 if (!empty($selected_categories)) {
     $category_ids = array_map('intval', $selected_categories);
@@ -47,13 +43,6 @@ if (!empty($selected_artists)) {
     $conditions[] = "product.artist_id IN ($artist_list)";
 }
 
-if (!empty($selected_countries)) {
-    $country_ids = array_map('intval', $selected_countries);
-    $country_list = implode(',', $country_ids);
-    $conditions[] = "artist.country_id IN ($country_list)";
-}
-
-
 $products_per_page = 12;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $products_per_page;
@@ -68,7 +57,7 @@ if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
-$sort_order = isset($_GET['sort']) ? $_GET['sort'] : 'best-selling';
+$sort_order = isset($_GET['sort']) ? $_GET['sort'] : 'featured';
 
 $total_sql = "SELECT COUNT(DISTINCT product.id) AS total 
               FROM product 
@@ -92,7 +81,7 @@ switch ($sort_order) {
         $sql .= " ORDER BY product.current_price DESC";
         break;
     case 'featured':
-        // Thêm sắp xếp cụ thể cho 'featured' nếu cần
+        $sql .= " ORDER BY product.id DESC";
         break;
     case 'best-selling':
     default:
@@ -147,7 +136,7 @@ $conn->close();
 
     <main class="hoot-records">
         <h1 class="hoot-records__title">Buy Records from our Online Store</h1>
-        <p class="hoot-records__description">Order new and second hand Music Records from our online record store. We ship Australia wide. We offer a large selection of curated, high quality records at great prices. Do some online crate digging for records!</p>
+        <p class="hoot-records__description">Order new and second hand Music Records from our online record store. We ship Viet Nam wide. We offer a large selection of curated, high quality records at great prices. Do some online crate digging for records!</p>
 
         <div class="hoot-records__content">
             <aside class="hoot-records__filters">
@@ -162,9 +151,9 @@ $conn->close();
                                 <div class="filter-content">
                                     <?php while ($category = $category_result->fetch_assoc()): ?>
                                         <label>
-                                            <input type="checkbox" class="filter-checkbox" name="category[]" 
-                                                   value="<?php echo htmlspecialchars($category['id']); ?>"
-                                                   <?php echo in_array($category['id'], $selected_categories) ? 'checked' : ''; ?>>
+                                            <input type="checkbox" class="filter-checkbox" name="category[]"
+                                                value="<?php echo htmlspecialchars($category['id']); ?>"
+                                                <?php echo in_array($category['id'], $selected_categories) ? 'checked' : ''; ?>>
                                             <?php echo htmlspecialchars($category['category_name']); ?>
                                         </label>
                                     <?php endwhile; ?>
@@ -176,9 +165,9 @@ $conn->close();
                                 <div class="filter-content">
                                     <?php while ($genre = $genre_result->fetch_assoc()): ?>
                                         <label>
-                                            <input type="checkbox" class="filter-checkbox" name="genre[]" 
-                                                   value="<?php echo htmlspecialchars($genre['id']); ?>"
-                                                   <?php echo in_array($genre['id'], $selected_genres) ? 'checked' : ''; ?>>
+                                            <input type="checkbox" class="filter-checkbox" name="genre[]"
+                                                value="<?php echo htmlspecialchars($genre['id']); ?>"
+                                                <?php echo in_array($genre['id'], $selected_genres) ? 'checked' : ''; ?>>
                                             <?php echo htmlspecialchars($genre['genre_name']); ?>
                                         </label>
                                     <?php endwhile; ?>
@@ -190,9 +179,9 @@ $conn->close();
                                 <div class="filter-content">
                                     <?php while ($artist = $artist_result->fetch_assoc()): ?>
                                         <label>
-                                            <input type="checkbox" class="filter-checkbox" name="artist[]" 
-                                                   value="<?php echo htmlspecialchars($artist['id']); ?>"
-                                                   <?php echo in_array($artist['id'], $selected_artists) ? 'checked' : ''; ?>>
+                                            <input type="checkbox" class="filter-checkbox" name="artist[]"
+                                                value="<?php echo htmlspecialchars($artist['id']); ?>"
+                                                <?php echo in_array($artist['id'], $selected_artists) ? 'checked' : ''; ?>>
                                             <?php echo htmlspecialchars($artist['full_name']); ?>
                                         </label>
                                     <?php endwhile; ?>
@@ -211,10 +200,11 @@ $conn->close();
                     <div class="hoot-records__sort">
                         <label for="sort">Sort by</label>
                         <select id="sort" name="sort" onchange="document.getElementById('sortForm').submit();">
-                            <option value="best-selling" <?php echo $sort_order == 'best-selling' ? 'selected' : ''; ?>>Best selling</option>
                             <option value="featured" <?php echo $sort_order == 'featured' ? 'selected' : ''; ?>>Featured</option>
                             <option value="price-low-high" <?php echo $sort_order == 'price-low-high' ? 'selected' : ''; ?>>Price, low to high</option>
                             <option value="price-high-low" <?php echo $sort_order == 'price-high-low' ? 'selected' : ''; ?>>Price, high to low</option>
+                            <option value="best-selling" <?php echo $sort_order == 'best-selling' ? 'selected' : ''; ?>>Best selling</option>
+
                         </select>
                     </div>
                     <?php

@@ -38,6 +38,7 @@ CREATE TABLE site_user (
     FOREIGN KEY (role_id) REFERENCES role(id)
 );
 
+
 CREATE TABLE address (
     id INT AUTO_INCREMENT PRIMARY KEY,
     city VARCHAR(100),
