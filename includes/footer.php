@@ -8,7 +8,6 @@
 </head>
 
 <body>
-<!-- <div class="footer-container">   -->
     <footer>
         <div class="container-footer">
             <div class="row">
@@ -45,7 +44,6 @@
             </div>
         </div>
     </footer>
-    <!-- </div> -->
 </body>
 
 </html>
