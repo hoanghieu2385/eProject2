@@ -16,7 +16,7 @@
                     <a href="../index.php" class="logo-footer">
                         <img src="/images/header/logo.png" alt="Record Store" width="50" height="60">
                     </a>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate omnis nam autem!</p>
+                    <p>Hoot Records is dedicated to bringing you closer to the music you love, with a deep appreciation for the artistry of physical media.</p>
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
                     <a href="#"><i class="fa-brands fa-twitter"></i></a>
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
