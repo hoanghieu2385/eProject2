@@ -11,12 +11,35 @@
 <body>
     <footer>
         <div class="container-footer">
-            <div class="row justify-content-md-center">
-                <div class="col align-self-center logo-col">
+            <div class="row align-items-start">
+                <div class="col logo-col">
                     <a href="../index.php" class="logo-footer">
                         <img src="/images/header/logo.png" alt="Record Store" width="50" height="60">
                     </a>
                     <p>Hoot Records is dedicated to bringing you closer to the music you love, with a deep appreciation for the artistry of physical media.</p>
+                </div>
+
+                <div class="col info-col">
+                    <h4>INFORMATION</h4>
+                    <ul>
+                        <li><a href="../contact_us.php">About Us</a></li>
+                        <li><a href="#">Newsletter</a></li>
+                    </ul>
+                </div>
+
+                <div class="col help-col">
+                    <h4>SUPPORT</h4>
+                    <ul>
+                        <li><a href="../help/payment.php">Payment</a></li>
+                        <li><a href="../help/shipping_information.php">Shipping information</a></li>
+                        <li><a href="../contact_us.php">Contact us</a></li>
+                        <li><a href="../help/policy.php">Policy</a></li>
+                        <li><a href="../help/purchase_instructions.php">Purchase instructions</a></li>
+                    </ul>
+                </div>
+
+                <div class="col follow-col">
+                    <h4>FOLLOW US</h4>
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
                     <a href="#"><i class="fa-brands fa-twitter"></i></a>
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
@@ -25,28 +48,6 @@
                     <a href="#"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
 
-                <div class="col help-col">
-                    <div class="row justify-content-md-center">
-                        <div class="col">
-                            <h4>SUPPORT</h4>
-                            <ul>
-                                <li><a href="../help/payment.php">Payment</a></li>
-                                <li><a href="../help/shipping_information.php">Shipping information</a></li>
-                                <li><a href="../contact_us.php">Contact us</a></li>
-                                <li><a href="../help/policy.php">Policy</a></li>
-                                <li><a href="../help/purchase_instructions.php">Purchase instructions</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col info-col">
-                    <ul>
-                        <h4>INFORMATION</h4>
-                        <li><a href="../contact_us.php">About Us</a></li>
-                        <li><a href="#">Newsletter</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </footer>
