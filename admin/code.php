@@ -398,7 +398,6 @@ if (isset($_POST['add_category_btn'])) {
     if (mysqli_num_rows($check_supplier_result) > 0) {
 
         redirect("supplier.php", "Supplier already exists!");
-
     } else {
 
         if ($email_address != '') {
@@ -412,7 +411,6 @@ if (isset($_POST['add_category_btn'])) {
             } else {
                 redirect("supplier.php", "Something went wrong while adding the Supplier!");
             }
-
         } else {
 
             $supplier_query = "INSERT INTO supplier (supplier_name, contact_information, country_id) 
@@ -424,7 +422,6 @@ if (isset($_POST['add_category_btn'])) {
             } else {
                 redirect("supplier.php", "Something went wrong while adding the Supplier!");
             }
-
         }
     }
 } else if (isset($_POST['update_supplier_btn'])) {
@@ -435,18 +432,16 @@ if (isset($_POST['add_category_btn'])) {
     $email_address = $_POST['email_address'];
     $country_id = $_POST['country_id'];
 
-    if($email_address != '') {
+    if ($email_address != '') {
 
         $supplier_query = "UPDATE supplier
         SET supplier_name = '$supplier_name', contact_information = '$contact_information', email_address = '$email_address', country_id = '$country_id'
         WHERE id = $supplier_id";
-
     } else {
 
         $supplier_query = "UPDATE supplier
         SET supplier_name = '$supplier_name', contact_information = '$contact_information', country_id = '$country_id'
         WHERE id = $supplier_id";
-
     }
 
     $supplier_query_run = mysqli_query($con, $supplier_query);
@@ -488,7 +483,24 @@ if (isset($_POST['add_category_btn'])) {
 
     $product_id_query_result = mysqli_query($con, $product_id_query);
 
+    if (mysqli_num_rows($product_id_query_result) > 0) {
 
+        $row = mysqli_fetch_assoc($product_id_query_result);
+        $product_id = $row['id'];
+
+        $supply_query = "INSERT INTO product_inventory (product_id, supplier_id, supply_price, qty)
+        VALUES ('$product_id', '$supplier_id', '$supply_price', '$quantity')";
+        $supply_query_run = mysqli_query($con, $supply_query);
+
+        if ($supply_query_run) {
+            redirect("inventory.php", "Product restocked successfully!");
+        } else {
+            redirect("inventory.php", "Something went wrong while restocking!");
+        }
+    } else {
+
+        redirect("inventory.php", "Product doesn't exist!");
+    }
 } else {
     header('Location: ../index.php');
 }

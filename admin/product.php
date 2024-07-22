@@ -69,15 +69,15 @@ include('includes/header.php');
 
                                 </select>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <label class="mb-0" style="font-weight: bold;">Album Name</label>
                                 <input type="text" required name="album" placeholder="Enter Album Name" class="form-control mb-2">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="mb-0" style="font-weight: bold;">Version</label>
                                 <input type="text" required name="version" placeholder="Enter Version Name" class="form-control mb-2">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="mb-0" style="font-weight: bold;">Edition</label>
                                 <input type="text" required name="edition" placeholder="Enter Edition Name" class="form-control mb-2">
                             </div>

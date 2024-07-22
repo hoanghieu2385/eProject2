@@ -115,11 +115,12 @@ CREATE TABLE payment_shipment (
     id INT AUTO_INCREMENT PRIMARY KEY,
     payment_option_id INT,
     shipment_option_id INT,
+    fees INT,
     FOREIGN KEY (payment_option_id) REFERENCES payment_option(id),
     FOREIGN KEY (shipment_option_id) REFERENCES shipment_option(id)
 );
 
-INSERT INTO payment_shipment (shipment_option_id, payment_option_id) VALUES (1, 1), (2, 1), (2, 2);
+INSERT INTO payment_shipment (shipment_option_id, payment_option_id, fees) VALUES (1, 1, 0), (2, 1), (2, 2);
 
 CREATE TABLE product (
     id INT AUTO_INCREMENT PRIMARY KEY,  -- artist_id + album + category_id
@@ -165,7 +166,8 @@ CREATE TABLE order_status (
 
 INSERT INTO order_status (status, is_default) 
 VALUES 
-('Pending', TRUE), ('In Process', FALSE), ('In Delivery', FALSE), ('Complete', FALSE), ('Canceled', FALSE);
+
+('Pending', TRUE), ('In Process', FALSE), ('In Delivery', FALSE), ('Completed', FALSE), ('Canceled', FALSE), ('Refunded', FALSE);
 
 CREATE TABLE shop_order (
     id INT AUTO_INCREMENT PRIMARY KEY,
