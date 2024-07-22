@@ -62,10 +62,10 @@ if (!$items_result) {
                     <div class="d-flex">
                         <h5>ORDER <span class="text-primary font-weight-bold">#<?php echo $order['shipment_tracking_id']; ?></span></h5>
                     </div>
-                    <div class="d-flex flex-column text-sm-right">
+                    <!-- <div class="d-flex flex-column text-sm-right">
                         <p class="mb-0">Expected Arrival <span>01/12/19</span></p>
                         <p>USPS <span class="font-weight-bold">234094567242423422898</span></p>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="row d-flex justify-content-center">
                     <div class="col-12">
@@ -115,11 +115,10 @@ if (!$items_result) {
                     <p><?php echo htmlspecialchars($order['shipment_tracking_id']); ?></p>
                 </div>
                 <div class="shipping-address">
-                    <h3>Your Address</h3>
-                    <p><?php echo htmlspecialchars($order['recipient_name']); ?></p>
-                    <p><?php echo htmlspecialchars($order['recipient_phone']); ?></p>
-                    <p><?php echo htmlspecialchars($order['address']); ?></p>
-                    <p><?php echo htmlspecialchars($order['ward'] . ', ' . $order['district'] . ', ' . $order['city']); ?></p>
+                    <h3>Your Information</h3>
+                    <p><b>Name: </b><?php echo htmlspecialchars($order['recipient_name']); ?></p>
+                    <p><b>Phone: </b><?php echo htmlspecialchars($order['recipient_phone']); ?></p>
+                    <p><b>Address: </b><?php echo htmlspecialchars($order['address'] . ', ' . $order['ward'] . ', ' . $order['district'] . ', ' . $order['city']); ?></p>
                 </div>
 
             </div>
@@ -130,11 +129,11 @@ if (!$items_result) {
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th scope="col" class="col-1">STT</th>
+                                <th scope="col" class="col-1 text-center">STT</th>
                                 <th scope="col" class="col-7">Product</th>
-                                <th scope="col" class="col-1">Price</th>
-                                <th scope="col" class="col-1">Quantity</th>
-                                <th scope="col" class="col-1">Total</th>
+                                <th scope="col" class="col-1 text-center">Price</th>
+                                <th scope="col" class="col-1 text-center">Quantity</th>
+                                <th scope="col" class="col-1 text-center">Total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,16 +141,16 @@ if (!$items_result) {
                             $stt = 1;
                             while ($item = $items_result->fetch_assoc()) {
                                 echo "<tr>";
-                                echo "<th scope='row'>" . $stt++ . "</th>";
+                                echo "<th scope='row' class='text-center'>" . $stt++ . "</th>";
                                 echo "<td>
                                     <div class='d-flex align-items-center'>
                                         <img src='../uploads/" . htmlspecialchars($item['product_image']) . "' alt='" . htmlspecialchars($item['album']) . "' class='product-image mr-3' style='object-fit: cover;'>
                                         <span>" . htmlspecialchars($item['album']) . "</span>
                                     </div>
                                 </td>";
-                                echo "<td>$" . number_format($item['price_at_order'], 2) . "</td>";
-                                echo "<td>" . $item['qty'] . "</td>";
-                                echo "<td>$" . number_format($item['price_at_order'] * $item['qty'], 2) . "</td>";
+                                echo "<td class='text-center'>$" . number_format($item['price_at_order'], 2) . "</td>";
+                                echo "<td class='text-center'>" . $item['qty'] . "</td>";
+                                echo "<td class='text-center'>$" . number_format($item['price_at_order'] * $item['qty'], 2) . "</td>";
                                 echo "</tr>";
                             }
 

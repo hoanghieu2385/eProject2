@@ -65,9 +65,9 @@
             <p>Please note that this email does not mean Hoot Records has received the payment. You will receive a successful payment notification email after Hoot Records receives the funds.</p>
 
             <h2>BANK TRANSFER PAYMENT</h2>
-            <p><strong>Bank:</strong> Techcombank</p>
-            <p><strong>Account Holder:</strong> Tran Binh Minh</p>
-            <p><strong>Account Number:</strong> MS00T01690295738639</p>
+            <p><strong>Bank:</strong> MB Bank</p>
+            <p><strong>Account Holder:</strong> Hoang Minh Hieu</p>
+            <p><strong>Account Number:</strong> 0973372340</p>
             <p><strong>Transfer Content:</strong> Order ID + PHONE NUMBER</p>
             <p>For pre-orders, customers are kindly requested to pay 100% of the order value. After receiving the payment, customers will receive an email confirming successful payment, invoice number, and shipping tracking information.</p>
 
@@ -77,7 +77,7 @@
     </main>
 
     <?php include '../includes/footer.php' ?>
-    <?php include './includes/cart.php' ?>
+    <?php include '../includes/cart.php' ?>
 </body>
 
 </html>

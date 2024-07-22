@@ -18,7 +18,7 @@
 
     <div id="notification" class="notification" style="display: none;"></div>
 
-    <div class="container">
+    <div class="container" style="margin-top: 30px;">
         <div class="sidebar">
             <h2 class="sidebar-text">My account</h2>
             <button onclick="showContent('order-History')">

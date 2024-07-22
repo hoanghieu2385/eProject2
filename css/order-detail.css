@@ -14,8 +14,8 @@ body {
     z-index: 0;
     background-color: #ECEFF1;
     padding-bottom: 20px;
-    margin-top: 90px;
-    margin-bottom: 90px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     border-radius: 10px;
 }
 
@@ -119,6 +119,7 @@ body {
     align-items: flex-start;
 }
 
+
 .icon {
     width: 60px;
     height: 60px;
@@ -137,12 +138,20 @@ body {
     }
 }
 
+.container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 50px;
+}
+
 .order-container {
     background-color: white;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 20px;
+    width: 25%;
+    margin-right: 20px;
 }
 
 .order-id,
@@ -153,6 +162,7 @@ body {
 .payment-info {
     border-top: 1px solid #eee;
     padding-top: 15px;
+    width: 75%;
 }
 
 .product-item {
