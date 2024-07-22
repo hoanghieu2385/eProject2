@@ -202,12 +202,12 @@ CREATE TABLE user_address (
 CREATE TABLE checkout_info (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
-    recipient_name VARCHAR(255),
-    recipient_phone VARCHAR(20),
-    address VARCHAR(255),
-    ward VARCHAR(100),
-    district VARCHAR(100),
-    city VARCHAR(100),
+    recipient_name VARCHAR(255) NOT NULL,
+    recipient_phone VARCHAR(20) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    district VARCHAR(100) NOT NULL,
+    ward VARCHAR(100) NOT NULL,
+    address VARCHAR(255) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES site_user(id)
 );
 
