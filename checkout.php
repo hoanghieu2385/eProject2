@@ -99,6 +99,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
     }
 }
 
+// Process order submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['placeOrder'])) {
+    $payment_shipment_id = $_POST['paymentMethod'];
+    $order_total = $_POST['orderTotal'];
+    $order_status_id = 1; // Assuming 1 is the ID for 'Pending' status
+
+    // Insert into shop_order table
+    $order_query = "INSERT INTO shop_order (site_user_id, order_date, payment_shipment_id, order_total, order_status_id) 
+                    VALUES (?, CURDATE(), ?, ?, ?)";
+    $order_stmt = $conn->prepare($order_query);
+    $order_stmt->bind_param("iddi", $user_id, $payment_shipment_id, $order_total, $order_status_id);
+
+    if ($order_stmt->execute()) {
+        $order_id = $conn->insert_id;
+
+        // Insert order items
+        $item_query = "INSERT INTO order_items (shop_order_id, product_id, qty, price_at_order) VALUES (?, ?, ?, ?)";
+        $item_stmt = $conn->prepare($item_query);
+
+        foreach ($cartItems as $item) {
+            $item_stmt->bind_param("iiid", $order_id, $item['product_id'], $item['quantity'], $item['price']);
+            $item_stmt->execute();
+        }
+
+        // Insert checkout address
+        $address_query = "INSERT INTO checkout_address (shop_order_id, city, district, ward, address) 
+                          VALUES (?, ?, ?, ?, ?)";
+        $address_stmt = $conn->prepare($address_query);
+        $address_stmt->bind_param("issss", $order_id, $address_data['city'], $address_data['district'], $address_data['ward'], $address_data['address']);
+        $address_stmt->execute();
+
+        // Clear the cart (You might want to implement this part)
+        // ...
+
+        // Redirect to a thank you page or order confirmation page
+        header("Location: order_confirmation.php?order_id=" . $order_id);
+        exit();
+    } else {
+        $error_message = "An error occurred while placing your order. Please try again.";
+    }
+}
+
 $conn->close();
 ?>
 
@@ -246,7 +288,6 @@ $conn->close();
                                 <td class="text-end"><strong id="totalPrice"><?php echo number_format($totalPrice + (($payment_options[0]['shipment_method'] == 'Ship') ? 50000 : 0), 2, ',', '.'); ?> ₫</strong></td>
                             </tr>
                         </tbody>
-
                     </table>
                 </div>
                 <button type="button" id="orderButton" class="btn btn-dark btn-order w-100 mt-3">PLACE ORDER</button>
@@ -346,11 +387,10 @@ $conn->close();
 
             function updateTotal() {
                 let selectedOption = $('input[name="paymentMethod"]:checked');
-                let shippingCost = parseFloat(selectedOption.data('shipping-cost')) || 0; // Use parseFloat for decimals
+                let shippingCost = parseInt(selectedOption.data('shipping-cost')) || 0;
                 let subtotal = <?php echo $totalPrice; ?>;
                 let total = subtotal + shippingCost;
 
-                // Format to two decimal places
                 $('#totalPrice').text(total.toFixed(2).replace('.', ',') + ' ₫'); // Replace '.' with ','
                 return total;
             }
@@ -367,16 +407,9 @@ $conn->close();
                 let paymentShipmentId = selectedOption.val();
                 let total = updateTotal();
 
-                // Collect cart items
-                let cartItems = [];
-                $('.cart-item').each(function() {
-                    let item = {
-                        product_id: parseInt($(this).data('product-id')),
-                        quantity: parseInt($(this).find('.item-quantity').text()),
-                        price: $(this).find('.item-price').data('price')
-                    };
-                    cartItems.push(item);
-                });
+                // Lấy dữ liệu giỏ hàng từ localStorage
+                let cartData = localStorage.getItem('cart');
+                let cartItems = JSON.parse(cartData);
 
                 // Collect order info data
                 let orderData = {
@@ -384,12 +417,12 @@ $conn->close();
                     order_total: total,
                     cart_items: cartItems,
                     checkout_info: {
-                        recipient_name: $('#recipientName').val(),
-                        recipient_phone: $('#recipientPhone').val(),
-                        address: $('#address').val(),
-                        ward: $('#ward').val(),
-                        district: $('#district').val(),
-                        city: $('#city').val()
+                        recipient_name: $('#fullName').text(),
+                        recipient_phone: $('#phone').text(),
+                        address: $('#address').text(),
+                        ward: $('#ward').text(),
+                        district: $('#district').text(),
+                        city: $('#city').text()
                     }
                 };
 
@@ -403,15 +436,16 @@ $conn->close();
                     success: function(response) {
                         if (response.success) {
                             alert('Order placed successfully! Order ID: ' + response.order_id);
-                            // Redirect to order confirmation page
+                            localStorage.removeItem('cart');
                             window.location.href = './order/order-detail.php?id=' + response.order_id;
                         } else {
                             alert('Error: ' + response.message);
                         }
                     },
                     error: function(xhr, status, error) {
-                        alert('An error occurred while placing the order: ' + error);
                         console.error('AJAX Error:', status, error);
+                        console.log('Response Text:', xhr.responseText);
+                        alert('An error occurred while placing the order. Please check the console for details.');
                     }
                 });
             });
