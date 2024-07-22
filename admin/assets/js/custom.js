@@ -235,5 +235,44 @@ $(document).ready(function () {
       }
     });
   });
+
+  $(document).on("click", ".delete_supplier_btn", function (e) {
+    e.preventDefault();
+
+    var id = $(this).val();
+
+    // alert(id); TESTING PURPOSES
+
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, the supplier will no longer be available!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+          method: "POST",
+          url: "code.php",
+          data: {
+            supplier_id: id,
+            delete_supplier_btn: true,
+          },
+          success: function (response) {
+            if (response == 200) {
+              swal("Success!", "Supplier deleted Successfully!", "success");
+              $("#suppliers_table").load(location.href + " #suppliers_table");
+            } else if (response == 500) {
+              swal(
+                "Error!",
+                "Something went wrong while deleting the Supplier!",
+                "error"
+              );
+            }
+          },
+        });
+      }
+    });
+  });
   
 });

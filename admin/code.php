@@ -68,23 +68,29 @@ if (isset($_POST['add_category_btn'])) {
     $category_id = $_POST['category_id'];
     $artist_id = $_POST['artist_id'];
     $album = $_POST['album'];
+    $version = $_POST['version'];
+    $edition = $_POST['edition'];
     $description = $_POST['description'];
     $current_price = $_POST['current_price'];
 
     $image = $_FILES['image']['name'];
-
     $path = "../uploads";
-
     $image_ext = pathinfo($image, PATHINFO_EXTENSION);
     $filename = time() . '.' . $image_ext;
 
     if ($category_id != "" && $artist_id != "" && $album != "" && $description != "" && $current_price != "") {
-        $product_query = "INSERT INTO product (category_id, artist_id, album, description, product_image, current_price) 
-                            VALUES ('$category_id', '$artist_id', '$album', '$description', '$filename', '$current_price')";
+        // Prepare the SQL statement
+        $stmt = $con->prepare("INSERT INTO product (category_id, artist_id, album, version, edition, description, product_image, current_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
-        $product_query_run = mysqli_query($con, $product_query);
+        if ($stmt === false) {
+            die("Failed to prepare statement: " . $con->error);
+        }
 
-        if ($product_query_run) {
+        // Bind the parameters
+        $stmt->bind_param("iisssssd", $category_id, $artist_id, $album, $version, $edition, $description, $filename, $current_price);
+
+        // Execute the statement
+        if ($stmt->execute()) {
 
             move_uploaded_file($_FILES['image']['tmp_name'], $path . '/' . $filename);
 
@@ -211,20 +217,29 @@ if (isset($_POST['add_category_btn'])) {
     }
 } else if (isset($_POST['add_country_btn'])) {
 
-    $country_name = $_POST['country_name'];
+    $country_name = mysqli_real_escape_string($con, $_POST['country_name']);
 
-    $country_query = "INSERT INTO country (country_name)
-        VALUES ('$country_name')";
+    $check_country_query = "SELECT * FROM country WHERE country_name='$country_name'";
+    $check_country_result = mysqli_query($con, $check_country_query);
 
+    if (mysqli_num_rows($check_country_result) > 0) {
 
-    $country_query_run = mysqli_query($con, $country_query);
-
-    if ($country_query_run) {
-
-        redirect("country.php", "Country added Successfully!");
+        redirect("country.php", "Country already exists!");
     } else {
 
-        redirect("country.php", "Something went wrong while adding the Country!");
+        $country_name = $_POST['country_name'];
+
+        $country_query = "INSERT INTO country (country_name)
+            VALUES ('$country_name')";
+        $country_query_run = mysqli_query($con, $country_query);
+
+        if ($country_query_run) {
+
+            redirect("country.php", "Country added Successfully!");
+        } else {
+
+            redirect("country.php", "Something went wrong while adding the Country!");
+        }
     }
 } else if (isset($_POST['update_country_btn'])) {
 
@@ -259,20 +274,29 @@ if (isset($_POST['add_category_btn'])) {
     }
 } else if (isset($_POST['add_genre_btn'])) {
 
-    $genre_name = $_POST['genre_name'];
+    $genre_name = mysqli_real_escape_string($con, $_POST['genre_name']);
 
-    $genre_query = "INSERT INTO genre (genre_name)
-        VALUES ('$genre_name')";
+    $check_genre_query = "SELECT * FROM genre WHERE genre_name='$genre_name'";
+    $check_genre_result = mysqli_query($con, $check_genre_query);
 
+    if (mysqli_num_rows($check_genre_result) > 0) {
 
-    $genre_query_run = mysqli_query($con, $genre_query);
-
-    if ($genre_query_run) {
-
-        redirect("genre.php", "Genre added Successfully!");
+        redirect("genre.php", "Genre already exists!");
     } else {
 
-        redirect("genre.php", "Something went wrong while adding the Genre!");
+        $genre_name = $_POST['genre_name'];
+
+        $genre_query = "INSERT INTO genre (genre_name)
+            VALUES ('$genre_name')";
+        $genre_query_run = mysqli_query($con, $genre_query);
+
+        if ($genre_query_run) {
+
+            redirect("genre.php", "Genre added Successfully!");
+        } else {
+
+            redirect("genre.php", "Something went wrong while adding the Genre!");
+        }
     }
 } else if (isset($_POST['update_genre_btn'])) {
 
@@ -308,6 +332,8 @@ if (isset($_POST['add_category_btn'])) {
 } else if (isset($_POST['add_artist_btn'])) {
 
     $artist_name = mysqli_real_escape_string($con, $_POST['artist_name']);
+    $country_id = mysqli_real_escape_string($con, $_POST['country_id']);
+
 
     $check_artist_query = "SELECT * FROM artist WHERE full_name='$artist_name'";
     $check_artist_result = mysqli_query($con, $check_artist_query);
@@ -315,10 +341,10 @@ if (isset($_POST['add_category_btn'])) {
     if (mysqli_num_rows($check_artist_result) > 0) {
 
         redirect("artist.php", "Artist already exists!");
-
     } else {
 
-        $artist_query = "INSERT INTO artist (full_name) VALUES ('$artist_name')";
+        $artist_query = "INSERT INTO artist (full_name, country_id) 
+            VALUES ('$artist_name', '$country_id')";
         $artist_query_run = mysqli_query($con, $artist_query);
 
         if ($artist_query_run) {
@@ -326,15 +352,15 @@ if (isset($_POST['add_category_btn'])) {
         } else {
             redirect("artist.php", "Something went wrong while adding the Artist!");
         }
-        
     }
 } else if (isset($_POST['update_artist_btn'])) {
 
     $artist_id = $_POST['artist_id'];
     $artist_name = $_POST['artist_name'];
+    $country_id = $_POST['country_id'];
 
     $artist_query = "UPDATE artist
-    SET full_name = '$artist_name'
+    SET full_name = '$artist_name', country_id = '$country_id'
     WHERE id = $artist_id";
 
     $artist_query_run = mysqli_query($con, $artist_query);
@@ -359,6 +385,110 @@ if (isset($_POST['add_category_btn'])) {
 
         echo 500;
     }
-}  else {
+} else if (isset($_POST['add_supplier_btn'])) {
+
+    $supplier_name = mysqli_real_escape_string($con, $_POST['supplier_name']);
+    $contact_information = mysqli_real_escape_string($con, $_POST['contact_information']);
+    $email_address = mysqli_real_escape_string($con, $_POST['email_address']);
+    $country_id = mysqli_real_escape_string($con, $_POST['country_id']);
+
+    $check_supplier_query = "SELECT * FROM supplier WHERE supplier_name='$supplier_name'";
+    $check_supplier_result = mysqli_query($con, $check_supplier_query);
+
+    if (mysqli_num_rows($check_supplier_result) > 0) {
+
+        redirect("supplier.php", "Supplier already exists!");
+
+    } else {
+
+        if ($email_address != '') {
+
+            $supplier_query = "INSERT INTO supplier (supplier_name, contact_information, email_address, country_id) 
+            VALUES ('$supplier_name', '$contact_information', '$email_address', '$country_id')";
+            $supplier_query_run = mysqli_query($con, $supplier_query);
+
+            if ($supplier_query_run) {
+                redirect("supplier.php", "Supplier added Successfully!");
+            } else {
+                redirect("supplier.php", "Something went wrong while adding the Supplier!");
+            }
+
+        } else {
+
+            $supplier_query = "INSERT INTO supplier (supplier_name, contact_information, country_id) 
+            VALUES ('$supplier_name', '$contact_information', '$country_id')";
+            $supplier_query_run = mysqli_query($con, $supplier_query);
+
+            if ($supplier_query_run) {
+                redirect("supplier.php", "Supplier added Successfully!");
+            } else {
+                redirect("supplier.php", "Something went wrong while adding the Supplier!");
+            }
+
+        }
+    }
+} else if (isset($_POST['update_supplier_btn'])) {
+
+    $supplier_id = $_POST['supplier_id'];
+    $supplier_name = $_POST['supplier_name'];
+    $contact_information = $_POST['contact_information'];
+    $email_address = $_POST['email_address'];
+    $country_id = $_POST['country_id'];
+
+    if($email_address != '') {
+
+        $supplier_query = "UPDATE supplier
+        SET supplier_name = '$supplier_name', contact_information = '$contact_information', email_address = '$email_address', country_id = '$country_id'
+        WHERE id = $supplier_id";
+
+    } else {
+
+        $supplier_query = "UPDATE supplier
+        SET supplier_name = '$supplier_name', contact_information = '$contact_information', country_id = '$country_id'
+        WHERE id = $supplier_id";
+
+    }
+
+    $supplier_query_run = mysqli_query($con, $supplier_query);
+
+    if ($supplier_query_run) {
+        redirect("supplier.php", "Supplier updated Successfully!");
+    } else {
+        redirect("supplier.php?id=$supplier_id", "Something went wrong when updating the Supplier!");
+    }
+} else if (isset($_POST['delete_supplier_btn'])) {
+
+    $supplier_id = mysqli_real_escape_string($con, $_POST['supplier_id']);
+
+    $delete_query = "DELETE FROM supplier WHERE id='$supplier_id'";
+
+    $delete_query_run = mysqli_query($con, $delete_query);
+
+    if ($delete_query_run) {
+
+        echo 200;
+    } else {
+
+        echo 500;
+    }
+} else if (isset($_POST['supply_product_btn'])) {
+
+    $category_id = $_POST['category_id'];
+    $artist_id = $_POST['artist_id'];
+    $album = $_POST['album'];
+    $version = $_POST['version'];
+    $edition = $_POST['edition'];
+    $supplier_id = $_POST['supplier_id'];
+    $supply_price = $_POST['supply_price'];
+    $quantity = $_POST['quantity'];
+
+    $product_id_query = "SELECT id 
+    FROM product 
+    WHERE category_id = '$category_id' AND artist_id = '$artist_id' AND album = '$album' AND version = '$version' AND edition = '$edition'";
+
+    $product_id_query_result = mysqli_query($con, $product_id_query);
+
+
+} else {
     header('Location: ../index.php');
 }

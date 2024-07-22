@@ -4,9 +4,12 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
 
 ?>
 
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
-    <div class="sidenav-header">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark" id="sidenav-main">
+    <div class="sidenav-header d-flex justify-content-between align-items-center">
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <button class="navbar-toggler d-xl-none" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-collapse-main" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <a class="navbar-brand m-0" href="index.php">
             <span class="ms-1 font-weight-bold text-white">Hoot Records Base</span>
         </a>
@@ -23,11 +26,19 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white <?= $page == "product.php" ? 'active bg-gradient-primary' : ''; ?> " href="product.php">
+                <a class="nav-link text-white <?= $page == "stock.php" ? 'active bg-gradient-primary' : ''; ?> " href="product.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">library_music</i>
                     </div>
                     <span class="nav-link-text ms-1">Products</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white <?= $page == "inventory.php" ? 'active bg-gradient-primary' : ''; ?> " href="inventory.php">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">queue</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Product Inventory</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -52,6 +63,14 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
                         <i class="material-icons opacity-10">attach_money</i>
                     </div>
                     <span class="nav-link-text ms-1">Payment and Shipment</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white <?= $page == "supplier.php" ? 'active bg-gradient-primary' : ''; ?> " href="supplier.php">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">local_shipping</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Suppliers</span>
                 </a>
             </li>
             <li class="nav-item">

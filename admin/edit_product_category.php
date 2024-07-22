@@ -1,12 +1,11 @@
 <?php
 
+// include('includes/header.php');
+// include('../middleware/adminMiddleware.php');
 
-include('includes/header.php');
 include('../middleware/adminMiddleware.php');
 // the header.php include was previously on top of adminMiddleware include
-
-
-
+include('includes/header.php');
 
 ?>
 
@@ -34,11 +33,11 @@ include('../middleware/adminMiddleware.php');
                                 <div class="row">
                                     <div class="col-md-6">
                                         <input type="hidden" name="product_category_id" value="<?= $data['id'] ?>">
-                                        <label for="">Category Name</label>
+                                        <label for="" style="font-weight: bold;">Category Name</label>
                                         <input type="text" value="<?= $data['category_name'] ?>" name="category_name" placeholder="Enter Category Name" class="form-control">
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="">Parent Category ID</label>
+                                        <label for="" style="font-weight: bold;">Parent Category ID</label>
                                         <input type="number" value="<?= $data['parent_category_id'] ?>" name="parent_category_id" placeholder="If available.." class="form-control">
                                     </div>
                                     <div class="col-md-12">

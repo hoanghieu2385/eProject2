@@ -31,6 +31,8 @@
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+
+
 <!-- ALERTIFY JS -->
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
 
@@ -44,6 +46,14 @@
         unset($_SESSION['message']);
     }
     ?>
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('.navbar-toggler').click(function(){
+            $('#sidenav-main').toggleClass('d-none');
+        });
+    });
 </script>
 
 

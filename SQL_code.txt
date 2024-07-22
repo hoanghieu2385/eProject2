@@ -142,7 +142,7 @@ CREATE TABLE product_inventory (
     supplier_id INT,
     supply_price DECIMAL (10, 2),
     qty INT,
-    supply_date DATE,
+    supply_date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (product_id, supplier_id, supply_price),
     FOREIGN KEY (product_id) REFERENCES product(id),
     FOREIGN KEY (supplier_id) REFERENCES supplier(id)
@@ -201,7 +201,8 @@ CREATE TABLE user_address (
 
 
 
--- trigger
+----------------------------- TRIGGER ---------------------------------
+
 DELIMITER //
 CREATE TRIGGER set_default_role -- để khi tạo tài khoản mới thì nó tự động add role là "user"
 BEFORE INSERT ON site_user

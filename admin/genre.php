@@ -1,15 +1,23 @@
 <?php
 
+// include('includes/header.php');
+// include('../middleware/adminMiddleware.php');
 
-include('includes/header.php');
 include('../middleware/adminMiddleware.php');
 // the header.php include was previously on top of adminMiddleware include
+include('includes/header.php');
 
 ?>
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+        <?php
+                if (isset($_SESSION['status'])) {
+                    echo "<div class='alert alert-warning'>" . $_SESSION['status'] . "</div>";
+                    unset($_SESSION['status']);
+                }
+            ?>
             <div class="card">
                 <div class="card-header">
                     <h4>Add Genre</h4>

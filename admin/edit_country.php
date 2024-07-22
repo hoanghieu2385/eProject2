@@ -1,9 +1,11 @@
 <?php
 
+// include('includes/header.php');
+// include('../middleware/adminMiddleware.php');
 
-include('includes/header.php');
 include('../middleware/adminMiddleware.php');
 // the header.php include was previously on top of adminMiddleware include
+include('includes/header.php');
 
 ?>
 
@@ -31,7 +33,7 @@ include('../middleware/adminMiddleware.php');
                                 <div class="row">
                                     <div class="col-md-6">
                                         <input type="hidden" name="country_id" value="<?= $data['id'] ?>">
-                                        <label for="">Country Name</label>
+                                        <label for="" style="font-weight: bold;">Country Name</label>
                                         <input type="text" value="<?= $data['country_name'] ?>" name="country_name" placeholder="Enter Country Name" class="form-control">
                                     </div>
                                     <div class="col-md-12">

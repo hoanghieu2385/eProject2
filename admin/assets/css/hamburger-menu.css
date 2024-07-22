@@ -1,0 +1,28 @@
+@media (max-width: 768px) {
+    .sidenav {
+        width: 0;
+        overflow: hidden;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .sidenav.open {
+        width: 250px; /* Adjust the width as needed */
+    }
+
+    .navbar-toggler {
+        display: block;
+        cursor: pointer;
+    }
+
+    .navbar-toggler-icon {
+        width: 30px;
+        height: 3px;
+        background-color: white;
+        display: block;
+        margin: 5px 0;
+    }
+    }
+
+    .navbar-toggler {
+        display: none;
+    }
