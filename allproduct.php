@@ -149,11 +149,9 @@ $conn->close();
                             <div class="filter-item">
                                 <button type="button" class="filter-btn">Product Type <span class="arrow"></span></button>
                                 <div class="filter-content">
-                                    <?php while ($category = $category_result->fetch_assoc()): ?>
+                                    <?php while ($category = $category_result->fetch_assoc()) : ?>
                                         <label>
-                                            <input type="checkbox" class="filter-checkbox" name="category[]"
-                                                value="<?php echo htmlspecialchars($category['id']); ?>"
-                                                <?php echo in_array($category['id'], $selected_categories) ? 'checked' : ''; ?>>
+                                            <input type="checkbox" class="filter-checkbox" name="category[]" value="<?php echo htmlspecialchars($category['id']); ?>" <?php echo in_array($category['id'], $selected_categories) ? 'checked' : ''; ?>>
                                             <?php echo htmlspecialchars($category['category_name']); ?>
                                         </label>
                                     <?php endwhile; ?>
@@ -163,11 +161,9 @@ $conn->close();
                             <div class="filter-item">
                                 <button type="button" class="filter-btn">Genre <span class="arrow"></span></button>
                                 <div class="filter-content">
-                                    <?php while ($genre = $genre_result->fetch_assoc()): ?>
+                                    <?php while ($genre = $genre_result->fetch_assoc()) : ?>
                                         <label>
-                                            <input type="checkbox" class="filter-checkbox" name="genre[]"
-                                                value="<?php echo htmlspecialchars($genre['id']); ?>"
-                                                <?php echo in_array($genre['id'], $selected_genres) ? 'checked' : ''; ?>>
+                                            <input type="checkbox" class="filter-checkbox" name="genre[]" value="<?php echo htmlspecialchars($genre['id']); ?>" <?php echo in_array($genre['id'], $selected_genres) ? 'checked' : ''; ?>>
                                             <?php echo htmlspecialchars($genre['genre_name']); ?>
                                         </label>
                                     <?php endwhile; ?>
@@ -177,11 +173,9 @@ $conn->close();
                             <div class="filter-item">
                                 <button type="button" class="filter-btn">Artist <span class="arrow"></span></button>
                                 <div class="filter-content">
-                                    <?php while ($artist = $artist_result->fetch_assoc()): ?>
+                                    <?php while ($artist = $artist_result->fetch_assoc()) : ?>
                                         <label>
-                                            <input type="checkbox" class="filter-checkbox" name="artist[]"
-                                                value="<?php echo htmlspecialchars($artist['id']); ?>"
-                                                <?php echo in_array($artist['id'], $selected_artists) ? 'checked' : ''; ?>>
+                                            <input type="checkbox" class="filter-checkbox" name="artist[]" value="<?php echo htmlspecialchars($artist['id']); ?>" <?php echo in_array($artist['id'], $selected_artists) ? 'checked' : ''; ?>>
                                             <?php echo htmlspecialchars($artist['full_name']); ?>
                                         </label>
                                     <?php endwhile; ?>
@@ -226,10 +220,12 @@ $conn->close();
                     if (!empty($products)) {
                         foreach ($products as $row) {
                             echo '<div class="hoot-records__record">';
-                            echo '<img src="' . $row["product_image"] . '" alt="' . $row["album"] . '">';
+                            echo '<a href="product-detail.php?id=' . $row["id"] . '">';
+                            echo '<img src="./uploads/' . $row["product_image"] . '" alt="' . $row["album"] . '">';
                             echo '<h3>' . $row["album"] . '</h3>';
                             echo '<p>' . $row["description"] . '</p>';
                             echo '<p class="hoot-records__price">$' . $row["current_price"] . '</p>';
+                            echo '</a>';
                             echo '</div>';
                         }
                     } else if (isset($no_results)) {

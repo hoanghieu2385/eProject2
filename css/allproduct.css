@@ -5,6 +5,11 @@
     padding: 20px;
     line-height: 1.6;
 }
+.hoot-records__record a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
 
 .hoot-records__title {
     font-size: 24px;
