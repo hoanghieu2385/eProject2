@@ -1,3 +1,4 @@
+<!-- checkout.php -->
 <?php
 session_start();
 
@@ -12,26 +13,135 @@ if ($conn->connect_error) {
     die("Connect failed. " . $conn->connect_error);
 }
 
-$user_id = $_SESSION['user_id'];
-
-$user_query = "SELECT * FROM site_user WHERE id = $user_id";
-$user_result = $conn->query($user_query);
-$user_data = $user_result->fetch_assoc();
-
-$address_query = "SELECT * FROM address WHERE id = $user_id";
-$address_result = $conn->query($address_query);
-$address_data = $address_result->fetch_assoc();
-
-$conn->close();
-
-// Xử lý dữ liệu giỏ hàng
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
-    $cartItems = json_decode($_POST['cartData'], true);
-} else {
-    // Nếu không có dữ liệu giỏ hàng, chuyển hướng người dùng về trang chủ
-    header('Location: index.php');
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
     exit();
 }
+
+$user_id = $_SESSION['user_id'];
+
+// Fetch user data
+$user_query = "SELECT u.first_name, u.last_name, u.phone_number, 
+                      a.address, a.ward, a.district, a.city
+               FROM site_user u
+               LEFT JOIN user_address ua ON u.id = ua.user_id
+               LEFT JOIN address a ON ua.address_id = a.id
+               WHERE u.id = ?";
+$user_stmt = $conn->prepare($user_query);
+$user_stmt->bind_param("i", $user_id);
+$user_stmt->execute();
+$result = $user_stmt->get_result();
+$user_data = $result->fetch_assoc();
+
+// Function to check if a value is set and not empty
+function getValue($value)
+{
+    return (isset($value) && !empty($value)) ? htmlspecialchars($value) : 'Not set';
+}
+
+
+// Fetch address data
+$address_query = "SELECT a.* FROM address a 
+                  JOIN user_address ua ON a.id = ua.address_id 
+                  WHERE ua.user_id = ?";
+$address_stmt = $conn->prepare($address_query);
+$address_stmt->bind_param("i", $user_id);
+$address_stmt->execute();
+$address_result = $address_stmt->get_result();
+
+if ($address_result->num_rows > 0) {
+    $address_data = $address_result->fetch_assoc();
+} else {
+    $address_data = array(
+        'address' => '',
+        'ward' => '',
+        'district' => '',
+        'city' => ''
+    );
+}
+
+// Fetch payment options
+$payment_options_query = "SELECT po.*, so.shipment_method 
+                          FROM payment_option po
+                          JOIN payment_shipment ps ON po.id = ps.payment_option_id
+                          JOIN shipment_option so ON ps.shipment_option_id = so.id";
+$payment_options_result = $conn->query($payment_options_query);
+$payment_options = [];
+
+if ($payment_options_result->num_rows > 0) {
+    while ($row = $payment_options_result->fetch_assoc()) {
+        $payment_options[] = $row;
+    }
+}
+
+// Process cart data from POST
+$cartItems = [];
+$totalPrice = 0;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
+    $cartData = json_decode($_POST['cartData'], true);
+
+    if (is_array($cartData)) {
+        foreach ($cartData as $item) {
+            $price = floatval(str_replace(['$', ','], '', $item['price']));
+            $quantity = intval($item['quantity']);
+            $itemTotal = $price * $quantity;
+            $totalPrice += $itemTotal;
+
+            $cartItems[] = [
+                'title' => $item['title'],
+                'price' => $price,
+                'quantity' => $quantity,
+                'total' => $itemTotal
+            ];
+        }
+    }
+}
+
+// Process order submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['placeOrder'])) {
+    $payment_shipment_id = $_POST['paymentMethod'];
+    $order_total = $_POST['orderTotal'];
+    $order_status_id = 1; // Assuming 1 is the ID for 'Pending' status
+
+    // Insert into shop_order table
+    $order_query = "INSERT INTO shop_order (site_user_id, order_date, payment_shipment_id, order_total, order_status_id) 
+                    VALUES (?, CURDATE(), ?, ?, ?)";
+    $order_stmt = $conn->prepare($order_query);
+    $order_stmt->bind_param("iddi", $user_id, $payment_shipment_id, $order_total, $order_status_id);
+
+    if ($order_stmt->execute()) {
+        $order_id = $conn->insert_id;
+
+        // Insert order items
+        $item_query = "INSERT INTO order_items (shop_order_id, product_id, qty, price_at_order) VALUES (?, ?, ?, ?)";
+        $item_stmt = $conn->prepare($item_query);
+
+        foreach ($cartItems as $item) {
+            $item_stmt->bind_param("iiid", $order_id, $item['product_id'], $item['quantity'], $item['price']);
+            $item_stmt->execute();
+        }
+
+        // Insert checkout address
+        $address_query = "INSERT INTO checkout_address (shop_order_id, city, district, ward, address) 
+                          VALUES (?, ?, ?, ?, ?)";
+        $address_stmt = $conn->prepare($address_query);
+        $address_stmt->bind_param("issss", $order_id, $address_data['city'], $address_data['district'], $address_data['ward'], $address_data['address']);
+        $address_stmt->execute();
+
+        // Clear the cart (You might want to implement this part)
+        // ...
+
+        // Redirect to a thank you page or order confirmation page
+        header("Location: order_confirmation.php?order_id=" . $order_id);
+        exit();
+    } else {
+        $error_message = "An error occurred while placing your order. Please try again.";
+    }
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -118,23 +228,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
             <div class="col-md-5">
                 <h2>SHIPPING INFO</h2>
                 <div id="userInfo">
-                    <p><strong>NAME:</strong> <span id="fullName"><?php echo $user_data['first_name'] . ' ' . $user_data['last_name']; ?></span></p>
-                    <p><strong>PHONE NUMBER:</strong> <span id="phone"><?php echo $user_data['phone_number']; ?></span></p>
-                    <p><strong>EMAIL:</strong> <span id="email"><?php echo $user_data['email_address']; ?></span></p>
-                    <p><strong>ADDRESS:</strong> <span id="address"><?php echo $address_data['address']; ?></span></p>
-                    <p><strong>WARD:</strong> <span id="ward"><?php echo $address_data['ward']; ?></span></p>
-                    <p><strong>DISTRICT:</strong> <span id="district"><?php echo $address_data['district']; ?></span></p>
-                    <p><strong>CITY:</strong> <span id="city"><?php echo $address_data['city']; ?></span></p>
+                    <p><strong>NAME:</strong> <span id="fullName" class="editable"><?php echo getValue($user_data['first_name'] . ' ' . $user_data['last_name']); ?></span></p>
+                    <p><strong>PHONE NUMBER:</strong> <span id="phone" class="editable"><?php echo getValue($user_data['phone_number']); ?></span></p>
+                    <p><strong>CITY:</strong> <span id="city" class="editable"><?php echo getValue($user_data['city']); ?></span></p>
+                    <p><strong>DISTRICT:</strong> <span id="district" class="editable"><?php echo getValue($user_data['district']); ?></span></p>
+                    <p><strong>WARD:</strong> <span id="ward" class="editable"><?php echo getValue($user_data['ward']); ?></span></p>
+                    <p><strong>ADDRESS:</strong> <span id="address" class="editable"><?php echo getValue($user_data['address']); ?></span></p>
                 </div>
                 <div id="editForm" style="display: none;">
-                    <input type="text" id="editAddress" placeholder="Address">
-                    <input type="text" id="editWard" placeholder="Ward">
-                    <input type="text" id="editDistrict" placeholder="District">
+                    <input type="text" id="editFullName" placeholder="Full Name">
+                    <input type="text" id="editPhone" placeholder="Phone Number">
                     <input type="text" id="editCity" placeholder="City">
-                    <button id="saveBtn">Save</button>
-                    <button id="cancelBtn">Cancel</button>
+                    <input type="text" id="editDistrict" placeholder="District">
+                    <input type="text" id="editWard" placeholder="Ward">
+                    <input type="text" id="editAddress" placeholder="Address">
                 </div>
                 <button id="editBtn">EDIT</button>
+                <div id="warnings"></div>
             </div>
             <div class="col-md-7">
                 <h2>YOUR ORDER</h2>
@@ -147,46 +257,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            $totalPrice = 0;
-                            foreach ($cartItems as $item) {
-                                // Chuyển đổi giá và số lượng thành số
-                                $price = floatval(str_replace(['$', ','], '', $item['price']));
-                                $quantity = intval($item['quantity']);
-
-                                $itemTotal = $price * $quantity;
-                                $totalPrice += $itemTotal;
-                            ?>
+                            <?php foreach ($cartItems as $item) : ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($item['title']); ?> <b>× <?php echo $quantity; ?></b></td>
-                                    <td class="text-end"><?php echo number_format($itemTotal, 0, ',', '.'); ?> ₫</td>
+                                    <td><?php echo htmlspecialchars($item['title']); ?> <b>× <?php echo $item['quantity']; ?></b></td>
+                                    <td class="text-end"><?php echo number_format($item['total'], 2, ',', '.'); ?> ₫</td>
                                 </tr>
-                            <?php } ?>
+                            <?php endforeach; ?>
                             <tr>
                                 <td>PROVISIONAL INVOICE</td>
-                                <td class="text-end"><?php echo number_format($totalPrice, 0, ',', '.'); ?> ₫</td>
+                                <td class="text-end"><?php echo number_format($totalPrice, 2, ',', '.'); ?> ₫</td>
                             </tr>
                             <tr>
                                 <td>SHIPPING</td>
                                 <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paymentMethod" id="transfer" value="transfer" checked>
-                                        <label class="form-check-label" for="transfer">
-                                            THANH TOÁN CHUYỂN KHOẢN: 50,000 ₫
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="cod">
-                                        <label class="form-check-label" for="cod">
-                                            THANH TOÁN KHI NHẬN HÀNG (COD): 50,000 ₫
-                                        </label>
-                                    </div>
-                                    </div>
+                                    <?php foreach ($payment_options as $option) : ?>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="paymentMethod" id="payment<?php echo $option['id']; ?>" value="<?php echo $option['id']; ?>" data-payment="<?php echo htmlspecialchars($option['payment_method']); ?>" data-shipment="<?php echo htmlspecialchars($option['shipment_method']); ?>" data-shipping-cost="<?php echo $option['shipment_method'] == 'Ship' ? 50000 : 0; ?>" <?php echo ($option === reset($payment_options)) ? 'checked' : ''; ?>>
+                                            <label class="form-check-label" for="payment<?php echo $option['id']; ?>">
+                                                <?php echo htmlspecialchars($option['payment_method'] . ' - ' . $option['shipment_method']); ?>
+                                                <?php if ($option['shipment_method'] == 'Ship') : ?>
+                                                    (Shipping cost: 50,000 ₫)
+                                                <?php endif; ?>
+                                            </label>
+                                        </div>
+                                    <?php endforeach; ?>
                                 </td>
                             </tr>
                             <tr>
                                 <td><strong>TOTAL</strong></td>
-                                <td class="text-end"><strong id="totalPrice"><?php echo number_format($totalPrice, 0, ',', '.'); ?> ₫</strong></td>
+                                <td class="text-end"><strong id="totalPrice"><?php echo number_format($totalPrice + (($payment_options[0]['shipment_method'] == 'Ship') ? 50000 : 0), 2, ',', '.'); ?> ₫</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -195,30 +294,160 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
             </div>
         </div>
     </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <?php include './includes/footer.php' ?>
+    <?php include './includes/cart.php' ?>
 
     <script>
         $(document).ready(function() {
-            $('input[name="paymentMethod"]').change(function() {
-                let shippingCost = 0;
-                if (this.value === 'transfer') {
-                    shippingCost = 50000;
-                } else if (this.value === 'cod') {
-                    shippingCost = 50000;
-                }
+            let isEditing = false;
 
+            $('#editBtn').click(function() {
+                if (!isEditing) {
+                    // Switch to edit mode
+                    isEditing = true;
+                    $('#editBtn').text('CANCEL');
+                    $('#userInfo').hide();
+                    $('#editForm').show();
+
+                    // Populate edit form with current values, removing 'Not set'
+                    $('.editable').each(function() {
+                        let value = $(this).text().trim();
+                        let inputId = 'edit' + $(this).attr('id').charAt(0).toUpperCase() + $(this).attr('id').slice(1);
+                        if (value === 'Not set') {
+                            $('#' + inputId).val('');
+                        } else {
+                            $('#' + inputId).val(value);
+                        }
+                    });
+
+                    // Add save button
+                    $('#editForm').append('<button id="saveBtn" class="btn btn-primary mt-2">SAVE</button>');
+                } else {
+                    // Cancel edit mode
+                    isEditing = false;
+                    $('#editBtn').text('EDIT');
+                    $('#userInfo').show();
+                    $('#editForm').hide();
+                    $('#saveBtn').remove();
+                }
+            });
+
+            $(document).on('click', '#saveBtn', function() {
+                let fullName = $('#editFullName').val();
+                let phone = $('#editPhone').val();
+                let address = $('#editAddress').val();
+                let ward = $('#editWard').val();
+                let district = $('#editDistrict').val();
+                let city = $('#editCity').val();
+
+                $.ajax({
+                    url: './order/update_shipping_info.php',
+                    type: 'POST',
+                    data: {
+                        full_name: fullName,
+                        phone: phone,
+                        address: address,
+                        ward: ward,
+                        district: district,
+                        city: city
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            // Update displayed info
+                            $('#fullName').text(fullName || 'Not set');
+                            $('#phone').text(phone || 'Not set');
+                            $('#address').text(address || 'Not set');
+                            $('#ward').text(ward || 'Not set');
+                            $('#district').text(district || 'Not set');
+                            $('#city').text(city || 'Not set');
+
+                            // Switch back to display mode
+                            isEditing = false;
+                            $('#editBtn').text('EDIT');
+                            $('#userInfo').show();
+                            $('#editForm').hide();
+                            $('#saveBtn').remove();
+
+                            alert('Shipping information updated successfully');
+                        } else {
+                            alert('Failed to update shipping information: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
+                        alert('An error occurred while updating the shipping information: ' + error);
+                    }
+                });
+            });
+
+            function updateTotal() {
+                let selectedOption = $('input[name="paymentMethod"]:checked');
+                let shippingCost = parseInt(selectedOption.data('shipping-cost')) || 0;
                 let subtotal = <?php echo $totalPrice; ?>;
                 let total = subtotal + shippingCost;
 
-                $('#totalPrice').text(total.toLocaleString('vi-VN') + ' ₫');
-            });
+                $('#totalPrice').text(total.toFixed(2).replace('.', ',') + ' ₫'); // Replace '.' with ','
+                return total;
+            }
 
-            $('#orderButton').click(function() {
-                // Xử lý đặt hàng ở đây
-                alert('Đơn hàng của bạn đã được đặt thành công!');
+            $('input[name="paymentMethod"]').change(updateTotal);
+
+            // Initial update
+            updateTotal();
+
+            $('#orderButton').click(function(e) {
+                e.preventDefault();
+
+                let selectedOption = $('input[name="paymentMethod"]:checked');
+                let paymentShipmentId = selectedOption.val();
+                let total = updateTotal();
+
+                // Lấy dữ liệu giỏ hàng từ localStorage
+                let cartData = localStorage.getItem('cart');
+                let cartItems = JSON.parse(cartData);
+
+                // Collect order info data
+                let orderData = {
+                    payment_shipment_id: paymentShipmentId,
+                    order_total: total,
+                    cart_items: cartItems,
+                    checkout_info: {
+                        recipient_name: $('#fullName').text(),
+                        recipient_phone: $('#phone').text(),
+                        address: $('#address').text(),
+                        ward: $('#ward').text(),
+                        district: $('#district').text(),
+                        city: $('#city').text()
+                    }
+                };
+
+                // Send AJAX request
+                $.ajax({
+                    url: './order/process_order.php',
+                    type: 'POST',
+                    data: JSON.stringify(orderData),
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Order placed successfully! Order ID: ' + response.order_id);
+                            localStorage.removeItem('cart');
+                            window.location.href = './order/order-detail.php?id=' + response.order_id;
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
+                        console.log('Response Text:', xhr.responseText);
+                        alert('An error occurred while placing the order. Please check the console for details.');
+                    }
+                });
             });
         });
     </script>
