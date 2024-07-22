@@ -1,6 +1,7 @@
 <!-- cart.php -->
 <link rel="stylesheet" href="../css/cart.css">
 <div class="cart">
+    
     <div class="cart-header">
         <h2>Cart</h2>
         <span class="close">&times;</span>
@@ -27,5 +28,7 @@
         <button class="view-cart">CHECKOUT</button>
     </div>
 </div>
-
+<script>
+    var isUserLoggedIn = <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;
+</script>
 <script src="../js/product-cart.js"></script>

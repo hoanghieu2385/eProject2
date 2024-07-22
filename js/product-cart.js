@@ -19,6 +19,7 @@
         const subtotalElem = document.querySelector('.subtotal');
         const checkoutBtn = document.querySelector('.view-cart');
 
+
         function addToCart(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -33,7 +34,7 @@
             const productId = e.target.dataset.productId || productContainer.dataset.productId;
             let productTitle = '';
             let productPrice = '';
-            
+
             // For index page (album-item)
             if (productContainer.classList.contains('album-item')) {
                 const paragraphs = productContainer.querySelectorAll('p');
@@ -41,7 +42,7 @@
                     productTitle = paragraphs[0].textContent.split('by')[0].trim();
                     productPrice = paragraphs[paragraphs.length - 1].textContent.trim();
                 }
-            } 
+            }
             // For product detail page
             else {
                 productTitle = productContainer.querySelector('.title')?.textContent.trim() || '';
@@ -58,7 +59,7 @@
             }
 
             const productImage = productContainer.querySelector('img')?.src || '';
-            const quantity = productContainer.querySelector('.quantity-box .quantity') ? 
+            const quantity = productContainer.querySelector('.quantity-box .quantity') ?
                 parseInt(productContainer.querySelector('.quantity-box .quantity').textContent) : 1;
 
             console.log('Product details:', { productId, productTitle, productPrice, productImage, quantity });
@@ -264,22 +265,36 @@
             }
         });
 
-        // Xử lý nút CHECKOUT
+
         checkoutBtn.addEventListener('click', function () {
             const cartData = localStorage.getItem('cart');
             if (cartData) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '../checkout.php';
+                // Kiểm tra xem người dùng đã đăng nhập chưa
+                fetch('includes/check_login_status.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.isLoggedIn) {
+                            // Nếu đã đăng nhập, tiến hành checkout
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = '../checkout.php';
 
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'cartData';
-                input.value = cartData;
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'cartData';
+                            input.value = cartData;
 
-                form.appendChild(input);
-                document.body.appendChild(form);
-                form.submit();
+                            form.appendChild(input);
+                            document.body.appendChild(form);
+                            form.submit();
+                        } else {
+                            window.location.href = 'login/login.php';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again.');
+                    });
             } else {
                 alert('Your cart is empty!');
             }
