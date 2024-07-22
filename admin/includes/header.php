@@ -22,8 +22,6 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="assets/css/material-dashboard.min.css?v=3.0.0" rel="stylesheet" />
     <link href="../assets/css/tables.css" rel="stylesheet" />
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 

@@ -48,14 +48,6 @@
     ?>
 </script>
 
-<script>
-    $(document).ready(function(){
-        $('.navbar-toggler').click(function(){
-            $('#sidenav-main').toggleClass('d-none');
-        });
-    });
-</script>
-
 
 </body>
 
