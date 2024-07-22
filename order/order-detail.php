@@ -26,8 +26,8 @@ if ($order_result && $order_result->num_rows > 0) {
     exit();
 }
 
-// Truy vấn các mục trong đơn hàng
-$items_sql = "SELECT oi.*, p.album FROM order_items oi 
+
+$items_sql = "SELECT oi.*, p.album, p.product_image FROM order_items oi 
               JOIN product p ON oi.product_id = p.id 
               WHERE oi.shop_order_id = $order_id";
 $items_result = $conn->query($items_sql);
@@ -61,6 +61,10 @@ if (!$items_result) {
                 <div class="row d-flex justify-content-between px-3 top">
                     <div class="d-flex">
                         <h5>ORDER <span class="text-primary font-weight-bold">#<?php echo $order['shipment_tracking_id']; ?></span></h5>
+                    </div>
+                    <div class="d-flex flex-column text-sm-right">
+                        <p class="mb-0">Expected Arrival <span>01/12/19</span></p>
+                        <p>USPS <span class="font-weight-bold">234094567242423422898</span></p>
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center">
@@ -107,11 +111,11 @@ if (!$items_result) {
         <div class="container">
             <div class="order-container">
                 <div class="order-id">
-                    <h3>Mã đơn hàng</h3>
+                    <h3>Order ID</h3>
                     <p><?php echo htmlspecialchars($order['shipment_tracking_id']); ?></p>
                 </div>
                 <div class="shipping-address">
-                    <h3>Địa chỉ nhận hàng</h3>
+                    <h3>Your Address</h3>
                     <p><?php echo htmlspecialchars($order['recipient_name']); ?></p>
                     <p><?php echo htmlspecialchars($order['recipient_phone']); ?></p>
                     <p><?php echo htmlspecialchars($order['address']); ?></p>
@@ -121,7 +125,7 @@ if (!$items_result) {
             </div>
 
             <div class="order-container payment-info">
-                <h3>Thông tin thanh toán</h3>
+                <h3>Payment Info</h3>
                 <div class="product-item">
                     <table class="table table-striped table-hover">
                         <thead>
@@ -139,28 +143,33 @@ if (!$items_result) {
                             while ($item = $items_result->fetch_assoc()) {
                                 echo "<tr>";
                                 echo "<th scope='row'>" . $stt++ . "</th>";
-                                echo "<td>" . $item['album'] . "</td>";
+                                echo "<td>
+                                    <div class='d-flex align-items-center'>
+                                        <img src='../uploads/" . htmlspecialchars($item['product_image']) . "' alt='" . htmlspecialchars($item['album']) . "' class='product-image mr-3' style='object-fit: cover;'>
+                                        <span>" . htmlspecialchars($item['album']) . "</span>
+                                    </div>
+                                </td>";
                                 echo "<td>$" . number_format($item['price_at_order'], 2) . "</td>";
                                 echo "<td>" . $item['qty'] . "</td>";
                                 echo "<td>$" . number_format($item['price_at_order'] * $item['qty'], 2) . "</td>";
                                 echo "</tr>";
                             }
+
                             ?>
-                            <!-- <tr>
-                            <td colspan="3">Doanh thu đơn hàng</td>
-                        </tr> -->
+
                         </tbody>
+
                     </table>
                 </div>
 
                 <div class="product-item total">
-                    <span>Doanh Thu Đơn Hàng</span>
-                    <span><?php echo number_format($order['order_total'], 0) . 'đ'; ?></span>
+                    <span>TOTAL</span>
+                    <span><?php echo number_format($order['order_total'], 2) . 'đ'; ?></span>
                 </div>
             </div>
         </div>
     <?php else : ?>
-        <p>Không tìm thấy thông tin đơn hàng.</p>
+        <p>Cannot find order detail.</p>
     <?php endif; ?>
 
     <?php include '../includes/footer.php' ?>

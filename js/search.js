@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 `;
             } else if (suggestion.type === 'artist') {
                 li.innerHTML = `
-                    <a href="artist-detail.php?id=${suggestion.id}" class="suggestion-link">
+                    <a href="allproduct.php?artist[]=${suggestion.id}" class="suggestion-link">
                         <div class="suggestion-info">
                             <div class="suggestion-name">${suggestion.name}</div>
                             <div class="suggestion-type">Artist</div>

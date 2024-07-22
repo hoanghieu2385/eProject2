@@ -19,21 +19,63 @@
         const subtotalElem = document.querySelector('.subtotal');
         const checkoutBtn = document.querySelector('.view-cart');
 
+
         function addToCart(e) {
             e.preventDefault();
             e.stopPropagation();
             console.log("addToCart function called at: " + new Date().getTime());
 
-            const productContainer = e.target.closest('.productcontainer') || e.target.closest('.product-item');
-            const productId = productContainer.dataset.productId; // Add this line to get the product ID
-            const productTitle = productContainer.querySelector('.title').textContent;
-            const productPrice = productContainer.querySelector('.price').textContent;
-            const productImage = productContainer.querySelector('img').src;
-            const quantityBox = productContainer.querySelector('.quantity-box');
-            const quantity = quantityBox ? parseInt(quantityBox.querySelector('.quantity').textContent) : 1;
+            const productContainer = e.target.closest('.productcontainer') || e.target.closest('.album-item');
+            if (!productContainer) {
+                console.error('Product container not found');
+                return;
+            }
+
+            const productId = e.target.dataset.productId || productContainer.dataset.productId;
+            let productTitle = '';
+            let productPrice = '';
+
+            // For index page (album-item)
+            if (productContainer.classList.contains('album-item')) {
+                const paragraphs = productContainer.querySelectorAll('p');
+                if (paragraphs.length >= 2) {
+                    productTitle = paragraphs[0].textContent.split('by')[0].trim();
+                    productPrice = paragraphs[paragraphs.length - 1].textContent.trim();
+                }
+            }
+            // For product detail page
+            else {
+                productTitle = productContainer.querySelector('.title')?.textContent.trim() || '';
+                productPrice = productContainer.querySelector('.price')?.textContent.trim() || '';
+            }
+
+            // Extract numeric value from price
+            const priceMatch = productPrice.match(/\$?(\d+(\.\d{1,2})?)/);
+            if (priceMatch) {
+                productPrice = '$' + priceMatch[1];
+            } else {
+                console.error('Invalid price format:', productPrice);
+                return;
+            }
+
+            const productImage = productContainer.querySelector('img')?.src || '';
+            const quantity = productContainer.querySelector('.quantity-box .quantity') ?
+                parseInt(productContainer.querySelector('.quantity-box .quantity').textContent) : 1;
 
             console.log('Product details:', { productId, productTitle, productPrice, productImage, quantity });
 
+            if (!productTitle || !productPrice) {
+                console.error('Missing product information');
+                return;
+            }
+
+            updateCart(productId, productTitle, productPrice, productImage, quantity);
+            updateSubtotal();
+            openCart();
+            saveCart();
+        }
+
+        function updateCart(productId, productTitle, productPrice, productImage, quantity) {
             const existingItem = Array.from(cartItems.children).find(item =>
                 item.querySelector('h3') &&
                 item.querySelector('h3').textContent === productTitle &&
@@ -57,15 +99,11 @@
                 newItem.querySelector('h3').textContent = productTitle;
                 newItem.querySelector('.price').textContent = productPrice;
                 newItem.querySelector('.quantity input').value = quantity;
-                newItem.dataset.productId = productId; // Add this line to store the product ID
+                newItem.dataset.productId = productId;
 
                 cartItems.appendChild(newItem);
                 console.log('New item added to cart');
             }
-
-            updateSubtotal();
-            openCart();
-            saveCart();
         }
 
         function saveCart() {
@@ -227,22 +265,36 @@
             }
         });
 
-        // Xử lý nút CHECKOUT
+
         checkoutBtn.addEventListener('click', function () {
             const cartData = localStorage.getItem('cart');
             if (cartData) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '../checkout.php';
+                // Kiểm tra xem người dùng đã đăng nhập chưa
+                fetch('includes/check_login_status.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.isLoggedIn) {
+                            // Nếu đã đăng nhập, tiến hành checkout
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = '../checkout.php';
 
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'cartData';
-                input.value = cartData;
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'cartData';
+                            input.value = cartData;
 
-                form.appendChild(input);
-                document.body.appendChild(form);
-                form.submit();
+                            form.appendChild(input);
+                            document.body.appendChild(form);
+                            form.submit();
+                        } else {
+                            window.location.href = 'login/login.php';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again.');
+                    });
             } else {
                 alert('Your cart is empty!');
             }

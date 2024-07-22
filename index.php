@@ -1,3 +1,4 @@
+<!-- index.php -->
 <?php
 session_start();
 
@@ -62,6 +63,7 @@ $conn->close();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <script href="./js/product-cart.js"></script>
 </head>
 
 <body>
@@ -81,7 +83,7 @@ $conn->close();
                 notification.classList.add('show');
                 setTimeout(function() {
                     notification.classList.remove('show');
-                }, 5000);
+                }, 3000);
                 progressBar.style.width = '0';
             };
         </script>
@@ -125,7 +127,7 @@ $conn->close();
                                 <p><?php echo htmlspecialchars($product['album']); ?><br>by <em><?php echo htmlspecialchars($product['artist_name']); ?></em></p>
                             </a>
                             <p>$<?php echo number_format($product['current_price'], 2); ?></p>
-                            <button onclick="addToCart(<?php echo $product['id']; ?>)">Add to Cart</button>
+                            <button class="add-to-cart-btn" data-product-id="<?php echo $product['id']; ?>">Add to Cart</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -142,7 +144,7 @@ $conn->close();
                                 <p><?php echo htmlspecialchars($bestseller['album']); ?><br>by <em><?php echo htmlspecialchars($bestseller['artist_name']); ?></em></p>
                             </a>
                             <p>$<?php echo number_format($bestseller['current_price'], 2); ?></p>
-                            <button onclick="addToCart(<?php echo $bestseller['id']; ?>)">Add to Cart</button>
+                            <button class="add-to-cart-btn" data-product-id="<?php echo $product['id']; ?>">Add to Cart</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -159,7 +161,7 @@ $conn->close();
             if (alert) {
                 setTimeout(function() {
                     alert.style.display = 'none';
-                }, 5000); // Hiển thị trong 5 giây
+                }, 3000); // Hiển thị trong 5 giây
             }
         });
     </script>
