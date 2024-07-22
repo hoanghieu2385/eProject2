@@ -14,12 +14,12 @@ if ($conn->connect_error) {
 $query = isset($_GET['query']) ? $_GET['query'] : '';
 
 // Prepare the SQL statement to search for albums and artists
-$sql = "SELECT 'album' as type, p.id, p.album as name, p.product_image as image, p.current_price as price, a.full_name as artist 
+$sql = "SELECT 'album' as type, p.id, p.album as name, p.product_image as image, p.current_price as price, a.full_name as artist, a.id as artist_id 
         FROM product p 
         JOIN artist a ON p.artist_id = a.id 
         WHERE p.album LIKE ?
         UNION
-        SELECT 'artist' as type, a.id, a.full_name as name, NULL as image, NULL as price, NULL as artist 
+        SELECT 'artist' as type, a.id, a.full_name as name, NULL as image, NULL as price, NULL as artist, a.id as artist_id 
         FROM artist a
         WHERE a.full_name LIKE ?
         LIMIT 10";
@@ -36,9 +36,10 @@ while ($row = $result->fetch_assoc()) {
         'type' => $row['type'],
         'id' => $row['id'],
         'name' => $row['name'],
-        'image' => '../uploads/' . $row['image'],
+        'image' => $row['image'] ? '../uploads/' . $row['image'] : null,
         'price' => $row['price'],
-        'artist' => $row['artist']
+        'artist' => $row['artist'],
+        'artist_id' => $row['artist_id']
     );
 }
 
@@ -48,3 +49,4 @@ echo json_encode($suggestions);
 
 $stmt->close();
 $conn->close();
+?>

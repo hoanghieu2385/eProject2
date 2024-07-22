@@ -77,7 +77,6 @@
 <script src="../js/search.js"></script>
 <script src="../js/dark-mode.js"></script>
 <script src="../js/check_login-logout.js"></script>
-
 </body>
 
 </html>
