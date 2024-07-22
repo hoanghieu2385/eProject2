@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['placeOrder'])) {
     $payment_shipment_id = $_POST['paymentMethod'];
     $order_total = $_POST['orderTotal'];
-    $order_status_id = 1; // Assuming 1 is the ID for 'Pending' status
+    $order_status_id = 1; 
 
     // Insert into shop_order table
     $order_query = "INSERT INTO shop_order (site_user_id, order_date, payment_shipment_id, order_total, order_status_id) 
@@ -128,17 +128,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['placeOrder'])) {
             $item_stmt->execute();
         }
 
-        // Insert checkout address
+        
         $address_query = "INSERT INTO checkout_address (shop_order_id, city, district, ward, address) 
                           VALUES (?, ?, ?, ?, ?)";
         $address_stmt = $conn->prepare($address_query);
         $address_stmt->bind_param("issss", $order_id, $address_data['city'], $address_data['district'], $address_data['ward'], $address_data['address']);
         $address_stmt->execute();
 
-        // Clear the cart (You might want to implement this part)
-        // ...
-
-        // Redirect to a thank you page or order confirmation page
+     
         header("Location: order_confirmation.php?order_id=" . $order_id);
         exit();
     } else {
@@ -265,23 +262,23 @@ $conn->close();
                             <?php foreach ($cartItems as $item) : ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($item['title']); ?> <b>× <?php echo $item['quantity']; ?></b></td>
-                                    <td class="text-end"><?php echo number_format($item['total'], 2, ',', '.'); ?> ₫</td>
+                                    <td class="text-end"><?php echo number_format($item['total'], 2, ',', '.'); ?> $</td>
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
                                 <td>PROVISIONAL INVOICE</td>
-                                <td class="text-end"><?php echo number_format($totalPrice, 2, ',', '.'); ?> ₫</td>
+                                <td class="text-end"><?php echo number_format($totalPrice, 2, ',', '.'); ?> $</td>
                             </tr>
                             <tr>
                                 <td>SHIPPING</td>
                                 <td>
                                     <?php foreach ($payment_options as $option) : ?>
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="paymentMethod" id="payment<?php echo $option['id']; ?>" value="<?php echo $option['id']; ?>" data-payment="<?php echo htmlspecialchars($option['payment_method']); ?>" data-shipment="<?php echo htmlspecialchars($option['shipment_method']); ?>" data-shipping-cost="<?php echo $option['shipment_method'] == 'Ship' ? 50000 : 0; ?>" <?php echo ($option === reset($payment_options)) ? 'checked' : ''; ?>>
+                                            <input class="form-check-input" type="radio" name="paymentMethod" id="payment<?php echo $option['id']; ?>" value="<?php echo $option['id']; ?>" data-payment="<?php echo htmlspecialchars($option['payment_method']); ?>" data-shipment="<?php echo htmlspecialchars($option['shipment_method']); ?>" data-shipping-cost="<?php echo $option['shipment_method'] == 'Ship' ? 2 : 0; ?>" <?php echo ($option === reset($payment_options)) ? 'checked' : ''; ?>>
                                             <label class="form-check-label" for="payment<?php echo $option['id']; ?>">
                                                 <?php echo htmlspecialchars($option['payment_method'] . ' - ' . $option['shipment_method']); ?>
                                                 <?php if ($option['shipment_method'] == 'Ship') : ?>
-                                                    (Shipping cost: 50,000 ₫)
+                                                    (Shipping cost: 2$)
                                                 <?php endif; ?>
                                             </label>
                                         </div>
@@ -290,7 +287,7 @@ $conn->close();
                             </tr>
                             <tr>
                                 <td><strong>TOTAL</strong></td>
-                                <td class="text-end"><strong id="totalPrice"><?php echo number_format($totalPrice + (($payment_options[0]['shipment_method'] == 'Ship') ? 50000 : 0), 2, ',', '.'); ?> ₫</strong></td>
+                                <td class="text-end"><strong id="totalPrice"><?php echo number_format($totalPrice + (($payment_options[0]['shipment_method'] == 'Ship') ? 2 : 0), 2, ',', '.'); ?> $</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -312,13 +309,13 @@ $conn->close();
 
             $('#editBtn').click(function() {
                 if (!isEditing) {
-                    // Switch to edit mode
+                
                     isEditing = true;
                     $('#editBtn').text('CANCEL');
                     $('#userInfo').hide();
                     $('#editForm').show();
 
-                    // Populate edit form with current values, removing 'Not set'
+                
                     $('.editable').each(function() {
                         let value = $(this).text().trim();
                         let inputId = 'edit' + $(this).attr('id').charAt(0).toUpperCase() + $(this).attr('id').slice(1);
@@ -329,10 +326,10 @@ $conn->close();
                         }
                     });
 
-                    // Add save button
+  
                     $('#editForm').append('<button id="saveBtn" class="btn btn-primary mt-2">SAVE</button>');
                 } else {
-                    // Cancel edit mode
+     
                     isEditing = false;
                     $('#editBtn').text('EDIT');
                     $('#userInfo').show();
@@ -363,7 +360,7 @@ $conn->close();
                     dataType: 'json',
                     success: function(response) {
                         if (response.status === 'success') {
-                            // Update displayed info
+
                             $('#fullName').text(fullName || 'Not set');
                             $('#phone').text(phone || 'Not set');
                             $('#address').text(address || 'Not set');
@@ -371,7 +368,7 @@ $conn->close();
                             $('#district').text(district || 'Not set');
                             $('#city').text(city || 'Not set');
 
-                            // Switch back to display mode
+          
                             isEditing = false;
                             $('#editBtn').text('EDIT');
                             $('#userInfo').show();
@@ -396,13 +393,13 @@ $conn->close();
                 let subtotal = <?php echo $totalPrice; ?>;
                 let total = subtotal + shippingCost;
 
-                $('#totalPrice').text(total.toFixed(2).replace('.', ',') + ' ₫'); // Replace '.' with ','
+                $('#totalPrice').text(total.toFixed(2).replace('.', ',') + ' $'); // Replace '.' with ','
                 return total;
             }
 
             $('input[name="paymentMethod"]').change(updateTotal);
 
-            // Initial update
+
             updateTotal();
 
             $('#orderButton').click(function(e) {
@@ -412,11 +409,11 @@ $conn->close();
                 let paymentShipmentId = selectedOption.val();
                 let total = updateTotal();
 
-                // Lấy dữ liệu giỏ hàng từ localStorage
+  
                 let cartData = localStorage.getItem('cart');
                 let cartItems = JSON.parse(cartData);
 
-                // Collect order info data
+
                 let orderData = {
                     payment_shipment_id: paymentShipmentId,
                     order_total: total,
@@ -431,7 +428,6 @@ $conn->close();
                     }
                 };
 
-                // Send AJAX request
                 $.ajax({
                     url: './order/process_order.php',
                     type: 'POST',
