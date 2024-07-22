@@ -119,6 +119,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['placeOrder'])) {
         $item_stmt = $conn->prepare($item_query);
 
         foreach ($cartItems as $item) {
+            if (!isset($item['product_id'])) {
+                // Handle the missing product_id case
+                error_log("Missing product_id in cart item: " . print_r($item, true));
+                continue;
+            }
             $item_stmt->bind_param("iiid", $order_id, $item['product_id'], $item['quantity'], $item['price']);
             $item_stmt->execute();
         }
