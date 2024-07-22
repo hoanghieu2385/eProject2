@@ -52,6 +52,31 @@
     background-color: #fff;
 }
 
+.active-filters {
+    margin-bottom: 15px;
+}
+
+.filter-tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.filter-tag:hover {
+    background-color: #e0e0e0;
+}
+
+.filter-tag::after {
+    content: " ×";
+    font-weight: bold;
+}
+
 .hoot-records__filters-detail {
     display: flex;
     flex-direction: column;
