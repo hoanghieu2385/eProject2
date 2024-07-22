@@ -1,4 +1,3 @@
-// product-cart.js
 (function () {
     if (document.querySelector('script[data-cart-initialized]')) {
         console.log("Cart script already initialized. Skipping...");
@@ -25,7 +24,13 @@
             console.log("addToCart function called at: " + new Date().getTime());
 
             const productContainer = e.target.closest('.productcontainer') || e.target.closest('.product-item');
-            const productId = productContainer.dataset.productId; // Add this line to get the product ID
+            const productId = productContainer ? productContainer.dataset.productId : null;
+
+            if (!productId) {
+                console.error('Product ID not found');
+                return;
+            }
+
             const productTitle = productContainer.querySelector('.title').textContent;
             const productPrice = productContainer.querySelector('.price').textContent;
             const productImage = productContainer.querySelector('img').src;
@@ -57,15 +62,30 @@
                 newItem.querySelector('h3').textContent = productTitle;
                 newItem.querySelector('.price').textContent = productPrice;
                 newItem.querySelector('.quantity input').value = quantity;
-                newItem.dataset.productId = productId; // Add this line to store the product ID
+                newItem.dataset.productId = productId; // Gán product ID cho item mới
 
                 cartItems.appendChild(newItem);
                 console.log('New item added to cart');
             }
 
-            updateSubtotal();
-            openCart();
-            saveCart();
+            // Cập nhật LocalStorage
+            const cartItem = {
+                id: productId,
+                title: productTitle,
+                price: productPrice,
+                quantity: quantity
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingCartItemIndex = cart.findIndex(item => item.id === productId);
+            if (existingCartItemIndex !== -1) {
+                cart[existingCartItemIndex].quantity += quantity;
+            } else {
+                cart.push(cartItem);
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            console.log('Updated LocalStorage:', cart);
         }
 
         function saveCart() {
@@ -234,12 +254,12 @@
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.action = '../checkout.php';
-
+        
                 const input = document.createElement('input');
                 input.type = 'hidden';
                 input.name = 'cartData';
                 input.value = cartData;
-
+        
                 form.appendChild(input);
                 document.body.appendChild(form);
                 form.submit();

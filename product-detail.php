@@ -1,3 +1,4 @@
+<!-- product-detail.php -->
 <?php
 session_start();
 
@@ -63,10 +64,9 @@ $related_products = $result_related->fetch_all(MYSQLI_ASSOC);
 
 <body>
     <?php include './includes/header.php' ?>
-    <div class="productcontainer">
+    <div class="productcontainer" data-product-id="<?php echo htmlspecialchars($product['id']); ?>">
         <div class="image-container">
             <img src="./uploads/<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['album']); ?>" onerror="this.onerror=null;this.src='./images/placeholder.jpg';">
-            <!-- Add additional image if available -->
         </div>
         <div class="description-container">
             <h2 class="title"><?php echo htmlspecialchars($product['album']); ?></h2>
@@ -77,12 +77,13 @@ $related_products = $result_related->fetch_all(MYSQLI_ASSOC);
                 <span class="quantity">1</span>
                 <button class="plus-btn">+</button>
             </div>
-            <button class="add-to-cart-btn" onclick="addToCart(<?php echo $product['id']; ?>)">ADD TO CART</button>
+            <button class="add-to-cart-btn" onclick="addToCart(event)">ADD TO CART</button>
             <div class="description-text">
                 <?php echo nl2br(htmlspecialchars($product['description'])); ?>
             </div>
         </div>
     </div>
+
     <div class="related-products">
         <h2>Related Products</h2>
         <div class="product-grid">
