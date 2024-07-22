@@ -59,18 +59,20 @@
                 <li>
                     <a href="../allproduct.php?category[]=3">Cassettes<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
-                <li>
-                    <a href="../allproduct.php">Artists<span><i class="fa-solid fa-caret-down"></i></span></a>
-                </li>
+
                 <li>
                     <a href="../allproduct.php">Genres<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    hiện thị 9 cái, cái 10 là view more
+                </li>
+                <li>
+                    <a href="../allproduct.php">All Product<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
             </ul>
         </nav>
 
     </header>
 </body>
-<div class="header-space0" style="height: 119px;"></div>
+<div class="header-space0" style="height: 115px;"></div>
 
 <script src="../js/search.js"></script>
 <script src="../js/dark-mode.js"></script>
