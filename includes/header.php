@@ -28,7 +28,7 @@
                         <ul class="sub-menu" id="user-menu">
                             <li><a href="../my_account.php?section=order-History" id="orderHistory">Orders</a></li>
                             <li><a href="../my_account.php?section=account-Detail" id="accountDetail">Account Detail</a></li>
-                            <li><a href="../login/logout.php"id="logout-btn">Logout</a></li>
+                            <li><a href="../login/logout.php" id="logout-btn">Logout</a></li>
                             <li><a href="../login/login.php" id="login-btn">Login</a></li>
                             <li><a href="../login/sign_up.php" id="signUp-btn">Sign Up</a></li>
                         </ul>
@@ -51,22 +51,20 @@
         <nav class="category-menu">
             <ul id="main-menu">
                 <li>
-                    <a href="#">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="../allproduct.php?category[]=1">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
                 <li>
-                    <a href="#">CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="../allproduct.php?category[]=2">CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
                 <li>
-                    <a href="#">Cassettes <span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="../allproduct.php?category[]=3">Cassettes<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
                 <li>
-                    <a href="#">Artists<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="../allproduct.php">Artists<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
                 <li>
-                    <a href="#">Genres<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="../allproduct.php">Genres<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
-                </li>
-
             </ul>
         </nav>
 
@@ -77,7 +75,6 @@
 <script src="../js/search.js"></script>
 <script src="../js/dark-mode.js"></script>
 <script src="../js/check_login-logout.js"></script>
-
 </body>
 
 </html>

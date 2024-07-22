@@ -25,15 +25,56 @@
             console.log("addToCart function called at: " + new Date().getTime());
 
             const productContainer = e.target.closest('.productcontainer') || e.target.closest('.album-item');
+            if (!productContainer) {
+                console.error('Product container not found');
+                return;
+            }
+
             const productId = e.target.dataset.productId || productContainer.dataset.productId;
-            const productTitle = productContainer.querySelector('p') ? productContainer.querySelector('p').textContent.split('by')[0].trim() : productContainer.querySelector('.title').textContent;
-            const productPrice = productContainer.querySelector('.price') ? productContainer.querySelector('.price').textContent : productContainer.querySelector('p:last-of-type').textContent;
-            const productImage = productContainer.querySelector('img').src;
-            const quantityBox = productContainer.querySelector('.quantity-box');
-            const quantity = quantityBox ? parseInt(quantityBox.querySelector('.quantity').textContent) : 1;
+            let productTitle = '';
+            let productPrice = '';
+            
+            // For index page (album-item)
+            if (productContainer.classList.contains('album-item')) {
+                const paragraphs = productContainer.querySelectorAll('p');
+                if (paragraphs.length >= 2) {
+                    productTitle = paragraphs[0].textContent.split('by')[0].trim();
+                    productPrice = paragraphs[paragraphs.length - 1].textContent.trim();
+                }
+            } 
+            // For product detail page
+            else {
+                productTitle = productContainer.querySelector('.title')?.textContent.trim() || '';
+                productPrice = productContainer.querySelector('.price')?.textContent.trim() || '';
+            }
+
+            // Extract numeric value from price
+            const priceMatch = productPrice.match(/\$?(\d+(\.\d{1,2})?)/);
+            if (priceMatch) {
+                productPrice = '$' + priceMatch[1];
+            } else {
+                console.error('Invalid price format:', productPrice);
+                return;
+            }
+
+            const productImage = productContainer.querySelector('img')?.src || '';
+            const quantity = productContainer.querySelector('.quantity-box .quantity') ? 
+                parseInt(productContainer.querySelector('.quantity-box .quantity').textContent) : 1;
 
             console.log('Product details:', { productId, productTitle, productPrice, productImage, quantity });
 
+            if (!productTitle || !productPrice) {
+                console.error('Missing product information');
+                return;
+            }
+
+            updateCart(productId, productTitle, productPrice, productImage, quantity);
+            updateSubtotal();
+            openCart();
+            saveCart();
+        }
+
+        function updateCart(productId, productTitle, productPrice, productImage, quantity) {
             const existingItem = Array.from(cartItems.children).find(item =>
                 item.querySelector('h3') &&
                 item.querySelector('h3').textContent === productTitle &&
@@ -62,10 +103,6 @@
                 cartItems.appendChild(newItem);
                 console.log('New item added to cart');
             }
-
-            updateSubtotal();
-            openCart();
-            saveCart();
         }
 
         function saveCart() {
