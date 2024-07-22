@@ -1,3 +1,4 @@
+// product-cart.js
 (function () {
     if (document.querySelector('script[data-cart-initialized]')) {
         console.log("Cart script already initialized. Skipping...");
@@ -22,23 +23,23 @@
             e.preventDefault();
             e.stopPropagation();
             console.log("addToCart function called at: " + new Date().getTime());
-        
-            const productContainer = e.target.closest('.productcontainer') || e.target.closest('.product-item');
-            const productId = productContainer.dataset.productId; // Add this line to get the product ID
-            const productTitle = productContainer.querySelector('.title').textContent;
-            const productPrice = productContainer.querySelector('.price').textContent;
+
+            const productContainer = e.target.closest('.productcontainer') || e.target.closest('.album-item');
+            const productId = e.target.dataset.productId || productContainer.dataset.productId;
+            const productTitle = productContainer.querySelector('p') ? productContainer.querySelector('p').textContent.split('by')[0].trim() : productContainer.querySelector('.title').textContent;
+            const productPrice = productContainer.querySelector('.price') ? productContainer.querySelector('.price').textContent : productContainer.querySelector('p:last-of-type').textContent;
             const productImage = productContainer.querySelector('img').src;
             const quantityBox = productContainer.querySelector('.quantity-box');
             const quantity = quantityBox ? parseInt(quantityBox.querySelector('.quantity').textContent) : 1;
-        
+
             console.log('Product details:', { productId, productTitle, productPrice, productImage, quantity });
-        
+
             const existingItem = Array.from(cartItems.children).find(item =>
                 item.querySelector('h3') &&
                 item.querySelector('h3').textContent === productTitle &&
                 !item.style.display.includes('none')
             );
-        
+
             if (existingItem) {
                 const quantityInput = existingItem.querySelector('.quantity input');
                 quantityInput.value = parseInt(quantityInput.value) + quantity;
@@ -51,12 +52,12 @@
                 }
                 const newItem = template.cloneNode(true);
                 newItem.style.display = 'flex';
-        
+
                 newItem.querySelector('img').src = productImage;
                 newItem.querySelector('h3').textContent = productTitle;
                 newItem.querySelector('.price').textContent = productPrice;
                 newItem.querySelector('.quantity input').value = quantity;
-                newItem.dataset.productId = productId; // Add this line to store the product ID
+                newItem.dataset.productId = productId;
 
                 cartItems.appendChild(newItem);
                 console.log('New item added to cart');
@@ -66,7 +67,7 @@
             openCart();
             saveCart();
         }
-        
+
         function saveCart() {
             const items = Array.from(cartItems.querySelectorAll('.item:not([style*="display: none"])'))
                 .map(item => ({
@@ -233,12 +234,12 @@
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.action = '../checkout.php';
-        
+
                 const input = document.createElement('input');
                 input.type = 'hidden';
                 input.name = 'cartData';
                 input.value = cartData;
-        
+
                 form.appendChild(input);
                 document.body.appendChild(form);
                 form.submit();

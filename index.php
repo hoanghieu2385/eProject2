@@ -127,14 +127,7 @@ $conn->close();
                                 <p><?php echo htmlspecialchars($product['album']); ?><br>by <em><?php echo htmlspecialchars($product['artist_name']); ?></em></p>
                             </a>
                             <p>$<?php echo number_format($product['current_price'], 2); ?></p>
-                            <button class="add-to-cart-btn" 
-                                    data-product-id="<?php echo $product['id']; ?>" 
-                                    data-product-title="<?php echo htmlspecialchars($product['album']); ?>" 
-                                    data-product-price="<?php echo $product['current_price']; ?>" 
-                                    data-product-image="<?php echo htmlspecialchars($product['product_image']); ?>"
-                                    data-product-artist="<?php echo htmlspecialchars($product['artist_name']); ?>">
-                                Add to Cart
-                            </button>                        
+                            <button class="add-to-cart-btn" data-product-id="<?php echo $product['id']; ?>">Add to Cart</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -151,14 +144,7 @@ $conn->close();
                                 <p><?php echo htmlspecialchars($bestseller['album']); ?><br>by <em><?php echo htmlspecialchars($bestseller['artist_name']); ?></em></p>
                             </a>
                             <p>$<?php echo number_format($bestseller['current_price'], 2); ?></p>
-                            <button class="add-to-cart-btn" 
-                                    data-product-id="<?php echo $bestseller['id']; ?>" 
-                                    data-product-title="<?php echo htmlspecialchars($bestseller['album']); ?>" 
-                                    data-product-price="<?php echo $bestseller['current_price']; ?>" 
-                                    data-product-image="<?php echo htmlspecialchars($bestseller['product_image']); ?>"
-                                    data-product-artist="<?php echo htmlspecialchars($bestseller['artist_name']); ?>">
-                                Add to Cart
-                            </button>
+                            <button class="add-to-cart-btn" data-product-id="<?php echo $product['id']; ?>">Add to Cart</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -177,29 +163,6 @@ $conn->close();
                     alert.style.display = 'none';
                 }, 3000); // Hiển thị trong 5 giây
             }
-        });
-        var addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-        addToCartButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                var productId = this.getAttribute('data-product-id');
-                var productTitle = this.getAttribute('data-product-title');
-                var productPrice = this.getAttribute('data-product-price');
-                var productImage = this.getAttribute('data-product-image');
-
-                var cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-                var product = {
-                    id: productId,
-                    title: productTitle,
-                    price: productPrice,
-                    image: productImage
-                };
-
-                cart.push(product);
-                localStorage.setItem('cart', JSON.stringify(cart));
-
-                alert('Product added to cart!');
-            });
         });
     </script>
 </body>

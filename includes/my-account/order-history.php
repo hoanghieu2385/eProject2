@@ -9,7 +9,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     $site_user_id = $user_row['id'];
 
     // Truy vấn dữ liệu từ bảng shop_order
-    $sql = "SELECT id, order_date, order_status_id, order_total, shipment_tracking_id FROM shop_order WHERE site_user_id = $site_user_id";
+    $sql = "SELECT id, order_date, order_status_id, order_total, shipment_tracking_id FROM shop_order WHERE site_user_id = $site_user_id" . " ORDER BY id DESC";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
