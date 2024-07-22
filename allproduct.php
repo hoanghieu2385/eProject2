@@ -21,27 +21,67 @@ $artist_sql = "SELECT * FROM artist";
 $artist_result = $conn->query($artist_sql);
 
 $conditions = [];
+$join_conditions = [];
 
 $selected_categories = isset($_GET['category']) ? $_GET['category'] : [];
 $selected_genres = isset($_GET['genre']) ? $_GET['genre'] : [];
 $selected_artists = isset($_GET['artist']) ? $_GET['artist'] : [];
 
+$active_filters = [];
+
+// Fetch category names for selected categories
 if (!empty($selected_categories)) {
     $category_ids = array_map('intval', $selected_categories);
     $category_list = implode(',', $category_ids);
     $conditions[] = "product.category_id IN ($category_list)";
+
+    $category_names_sql = "SELECT id, category_name FROM product_category WHERE id IN ($category_list)";
+    $category_names_result = $conn->query($category_names_sql);
+    while ($category = $category_names_result->fetch_assoc()) {
+        $active_filters['category'][$category['id']] = $category['category_name'];
+    }
 }
 
+// Fetch genre names for selected genres
 if (!empty($selected_genres)) {
     $genre_ids = array_map('intval', $selected_genres);
     $genre_list = implode(',', $genre_ids);
+    $join_conditions[] = "INNER JOIN artist_genre ON artist.id = artist_genre.artist_id";
     $conditions[] = "artist_genre.genre_id IN ($genre_list)";
+
+    $genre_names_sql = "SELECT id, genre_name FROM genre WHERE id IN ($genre_list)";
+    $genre_names_result = $conn->query($genre_names_sql);
+    while ($genre = $genre_names_result->fetch_assoc()) {
+        $active_filters['genre'][$genre['id']] = $genre['genre_name'];
+    }
 }
 
+// Fetch artist names for selected artists
 if (!empty($selected_artists)) {
     $artist_ids = array_map('intval', $selected_artists);
     $artist_list = implode(',', $artist_ids);
     $conditions[] = "product.artist_id IN ($artist_list)";
+
+    $artist_names_sql = "SELECT id, full_name FROM artist WHERE id IN ($artist_list)";
+    $artist_names_result = $conn->query($artist_names_sql);
+    while ($artist = $artist_names_result->fetch_assoc()) {
+        $active_filters['artist'][$artist['id']] = $artist['full_name'];
+    }
+}
+
+function remove_filter_from_url($filter_type, $id)
+{
+    $params = $_GET;
+    if (isset($params[$filter_type])) {
+        $key = array_search($id, $params[$filter_type]);
+        if ($key !== false) {
+            unset($params[$filter_type][$key]);
+        }
+        if (empty($params[$filter_type])) {
+            unset($params[$filter_type]);
+        }
+    }
+    return '?' . http_build_query($params);
 }
 
 $products_per_page = 12;
@@ -51,8 +91,7 @@ $offset = ($page - 1) * $products_per_page;
 $sql = "SELECT DISTINCT product.id, product.album, product.description, product.product_image, product.current_price 
         FROM product 
         INNER JOIN artist ON product.artist_id = artist.id
-        INNER JOIN artist_genre ON artist.id = artist_genre.artist_id
-        INNER JOIN genre ON artist_genre.genre_id = genre.id";
+        " . implode(" ", $join_conditions);
 
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
@@ -63,8 +102,7 @@ $sort_order = isset($_GET['sort']) ? $_GET['sort'] : 'featured';
 $total_sql = "SELECT COUNT(DISTINCT product.id) AS total 
               FROM product 
               INNER JOIN artist ON product.artist_id = artist.id
-              INNER JOIN artist_genre ON artist.id = artist_genre.artist_id
-              INNER JOIN genre ON artist_genre.genre_id = genre.id";
+              " . implode(" ", $join_conditions);
 
 if (!empty($conditions)) {
     $total_sql .= " WHERE " . implode(" AND ", $conditions);
@@ -82,8 +120,6 @@ switch ($sort_order) {
         $sql .= " ORDER BY product.current_price DESC";
         break;
     case 'featured':
-        $sql .= " ORDER BY product.id DESC";
-        break;
     case 'best-selling':
     default:
         $sql .= " ORDER BY product.id DESC";
@@ -204,6 +240,15 @@ $conn->close();
 
                         </select>
                     </div>
+                    <div class="active-filters">
+                        <?php foreach ($active_filters as $filter_type => $filters) : ?>
+                            <?php foreach ($filters as $id => $name) : ?>
+                                <a href="<?php echo remove_filter_from_url($filter_type, $id); ?>" class="filter-tag">
+                                    <?php echo htmlspecialchars($name); ?>
+                                </a>
+                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                     <?php
                     foreach ($_GET as $key => $value) {
                         if ($key != 'sort' && $key != 'page') {
@@ -226,7 +271,10 @@ $conn->close();
                             echo '<a href="product-detail.php?id=' . $row["id"] . '">';
                             echo '<img src="./uploads/' . $row["product_image"] . '" alt="' . $row["album"] . '">';
                             echo '<h3>' . $row["album"] . '</h3>';
-                            echo '<p>' . $row["description"] . '</p>';
+
+                            $description = strlen($row["description"]) > 90 ? substr($row["description"], 0, 87) . '...' : $row["description"];
+
+                            echo '<p>' . $description . '</p>';
                             echo '<p class="hoot-records__price">$' . $row["current_price"] . '</p>';
                             echo '</a>';
                             echo '</div>';
