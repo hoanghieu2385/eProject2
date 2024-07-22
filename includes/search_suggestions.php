@@ -36,7 +36,7 @@ while ($row = $result->fetch_assoc()) {
         'type' => $row['type'],
         'id' => $row['id'],
         'name' => $row['name'],
-        'image' => $row['image'],
+        'image' => '../uploads/' . $row['image'],
         'price' => $row['price'],
         'artist' => $row['artist']
     );
