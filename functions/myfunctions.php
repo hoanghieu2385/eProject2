@@ -23,3 +23,10 @@ function redirect($url, $message)
     header('Location: ' . $url);
     exit();
 }
+
+function getAllOrders() {
+
+    global $con;
+    $query = "SELECT * FROM shop_order WHERE order_status_id = '1' AND order_status_id = '2' AND order_status_id = '3'";
+    return $query_run = mysqli_query($con, $query);
+}
