@@ -39,46 +39,32 @@
         </div>
         <div class="content">
             <div id="order-History" class="content-section">
-                <table class="order-table">
-                    <thead>
-                        <tr>
-                            <th>Order</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Total</th>
-                            <th>Shipment tracking id</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php include './includes/my-account/order-history.php' ?>
-                    </tbody>
-                </table>
+                <?php include './includes/my-account/order-history.php' ?>
             </div>
 
             <div id="address-Book" class="content-section">
                 <form id="addressForm">
-                    <div class="address-container">
-                        <div class="address-row">
-                            <label for="province">Province/City</label>
-                            <input type="text" id="province" name="province" placeholder="Province/City" disabled>
-                        </div>
-                        <div class="address-row">
-                            <label for="district">District</label>
-                            <input type="text" id="district" name="district" placeholder="District" disabled>
-                        </div>
-                        <div class="address-row">
-                            <label for="ward">Ward</label>
-                            <input type="text" id="ward" name="ward" placeholder="Ward" disabled>
-                        </div>
-                        <div class="address-row">
-                            <label for="Detailed Address">House number, street, etc.</label>
-                            <input type="text" id="detailedAddress" name="detailedAddress" placeholder="House number, street, etc." disabled>
-                        </div>
+                    <div class="form-group">
+                        <label for="province">Province/City</label>
+                        <input type="text" id="province" name="province" placeholder="Province/City" disabled>
                     </div>
-                    <button id="editAddressButton" type="button">Edit</button>
-                    <button id="updateAddressButton" type="submit" style="display: none;">Update</button>
-                    <button id="cancelAddressButton" type="button" style="display: none;">Cancel</button>
+                    <div class="form-group">
+                        <label for="district">District</label>
+                        <input type="text" id="district" name="district" placeholder="District" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="ward">Ward</label>
+                        <input type="text" id="ward" name="ward" placeholder="Ward" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="Detailed Address">House number, street, etc.</label>
+                        <input type="text" id="detailedAddress" name="detailedAddress" placeholder="House number, street, etc." disabled>
+                    </div>
+                    <div class="form-actions">
+                        <button id="editAddressButton" type="button">Edit</button>
+                        <button id="updateAddressButton" type="submit" style="display: none;">Update</button>
+                        <button id="cancelAddressButton" type="button" style="display: none;">Cancel</button>
+                    </div>
                 </form>
             </div>
 
@@ -148,8 +134,29 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        // Show content based on URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const section = urlParams.get('section');
+
+        if (section) {
+            showContent(section);
+        } else {
+            showContent('order-History');
+        }
+
+        // Listen for popstate events
+        window.addEventListener('popstate', function(event) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const section = urlParams.get('section');
+            const page = urlParams.get('page');
+
+            if (section) {
+                showContent(section, page);
+            }
+        });
+
         // Show content
-        function showContent(sectionId) {
+        function showContent(sectionId, page) {
             // Get all sidebar buttons
             const buttons = document.querySelectorAll('.sidebar button');
 
@@ -174,6 +181,7 @@
             // Update the browser's history state
             const newUrl = new URL(window.location);
             newUrl.searchParams.set('section', sectionId);
+            newUrl.searchParams.set('page', page);
             history.pushState({}, '', newUrl);
 
             // Display the selected section
@@ -196,26 +204,6 @@
                 passwordToggle.classList.add("fa-eye-slash");
             }
         }
-
-        // Show content based on URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const section = urlParams.get('section');
-
-        if (section) {
-            showContent(section);
-        } else {
-            showContent('order-History');
-        }
-
-        // Listen for popstate events
-        window.addEventListener('popstate', function(event) {
-            const urlParams = new URLSearchParams(window.location.search);
-            const section = urlParams.get('section');
-
-            if (section) {
-                showContent(section);
-            }
-        });
 
         function showNotification(message, isSuccess) {
             const notification = $('#notification');
