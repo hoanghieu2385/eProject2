@@ -38,6 +38,17 @@ CREATE TABLE site_user (
     FOREIGN KEY (role_id) REFERENCES role(id)
 );
 
+CREATE TABLE checkout_info (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    recipient_name VARCHAR(255) NOT NULL,
+    recipient_phone VARCHAR(20) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    district VARCHAR(100) NOT NULL,
+    ward VARCHAR(100) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES site_user(id)
+);
 
 CREATE TABLE address (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -47,11 +58,6 @@ CREATE TABLE address (
     address VARCHAR(300)
 );
 
-INSERT INTO address (city, district, ward, address) 
-VALUES 
-('Hanoi', 'Hoai Duc', 'An Khanh', 'KDT Splendora'), 
-('Hanoi', 'Thanh Xuan', 'Thuong Dinh', 'KDT Royal City');
-
 CREATE TABLE product_category (
     id INT AUTO_INCREMENT PRIMARY KEY,
     parent_category_id INT NULL,
@@ -59,7 +65,7 @@ CREATE TABLE product_category (
     FOREIGN KEY (parent_category_id) REFERENCES product_category(id)
 );
 
-INSERT INTO product_category (category_name) VALUES ('Vinyl'), ('CDs'), ('Cassettes');
+INSERT INTO product_category (category_name) VALUES ('Vinyl'), ('CDs'), ('Cassettes'), ('LP');
 
 CREATE TABLE artist (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -70,7 +76,7 @@ CREATE TABLE artist (
 
 INSERT INTO artist (full_name, country_id) 
 VALUES 
-('Taylor Swift', 1), ('Billie Eilish', 1), ('Taylor Swift', 1), ('Nirvana', 1), ('Linkin Park', 1), ('Buena Vista Social Club', 5), ('Daft Punk', 4);
+('Taylor Swift', 1), ('Billie Eilish', 1), ('Nirvana', 1), ('Linkin Park', 1), ('Buena Vista Social Club', 5), ('Daft Punk', 4);
 
 CREATE TABLE artist_genre (
     artist_id INT,
@@ -91,25 +97,26 @@ CREATE TABLE supplier (
     FOREIGN KEY (country_id) REFERENCES country(id)
 );
 
-INSERT INTO supplier (supplier_name, contact_information) 
+INSERT INTO supplier (supplier_name, contact_information, country_id) 
 VALUES 
-('Christina', 'Facebook'), 
-('Target', 'https://www.target.com'), 
-('Taylor Swift UK Store', 'https://storeuk.taylorswift.com');
+('Christina', 'Facebook', 3), 
+('Target', 'https://www.target.com', 1), 
+('Taylor Swift UK Store', 'https://storeuk.taylorswift.com', 3),
+('1989', 'Facebook', 1);
 
 CREATE TABLE shipment_option (
     id INT AUTO_INCREMENT PRIMARY KEY,
     shipment_method VARCHAR(255)
 );
 
-INSERT INTO shipment_option (shipment_method) VALUES ('Lấy tại cửa hàng'), ('Ship');
+INSERT INTO shipment_option (shipment_method) VALUES ('Receive at the Shop'), ('Shipping');
 
 CREATE TABLE payment_option (
     id INT AUTO_INCREMENT PRIMARY KEY,
     payment_method VARCHAR(100)
 );
 
-INSERT INTO payment_option (payment_method) VALUES ('Quẹt Mã QR'), ('COD');
+INSERT INTO payment_option (payment_method) VALUES ('QR Payment'), ('Cash on Delivery (COD)');
 
 CREATE TABLE payment_shipment (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -120,7 +127,7 @@ CREATE TABLE payment_shipment (
     FOREIGN KEY (shipment_option_id) REFERENCES shipment_option(id)
 );
 
-INSERT INTO payment_shipment (shipment_option_id, payment_option_id, fees) VALUES (1, 1, 0), (2, 1), (2, 2);
+INSERT INTO payment_shipment (shipment_option_id, payment_option_id, fees) VALUES (1, 1, 0), (2, 1, 2), (2, 2, 2);
 
 CREATE TABLE product (
     id INT AUTO_INCREMENT PRIMARY KEY,  -- artist_id + album + category_id
@@ -171,6 +178,7 @@ VALUES
 
 CREATE TABLE shop_order (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    checkout_info_id INT,
     site_user_id INT,
     order_date DATE,
     payment_shipment_id INT,
@@ -180,7 +188,8 @@ CREATE TABLE shop_order (
     est_delivery_date DATE NULL,
     FOREIGN KEY (site_user_id) REFERENCES site_user(id),
     FOREIGN KEY (payment_shipment_id) REFERENCES payment_shipment(id),
-    FOREIGN KEY (order_status_id) REFERENCES order_status(id)
+    FOREIGN KEY (order_status_id) REFERENCES order_status(id),
+    FOREIGN KEY (checkout_info_id) REFERENCES checkout_info(id)
 );
 
 CREATE TABLE order_items (
@@ -199,18 +208,6 @@ CREATE TABLE user_address (
     PRIMARY KEY (user_id, address_id),
     FOREIGN KEY (user_id) REFERENCES site_user(id),
     FOREIGN KEY (address_id) REFERENCES address(id)
-);
-
-CREATE TABLE checkout_info (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    recipient_name VARCHAR(255) NOT NULL,
-    recipient_phone VARCHAR(20) NOT NULL,
-    city VARCHAR(100) NOT NULL,
-    district VARCHAR(100) NOT NULL,
-    ward VARCHAR(100) NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES site_user(id)
 );
 
 ----------------------------- TRIGGER ---------------------------------
