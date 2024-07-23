@@ -121,7 +121,7 @@ $total_pages = ceil($total_products / $products_per_page);
                                 <textarea rows="3" name="description" placeholder="Enter Description" class="form-control mb-2"></textarea>
                             </div>
                             <div class="col-md-6">
-                                <label class="mb-0" style="font-weight: bold;">Upload Image</label>
+                                <label class="mb-0" style="font-weight: bold;">Upload Images</label>
                                 <input type="file" required name="image" class="form-control mb-2">
                             </div>
                             <div class="col-md-6">

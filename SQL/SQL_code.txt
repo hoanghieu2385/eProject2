@@ -38,6 +38,8 @@ CREATE TABLE site_user (
     FOREIGN KEY (role_id) REFERENCES role(id)
 );
 
+INSERT INTO site_user (email_address, password, role_id) VALUES ('admin@gmail.com', '$2y$10$Zd79iKQdj9f9crDW2meex.mLIS26wfw6l9MhnS2Nw9YRC6MJnphle', 1);
+
 CREATE TABLE checkout_info (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,

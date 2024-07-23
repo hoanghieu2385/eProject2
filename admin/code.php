@@ -521,6 +521,25 @@ if (isset($_POST['add_category_btn'])) {
 
         redirect("site_user.php", "Something went wrong while updating!");
     }
+} else if (isset($_POST['update_order_btn'])) {
+
+    $shop_order_id = $_POST['shop_order_id'];
+    $site_user_id = $_POST['site_user_id'];
+    $order_total = $_POST['order_total'];
+    $order_status_id = $_POST['order_status_id'];
+    $shipment_tracking_id = $_POST['shipment_tracking_id'];
+
+    $order_query = "UPDATE shop_order
+    SET site_user_id = '$site_user_id', order_total = '$order_total', order_status_id = '$order_status_id', shipment_tracking_id = '$shipment_tracking_id'
+    WHERE id = $shop_order_id";
+
+    $order_query_run = mysqli_query($con, $order_query);
+
+    if ($order_query_run) {
+        redirect("order.php", "Order updated Successfully!");
+    } else {
+        redirect("order.php?id=$shop_order_id", "Something went wrong when updating the Order!");
+    }
 } else {
     header('Location: ../index.php');
 }

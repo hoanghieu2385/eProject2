@@ -105,9 +105,9 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 
                                     <?php
 
-                                    $query = "SELECT album FROM product"; // ----------------------- we're here, find a way to attach the selected artist_id above to the query
+                                    $album_query = "SELECT album FROM product"; // ----------------------- we're here, find a way to attach the selected artist_id above to the query
 
-                                    $album = mysqli_query($con, $query);
+                                    $album = mysqli_query($con, $album_query);
 
                                     if (mysqli_num_rows($album) > 0) {
                                         foreach ($album as $item) {
@@ -132,9 +132,9 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 
                                     <?php
 
-                                    $query = "SELECT version FROM product WHERE version IS NOT NULL";
+                                    $version_query = "SELECT DISTINCT version FROM product WHERE NOT version='' ";
 
-                                    $version = mysqli_query($con, $query);
+                                    $version = mysqli_query($con, $version_query);
 
                                     if (mysqli_num_rows($version) > 0) {
                                         foreach ($version as $item) {
@@ -159,9 +159,9 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 
                                     <?php
 
-                                    $query = "SELECT edition FROM product WHERE edition IS NOT NULL";
+                                    $edition_query = "SELECT DISTINCT edition FROM product WHERE edition IS NOT NULL";
 
-                                    $edition = mysqli_query($con, $query);
+                                    $edition = mysqli_query($con, $edition_query);
 
                                     if (mysqli_num_rows($edition) > 0) {
                                         foreach ($edition as $item) {
@@ -223,8 +223,8 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                 <div class="card-header">
                     <h4>Inventory</h4>
                     <form method="GET" class="d-flex" action="inventory.php">
-                            <input type="text" class="form-control me-2" name="search" placeholder="Search.." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"  style="max-height: 40px; max-width: 30%">
-                            <button class="btn btn-outline-success text-center" type="submit">Search</button>
+                        <input type="text" class="form-control me-2" name="search" placeholder="Search.." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>" style="max-height: 40px; max-width: 30%">
+                        <button class="btn btn-outline-success text-center" type="submit">Search</button>
                     </form>
                 </div>
                 <div class="card-body" id="inventory_table">
@@ -245,7 +245,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                                 <?php
 
                                 $query = "
-                                SELECT p.id, pc.category_name, a.full_name as artist_name, CONCAT(p.album, ' ', p.version, ' ', p.edition) as product_name, p.product_image, SUM(pi.qty) as quantity 
+                                SELECT p.id, pc.category_name, a.full_name as artist_name, CONCAT(p.album, ' ', p.version) as product_name, p.product_image, SUM(pi.qty) as quantity 
                                 FROM product p
                                 JOIN product_category pc ON p.category_id = pc.id
                                 JOIN artist a ON p.artist_id = a.id
@@ -289,7 +289,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                     <!-- Pagination controls -->
                     <nav>
                         <ul class="pagination justify-content-center" style="margin-top:15px">
-                            <?php if ($current_page > 1): ?>
+                            <?php if ($current_page > 1) : ?>
                                 <li class="page-item">
                                     <a class="page-link" href="?page=<?= $current_page - 1 ?>" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
@@ -297,13 +297,13 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                                 </li>
                             <?php endif; ?>
 
-                            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                            <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
                                 <li class="page-item <?= $i == $current_page ? 'active ' : '' ?>">
                                     <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
                                 </li>
                             <?php endfor; ?>
 
-                            <?php if ($current_page < $total_pages): ?>
+                            <?php if ($current_page < $total_pages) : ?>
                                 <li class="page-item">
                                     <a class="page-link" href="?page=<?= $current_page + 1 ?>" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
