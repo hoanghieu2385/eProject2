@@ -29,6 +29,13 @@ $total_products = $total_products_row['total'];
 // Calculate the total number of pages
 $total_pages = ceil($total_products / $products_per_page);
 
+// Search query
+$search_query = "";
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $search = mysqli_real_escape_string($con, $_GET['search']);
+    $search_query = " AND (pc.category_name LIKE '%$search%' OR a.full_name LIKE '%$search%' OR CONCAT(p.album, ' ', p.version, ' ', p.edition) LIKE '%$search%')";
+}
+
 ?>
 
 <div class="container">
@@ -215,6 +222,10 @@ $total_pages = ceil($total_products / $products_per_page);
             <div class="card">
                 <div class="card-header">
                     <h4>Inventory</h4>
+                    <form method="GET" class="d-flex" action="inventory.php">
+                            <input type="text" class="form-control me-2" name="search" placeholder="Search.." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"  style="max-height: 40px; max-width: 30%">
+                            <button class="btn btn-outline-success text-center" type="submit">Search</button>
+                    </form>
                 </div>
                 <div class="card-body" id="inventory_table">
                     <div class="table-responsive">
@@ -234,11 +245,12 @@ $total_pages = ceil($total_products / $products_per_page);
                                 <?php
 
                                 $query = "
-                                SELECT p.id, pc.category_name, a.full_name as artist_name, CONCAT (p.album, ' ', p.version, ' ', p.edition) as product_name, p.product_image, SUM(pi.qty) as quantity 
+                                SELECT p.id, pc.category_name, a.full_name as artist_name, CONCAT(p.album, ' ', p.version, ' ', p.edition) as product_name, p.product_image, SUM(pi.qty) as quantity 
                                 FROM product p
                                 JOIN product_category pc ON p.category_id = pc.id
                                 JOIN artist a ON p.artist_id = a.id
                                 JOIN product_inventory pi ON p.id = pi.product_id
+                                WHERE 1 $search_query
                                 GROUP BY p.id, pc.category_name, a.full_name, p.album, p.version, p.edition, p.product_image
                                 ORDER BY p.id DESC
                                 LIMIT $offset, $products_per_page

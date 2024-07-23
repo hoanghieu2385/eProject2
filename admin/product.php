@@ -20,8 +20,21 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
 // Calculate the offset for the SQL query
 $offset = ($current_page - 1) * $products_per_page;
 
+// Initialize search keyword
+$search_keyword = "";
+if (isset($_GET['search'])) {
+    $search_keyword = mysqli_real_escape_string($con, $_GET['search']);
+}
+
 // Get the total number of products
-$total_products_query = "SELECT COUNT(*) AS total FROM product";
+$total_products_query = "SELECT COUNT(*) AS total FROM product 
+    JOIN product_category pc ON product.category_id = pc.id 
+    JOIN artist a ON product.artist_id = a.id 
+    WHERE pc.category_name LIKE '%$search_keyword%' 
+    OR a.full_name LIKE '%$search_keyword%' 
+    OR product.album LIKE '%$search_keyword%' 
+    OR product.version LIKE '%$search_keyword%' 
+    OR product.edition LIKE '%$search_keyword%'";
 $total_products_result = mysqli_query($con, $total_products_query);
 $total_products_row = mysqli_fetch_assoc($total_products_result);
 $total_products = $total_products_row['total'];
@@ -125,6 +138,10 @@ $total_pages = ceil($total_products / $products_per_page);
             <div class="card">
                 <div class="card-header">
                     <h4>All Products</h4>
+                    <form class="d-flex" action="product.php" method="GET">
+                        <input class="form-control me-2" type="search" name="search" placeholder="Search.." value="<?= $search_keyword ?>" aria-label="Search" style="max-height: 40px; max-width: 30%">
+                        <button class="btn btn-outline-success text-center" type="submit">Search</button>
+                    </form>
                 </div>
                 <div class="card-body" id="products_table">
                     <div class="table-responsive">
@@ -151,6 +168,11 @@ $total_pages = ceil($total_products / $products_per_page);
                                 FROM product p
                                 JOIN product_category pc ON p.category_id = pc.id
                                 JOIN artist a ON p.artist_id = a.id
+                                WHERE pc.category_name LIKE '%$search_keyword%' 
+                                OR a.full_name LIKE '%$search_keyword%' 
+                                OR p.album LIKE '%$search_keyword%' 
+                                OR p.version LIKE '%$search_keyword%' 
+                                OR p.edition LIKE '%$search_keyword%'
                                 ORDER BY p.id DESC
                                 LIMIT $offset, $products_per_page
                                 ";
@@ -173,8 +195,6 @@ $total_pages = ceil($total_products / $products_per_page);
                                                 <img src="../uploads/<?= $item['product_image']; ?>" width="70px" height="70px" alt="<?= $item['album']; ?>">
                                             </td>
                                             <td class="text-center">$ <?= $item['current_price']; ?></td>
-
-
                                             <td class="text-center">
                                                 <a href="edit_product.php?id=<?= $item['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
                                             </td>
@@ -186,7 +206,7 @@ $total_pages = ceil($total_products / $products_per_page);
 
                                     }
                                 } else {
-                                    echo "No records found.";
+                                    echo "<tr><td colspan='10' class='text-center'>No records found.</td></tr>";
                                 }
                                 ?>
                             </tbody>
