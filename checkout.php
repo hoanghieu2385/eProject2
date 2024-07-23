@@ -264,12 +264,12 @@ $conn->close();
                             <?php foreach ($cartItems as $item) : ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($item['title']); ?> <b>× <?php echo $item['quantity']; ?></b></td>
-                                    <td class="text-end"><?php echo number_format($item['total'], 2, ',', '.'); ?> $</td>
+                                    <td class="text-end">$<?php echo number_format($item['total'], 2, ',', '.'); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
                                 <td>PROVISIONAL INVOICE</td>
-                                <td class="text-end"><?php echo number_format($totalPrice, 2, ',', '.'); ?> $</td>
+                                <td class="text-end">$<?php echo number_format($totalPrice, 2, ',', '.'); ?></td>
                             </tr>
                             <tr>
                                 <td>SHIPPING</td>
@@ -289,7 +289,7 @@ $conn->close();
                             </tr>
                             <tr>
                                 <td><strong>TOTAL</strong></td>
-                                <td class="text-end"><strong id="totalPrice"><?php echo number_format($totalPrice + (($payment_options[0]['shipment_method'] == 'Ship') ? 2 : 0), 2, ',', '.'); ?> $</strong></td>
+                                <td class="text-end">$<strong id="totalPrice"><?php echo number_format($totalPrice + (($payment_options[0]['shipment_method'] == 'Ship') ? 2 : 0), 2, ',', '.'); ?></strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -406,7 +406,7 @@ $conn->close();
                         let subtotal = <?php echo $totalPrice; ?>;
                         let total = subtotal + shippingCost;
 
-                        $('#totalPrice').text(total.toFixed(2).replace('.', ',') + ' $');
+                        $('#totalPrice').text(total.toFixed(2).replace('.', ','));
                         return total;
                     }
 
