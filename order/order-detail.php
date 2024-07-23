@@ -11,16 +11,18 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 // Truy vấn thông tin đơn hàng và địa chỉ
-$order_sql = "SELECT so.*, ci.*, u.first_name, u.last_name
+$order_sql = "SELECT so.*, ci.recipient_name, ci.recipient_phone, ci.address, ci.ward, ci.district, ci.city
               FROM shop_order so
-              JOIN checkout_info ci ON so.site_user_id = ci.user_id
-              JOIN site_user u ON so.site_user_id = u.id
-              WHERE so.id = $order_id";
+              JOIN checkout_info ci ON so.checkout_info_id = ci.id
+              WHERE so.id = ? AND so.site_user_id = ?";
 
-$order_result = $conn->query($order_sql);
+$stmt = $conn->prepare($order_sql);
+$stmt->bind_param("ii", $order_id, $_SESSION['user_id']);
+$stmt->execute();
+$result = $stmt->get_result();
 
-if ($order_result && $order_result->num_rows > 0) {
-    $order = $order_result->fetch_assoc();
+if ($result && $result->num_rows > 0) {
+    $order = $result->fetch_assoc();
 } else {
     echo "Order not found.";
     exit();

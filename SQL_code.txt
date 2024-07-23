@@ -209,6 +209,9 @@ CREATE TABLE checkout_info (
     FOREIGN KEY (user_id) REFERENCES site_user(id)
 );
 
+ALTER TABLE shop_order ADD COLUMN checkout_info_id INT,
+ADD FOREIGN KEY (checkout_info_id) REFERENCES checkout_info(id);
+
 ----------------------------- TRIGGER ---------------------------------
 
 DELIMITER //

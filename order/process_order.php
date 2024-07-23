@@ -58,15 +58,16 @@ try {
     error_log("Starting transaction");
 
     // Insert or update checkout_info
+    // Insert or update checkout_info
     $checkout_query = "INSERT INTO checkout_info (user_id, recipient_name, recipient_phone, address, ward, district, city) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?)
-                        ON DUPLICATE KEY UPDATE
-                        recipient_name = VALUES(recipient_name),
-                        recipient_phone = VALUES(recipient_phone),
-                        address = VALUES(address),
-                        ward = VALUES(ward),
-                        district = VALUES(district),
-                        city = VALUES(city)";
+VALUES (?, ?, ?, ?, ?, ?, ?)
+ON DUPLICATE KEY UPDATE
+recipient_name = VALUES(recipient_name),
+recipient_phone = VALUES(recipient_phone),
+address = VALUES(address),
+ward = VALUES(ward),
+district = VALUES(district),
+city = VALUES(city)";
     $checkout_stmt = $conn->prepare($checkout_query);
     $checkout_stmt->bind_param(
         "issssss",
@@ -83,13 +84,13 @@ try {
     if (!$checkout_stmt->execute()) {
         throw new Exception("Error inserting/updating checkout_info: " . $checkout_stmt->error);
     }
-    error_log("Checkout info inserted/updated successfully");
-
+    $checkout_info_id = $conn->insert_id ?: $conn->query("SELECT id FROM checkout_info WHERE user_id = $user_id")->fetch_assoc()['id'];
+    error_log("Checkout info inserted/updated successfully. ID: " . $checkout_info_id);
     // Insert into shop_order table
-    $order_query = "INSERT INTO shop_order (site_user_id, order_date, payment_shipment_id, order_total, order_status_id) 
-                        VALUES (?, NOW(), ?, ?, 1)";
+    $order_query = "INSERT INTO shop_order (site_user_id, order_date, payment_shipment_id, order_total, order_status_id, checkout_info_id) 
+                    VALUES (?, NOW(), ?, ?, 1, ?)";
     $order_stmt = $conn->prepare($order_query);
-    $order_stmt->bind_param("idd", $user_id, $orderData['payment_shipment_id'], $orderData['order_total']);
+    $order_stmt->bind_param("iddi", $user_id, $orderData['payment_shipment_id'], $orderData['order_total'], $checkout_info_id);
 
     error_log("Executing shop_order insert query");
     if (!$order_stmt->execute()) {

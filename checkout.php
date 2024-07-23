@@ -59,6 +59,7 @@ if ($address_result->num_rows > 0) {
     );
 }
 
+
 // Fetch payment options
 $payment_options_query = "SELECT po.*, so.shipment_method 
                           FROM payment_option po
@@ -101,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cartData'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['placeOrder'])) {
     $payment_shipment_id = $_POST['paymentMethod'];
     $order_total = $_POST['orderTotal'];
-    $order_status_id = 1; 
+    $order_status_id = 1;
 
     // Insert into shop_order table
     $order_query = "INSERT INTO shop_order (site_user_id, order_date, payment_shipment_id, order_total, order_status_id) 
@@ -139,10 +140,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['placeOrder'])) {
     }
 }
 
-$hasAddress = !empty($user_data['address']) && 
-              !empty($user_data['ward']) && 
-              !empty($user_data['district']) && 
-              !empty($user_data['city']);
+$hasAddress = !empty($user_data['address']) &&
+    !empty($user_data['ward']) &&
+    !empty($user_data['district']) &&
+    !empty($user_data['city']);
 
 $conn->close();
 ?>
@@ -306,165 +307,166 @@ $conn->close();
     <?php include './includes/cart.php' ?>
 
     <script>
-  $(document).ready(function() {
-    let isEditing = false;
-    let hasAddress = <?php echo $hasAddress ? 'true' : 'false'; ?>;
+        $(document).ready(function() {
+                    let isEditing = false;
+                    let hasAddress = <?php echo $hasAddress ? 'true' : 'false'; ?>;
 
-    function updateOrderButtonState() {
-        if (hasAddress) {
-            $('#orderButton').prop('disabled', false);
-            $('#addressWarning').hide();
-        } else {
-            $('#orderButton').prop('disabled', true);
-            $('#addressWarning').show();
-        }
-    }
+                    function updateOrderButtonState() {
+                        if (hasAddress) {
+                            $('#orderButton').prop('disabled', false);
+                            $('#addressWarning').hide();
+                        } else {
+                            $('#orderButton').prop('disabled', true);
+                            $('#addressWarning').show();
+                        }
+                    }
 
-    updateOrderButtonState();
-
-    $('#editBtn').click(function() {
-        if (!isEditing) {
-            isEditing = true;
-            $('#editBtn').text('CANCEL');
-            $('#userInfo').hide();
-            $('#editForm').show();
-
-            $('.editable').each(function() {
-                let value = $(this).text().trim();
-                let inputId = 'edit' + $(this).attr('id').charAt(0).toUpperCase() + $(this).attr('id').slice(1);
-                if (value === 'Not set') {
-                    $('#' + inputId).val('');
-                } else {
-                    $('#' + inputId).val(value);
-                }
-            });
-
-            $('#editForm').append('<button id="saveBtn" class="btn btn-primary mt-2">SAVE</button>');
-        } else {
-            isEditing = false;
-            $('#editBtn').text('EDIT');
-            $('#userInfo').show();
-            $('#editForm').hide();
-            $('#saveBtn').remove();
-        }
-    });
-
-    $(document).on('click', '#saveBtn', function() {
-        let fullName = $('#editFullName').val();
-        let phone = $('#editPhone').val();
-        let address = $('#editAddress').val();
-        let ward = $('#editWard').val();
-        let district = $('#editDistrict').val();
-        let city = $('#editCity').val();
-
-        $.ajax({
-            url: './order/update_shipping_info.php',
-            type: 'POST',
-            data: {
-                full_name: fullName,
-                phone: phone,
-                address: address,
-                ward: ward,
-                district: district,
-                city: city
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status === 'success') {
-                    $('#fullName').text(fullName || 'Not set');
-                    $('#phone').text(phone || 'Not set');
-                    $('#address').text(address || 'Not set');
-                    $('#ward').text(ward || 'Not set');
-                    $('#district').text(district || 'Not set');
-                    $('#city').text(city || 'Not set');
-
-                    isEditing = false;
-                    $('#editBtn').text('EDIT');
-                    $('#userInfo').show();
-                    $('#editForm').hide();
-                    $('#saveBtn').remove();
-
-                    hasAddress = address && ward && district && city;
                     updateOrderButtonState();
 
-                    $('#addressWarning').removeClass('text-danger').addClass('text-success').text('Address updated successfully').show().delay(3000).fadeOut();
-                } else {
-                    $('#addressWarning').removeClass('text-success').addClass('text-danger').text('Failed to update address: ' + response.message).show();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX Error:', status, error);
-                $('#addressWarning').removeClass('text-success').addClass('text-danger').text('An error occurred while updating the address').show();
-            }
-        });
-    });
+                    $('#editBtn').click(function() {
+                        if (!isEditing) {
+                            isEditing = true;
+                            $('#editBtn').text('CANCEL');
+                            $('#userInfo').hide();
+                            $('#editForm').show();
 
-    function updateTotal() {
-        let selectedOption = $('input[name="paymentMethod"]:checked');
-        let shippingCost = parseInt(selectedOption.data('shipping-cost')) || 0;
-        let subtotal = <?php echo $totalPrice; ?>;
-        let total = subtotal + shippingCost;
+                            $('.editable').each(function() {
+                                let value = $(this).text().trim();
+                                let inputId = 'edit' + $(this).attr('id').charAt(0).toUpperCase() + $(this).attr('id').slice(1);
+                                if (value === 'Not set') {
+                                    $('#' + inputId).val('');
+                                } else {
+                                    $('#' + inputId).val(value);
+                                }
+                            });
 
-        $('#totalPrice').text(total.toFixed(2).replace('.', ',') + ' $');
-        return total;
-    }
+                            $('#editForm').append('<button id="saveBtn" class="btn btn-primary mt-2">SAVE</button>');
+                        } else {
+                            isEditing = false;
+                            $('#editBtn').text('EDIT');
+                            $('#userInfo').show();
+                            $('#editForm').hide();
+                            $('#saveBtn').remove();
+                        }
+                    });
 
-    $('input[name="paymentMethod"]').change(updateTotal);
+                    $(document).on('click', '#saveBtn', function() {
+                        let fullName = $('#editFullName').val();
+                        let phone = $('#editPhone').val();
+                        let address = $('#editAddress').val();
+                        let ward = $('#editWard').val();
+                        let district = $('#editDistrict').val();
+                        let city = $('#editCity').val();
 
-    updateTotal();
+                        $.ajax({
+                            url: './order/update_shipping_info.php',
+                            type: 'POST',
+                            data: {
+                                full_name: fullName,
+                                phone: phone,
+                                address: address,
+                                ward: ward,
+                                district: district,
+                                city: city
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.status === 'success') {
+                                    $('#fullName').text(fullName || 'Not set');
+                                    $('#phone').text(phone || 'Not set');
+                                    $('#address').text(address || 'Not set');
+                                    $('#ward').text(ward || 'Not set');
+                                    $('#district').text(district || 'Not set');
+                                    $('#city').text(city || 'Not set');
 
-    $('#orderButton').click(function(e) {
-        e.preventDefault();
+                                    isEditing = false;
+                                    $('#editBtn').text('EDIT');
+                                    $('#userInfo').show();
+                                    $('#editForm').hide();
+                                    $('#saveBtn').remove();
 
-        if (!hasAddress) {
-            $('#editBtn').click();
-            $('#addressWarning').removeClass('text-success').addClass('text-danger').text('Please provide your address before placing an order').show();
-            return;
-        }
+                                    hasAddress = address && ward && district && city && fullName && phone;
+                                    updateOrderButtonState();
 
-        let selectedOption = $('input[name="paymentMethod"]:checked');
-        let paymentShipmentId = selectedOption.val();
-        let total = updateTotal();
+                                    $('#addressWarning').removeClass('text-danger').addClass('text-success').text('Address updated successfully').show().delay(3000).fadeOut();
+                                } else {
+                                    $('#addressWarning').removeClass('text-success').addClass('text-danger').text('Failed to update address: ' + response.message).show();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('AJAX Error:', status, error);
+                                $('#addressWarning').removeClass('text-success').addClass('text-danger').text('An error occurred while updating the address').show();
+                            }
+                        });
+                    });
 
-        let cartData = localStorage.getItem('cart');
-        let cartItems = JSON.parse(cartData);
+                    function updateTotal() {
+                        let selectedOption = $('input[name="paymentMethod"]:checked');
+                        let shippingCost = parseInt(selectedOption.data('shipping-cost')) || 0;
+                        let subtotal = <?php echo $totalPrice; ?>;
+                        let total = subtotal + shippingCost;
 
-        let orderData = {
-            payment_shipment_id: paymentShipmentId,
-            order_total: total,
-            cart_items: cartItems,
-            checkout_info: {
-                recipient_name: $('#fullName').text(),
-                recipient_phone: $('#phone').text(),
-                address: $('#address').text(),
-                ward: $('#ward').text(),
-                district: $('#district').text(),
-                city: $('#city').text()
-            }
-        };
+                        $('#totalPrice').text(total.toFixed(2).replace('.', ',') + ' $');
+                        return total;
+                    }
 
-        $.ajax({
-            url: './order/process_order.php',
-            type: 'POST',
-            data: JSON.stringify(orderData),
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    localStorage.removeItem('cart');
-                    window.location.href = './order/order-detail.php?id=' + response.order_id;
-                } else {
-                    $('#addressWarning').removeClass('text-success').addClass('text-danger').text('Error: ' + response.message).show();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX Error:', status, error);
-                console.log('Response Text:', xhr.responseText);
-                $('#addressWarning').removeClass('text-success').addClass('text-danger').text('An error occurred while placing the order. Please try again.').show();
-            }
-        });
-    });
-});
+                    $('input[name="paymentMethod"]').change(updateTotal);
+
+                    updateTotal();
+
+                    $('#orderButton').click(function(e) {
+                        e.preventDefault();
+
+                        if (!hasAddress) {
+                            $('#editBtn').click();
+                            $('#addressWarning').removeClass('text-success').addClass('text-danger').text('Please provide your address before placing an order').show();
+                            return;
+                        }
+
+                        let selectedOption = $('input[name="paymentMethod"]:checked');
+                        let paymentShipmentId = selectedOption.val();
+                        let total = updateTotal();
+
+                        let cartData = localStorage.getItem('cart');
+                        let cartItems = JSON.parse(cartData);
+
+                        let orderData = {
+                            payment_shipment_id: paymentShipmentId,
+                            order_total: total,
+                            cart_items: cartItems,
+                            checkout_info: {
+                                recipient_name: $('#fullName').text().trim(),
+                                recipient_phone: $('#phone').text().trim(),
+                                address: $('#address').text().trim(),
+                                ward: $('#ward').text().trim(),
+                                district: $('#district').text().trim(),
+                                city: $('#city').text().trim()
+                            }
+                        };
+
+                        $.ajax({
+                            url: './order/process_order.php',
+                            type: 'POST',
+                            data: JSON.stringify(orderData),
+                            contentType: 'application/json',
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success) {
+                                    localStorage.removeItem('cart');
+                                    window.location.href = './order/order-detail.php?id=' + response.order_id;
+                                } else {
+                                    $('#addressWarning').removeClass('text-success').addClass('text-danger').text('Error: ' + response.message).show();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('AJAX Error:', status, error);
+                                console.log('Response Text:', xhr.responseText);
+                                $('#addressWarning').removeClass('text-success').addClass('text-danger').text('An error occurred while placing the order. Please try again.').show();
+                            }
+                        });
+                    });
+                });
     </script>
 </body>
+
 </html>
