@@ -1,32 +1,33 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Banner slider
-    let bannerSlideIndex = 0;
-    const bannerSlides = document.querySelectorAll('.banner-slider .slides img');
-    const bannerDots = document.querySelectorAll('.banner-slider .dot');
+    var options = {
+        accessibility: true,
+        prevNextButtons: true,
+        pageDots: true,
+        setGallerySize: false,
+        wrapAround: true,
+        autoPlay: true,
+        arrowShape: {
+            x0: 10,
+            x1: 60,
+            y1: 50,
+            x2: 60,
+            y2: 45,
+            x3: 15
+        }
+    };
 
-    function showBannerSlide(index) {
-        bannerSlides.forEach(slide => slide.style.display = 'none');
-        bannerDots.forEach(dot => dot.classList.remove('active'));
+    var carousel = document.querySelector('[data-carousel]');
+    var slides = document.getElementsByClassName('carousel-cell');
+    var flktyBanner = new Flickity(carousel, options);
 
-        bannerSlides[index].style.display = 'block';
-        bannerDots[index].classList.add('active');
-    }
-
-    function nextBannerSlide() {
-        bannerSlideIndex = (bannerSlideIndex + 1) % bannerSlides.length;
-        showBannerSlide(bannerSlideIndex);
-    }
-
-    setInterval(nextBannerSlide, 5000);
-
-    bannerDots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            bannerSlideIndex = index;
-            showBannerSlide(bannerSlideIndex);
+    flktyBanner.on('scroll', function () {
+        flktyBanner.slides.forEach(function (slide, i) {
+            var image = slides[i];
+            var x = (slide.target + flktyBanner.x) * -1 / 3;
+            image.style.backgroundPosition = x + 'px';
         });
     });
-
-    showBannerSlide(bannerSlideIndex);
 
     // New Release carousel
     var flkty = new Flickity(newReleaseCarousel, {

@@ -31,12 +31,9 @@ $active_filters = [];
 
 // Fetch category names for selected categories
 if (!empty($selected_categories)) {
-    $category_ids = array_map(function ($id) use ($conn) {
-        return (int)$id;
-    }, $selected_categories);
-    $category_list = implode(",", $category_ids);
-
-    $conditions[] = "product_category.id IN ($category_list)";
+    $category_ids = array_map('intval', $selected_categories);
+    $category_list = implode(',', $category_ids);
+    $conditions[] = "product.category_id IN ($category_list)";
 
     $category_names_sql = "SELECT id, category_name FROM product_category WHERE id IN ($category_list)";
     $category_names_result = $conn->query($category_names_sql);
@@ -47,51 +44,62 @@ if (!empty($selected_categories)) {
 
 // Fetch genre names for selected genres
 if (!empty($selected_genres)) {
-    $genre_names = array_map(function ($name) use ($conn) {
-        return $conn->real_escape_string($name);
-    }, $selected_genres);
-    $genre_list = "'" . implode("','", $genre_names) . "'";
+    $genre_ids = array_map('intval', $selected_genres); // Make sure it's an array of integers
+    $genre_list = implode(',', $genre_ids);
     $join_conditions[] = "INNER JOIN artist_genre ON artist.id = artist_genre.artist_id";
-    $join_conditions[] = "INNER JOIN genre ON artist_genre.genre_id = genre.id";
-    $conditions[] = "genre.genre_name IN ($genre_list)";
+    $conditions[] = "artist_genre.genre_id IN ($genre_list)"; // Use genre_id for filtering
 
-    $genre_names_sql = "SELECT id, genre_name FROM genre WHERE genre_name IN ($genre_list)";
+    // Fetch genre names for display using IDs
+    $genre_names_sql = "SELECT id, genre_name FROM genre WHERE id IN ($genre_list)";
     $genre_names_result = $conn->query($genre_names_sql);
     while ($genre = $genre_names_result->fetch_assoc()) {
-        $active_filters['genre'][$genre['genre_name']] = $genre['genre_name'];
+        $active_filters['genre'][$genre['id']] = $genre['genre_name']; // Store by ID
     }
 }
 
 // Fetch artist names for selected artists
 if (!empty($selected_artists)) {
-    $artist_names = array_map(function ($name) use ($conn) {
-        return $conn->real_escape_string($name);
-    }, $selected_artists);
-    $artist_list = "'" . implode("','", $artist_names) . "'";
-    $conditions[] = "artist.full_name IN ($artist_list)";
+    $artist_ids = array_map('intval', $selected_artists);
+    $artist_list = implode(',', $artist_ids);
+    $conditions[] = "product.artist_id IN ($artist_list)";
 
-    $artist_names_sql = "SELECT id, full_name FROM artist WHERE full_name IN ($artist_list)";
+    $artist_names_sql = "SELECT id, full_name FROM artist WHERE id IN ($artist_list)";
     $artist_names_result = $conn->query($artist_names_sql);
     while ($artist = $artist_names_result->fetch_assoc()) {
-        $active_filters['artist'][$artist['full_name']] = $artist['full_name'];
+        $active_filters['artist'][$artist['id']] = $artist['full_name'];
     }
 }
 
 // remove_filter_from_url
-function remove_filter_from_url($filter_type, $value)
+function remove_filter_from_url($filter_type, $search_key)
 {
     $params = $_GET;
+
     if (isset($params[$filter_type])) {
-        $key = array_search($value, $params[$filter_type]);
-        if ($key !== false) {
-            unset($params[$filter_type][$key]);
+        if (is_array($params[$filter_type])) {
+            // Handle arrays (like 'id[]' or 'values[]')
+            $params[$filter_type] = array_filter(
+                $params[$filter_type],
+                function ($item) use ($search_key) {
+                    return $item != $search_key;
+                }
+            );
+        } else {
+            // Handle single values (like 'id' or 'value')
+            if ($params[$filter_type] == $search_key) {
+                unset($params[$filter_type]);
+            }
         }
+
+        // Remove the parameter if it's now empty
         if (empty($params[$filter_type])) {
             unset($params[$filter_type]);
         }
     }
+
     return '?' . http_build_query($params);
 }
+
 
 $products_per_page = 12;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -211,24 +219,22 @@ $conn->close();
                             <div class="filter-item">
                                 <button type="button" class="filter-btn">Genre <span class="arrow"></span></button>
                                 <div class="filter-content">
-                                    <?php while ($genre = $genre_result->fetch_assoc()) :
-                                        $is_checked = in_array($genre['genre_name'], $selected_genres) ? 'checked' : '';
-                                    ?>
+                                    <?php while ($genre = $genre_result->fetch_assoc()) : ?>
                                         <label>
-                                            <input type="checkbox" class="filter-checkbox" name="genre[]" value="<?php echo htmlspecialchars($genre['genre_name']); ?>" <?php echo $is_checked; ?>>
+                                            <input type="checkbox" class="filter-checkbox" name="genre[]" value="<?php echo htmlspecialchars($genre['id']); ?>" <?php echo in_array($genre['id'], $selected_genres) ? 'checked' : ''; ?>>
                                             <?php echo htmlspecialchars($genre['genre_name']); ?>
                                         </label>
                                     <?php endwhile; ?>
                                 </div>
                                 <hr>
+                            </div>
+                            <div class="filter-item">
                                 <div class="filter-item">
                                     <button type="button" class="filter-btn">Artist <span class="arrow"></span></button>
                                     <div class="filter-content">
-                                        <?php while ($artist = $artist_result->fetch_assoc()) :
-                                            $is_checked = in_array($artist['full_name'], $selected_artists) ? 'checked' : '';
-                                        ?>
+                                        <?php while ($artist = $artist_result->fetch_assoc()) : ?>
                                             <label>
-                                                <input type="checkbox" class="filter-checkbox" name="artist[]" value="<?php echo htmlspecialchars($artist['full_name']); ?>" <?php echo $is_checked; ?>>
+                                                <input type="checkbox" class="filter-checkbox" name="artist[]" value="<?php echo htmlspecialchars($artist['id']); ?>" <?php echo in_array($artist['id'], $selected_artists) ? 'checked' : ''; ?>>
                                                 <?php echo htmlspecialchars($artist['full_name']); ?>
                                             </label>
                                         <?php endwhile; ?>

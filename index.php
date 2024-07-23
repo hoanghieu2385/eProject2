@@ -83,7 +83,7 @@ $conn->close();
                 notification.classList.add('show');
                 setTimeout(function() {
                     notification.classList.remove('show');
-                }, 3000);
+                }, 2000);
                 progressBar.style.width = '0';
             };
         </script>
@@ -96,26 +96,35 @@ $conn->close();
 
     <div class="wrapper">
         <main class="container">
-            <section class="banner">
-                <div class="banner-content">
-                    <div class="banner-text">
-                        <h1>The Tortured Poets Department</h1>
-                        <button>Shop now</button>
-                    </div>
-                    <div class="banner-slider">
-                        <div class="slides">
-                            <img src="https://extra-images.akamaized.net/image/74/3by2/2024/04/17/74b8f23098be41c98138b8b49bd2022c_md.jpeg" alt="Banner Image 1">
-                            <img src="https://danviet.mediacdn.vn/296231569849192448/2024/4/19/b12ff01e8bedf6b52fe1295313dca28f1000x1000x1-1713545336951174446382.jpg" alt="Banner Image 2">
-                            <img src="https://www.billboard.com/wp-content/uploads/2024/04/Taylor-Swift-cr-Beth-Garrabrant-2024-The-Black-Sog-billboard-1548.jpg?w=942&h=623&crop=1" alt="Banner Image 3">
-                        </div>
-                        <div class="indicators">
-                            <span class="dot" data-slide="1"></span>
-                            <span class="dot" data-slide="2"></span>
-                            <span class="dot" data-slide="3"></span>
-                        </div>
+            <div class="hero-slider" data-carousel='{ "wrapAround": true, "autoPlay": true }'>
+                <div class="carousel-cell" style="background-image: url(./images/product/BacksideTheTorturedVinyl.png);">
+                    <div class="overlay"></div>
+                    <div class="inner">
+                        <h3 class="subtitle">Slide 1</h3>
+                        <h2 class="title">Flickity parallax</h2>
+                        <a href="#" class="btn">Tell me more</a>
                     </div>
                 </div>
-            </section>
+
+                <div class="carousel-cell" style="background-image: url(./images/product/TheTorturedPoetsCDBonus.png);">
+                    <div class="overlay"></div>
+                    <div class="inner">
+                        <h3 class="subtitle">Slide 2</h3>
+                        <h2 class="title">Flickity parallax</h2>
+                        <a href="#" class="btn">Tell me more</a>
+                    </div>
+                </div>
+
+                <div class="carousel-cell" style="background-image: url(./images/product/TheTorturedPoetsVinyl2.png);">
+                    <div class="overlay"></div>
+                    <div class="inner">
+                        <h3 class="subtitle">Slide 3</h3>
+                        <h2 class="title">Flickity parallax</h2>
+                        <a href="#" class="btn">Tell me more</a>
+                    </div>
+                </div>
+            </div>
+
             <!-- Trong phần New Release -->
             <h2>NEW RELEASE</h2>
             <div class="carousel" data-flickity='{ "wrapAround": true, "autoPlay": true }'>
@@ -165,13 +174,15 @@ $conn->close();
     <?php include './includes/cart.php' ?>
     <?php include './includes/footer.php' ?>
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.1/flickity.pkgd.min.js"></script>
+    <script type="text/javascript" src="./js/slide_banner.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var alert = document.querySelector('.alert');
             if (alert) {
                 setTimeout(function() {
                     alert.style.display = 'none';
-                }, 3000); // Hiển thị trong 5 giây
+                }, 2000); // Hiển thị trong 2 giây
             }
         });
     </script>
