@@ -53,13 +53,13 @@
         <nav class="category-menu">
         <ul id="main-menu">
                 <li>
-                    <a href="../allproduct.php?category[]=Vinyl">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="../allproduct.php?category[]=1">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
                 <li>
-                    <a href="../allproduct.php?category[]=CDs">CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="../allproduct.php?category[]=2">CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
                 <li>
-                    <a href="../allproduct.php?category[]=Cassettes">Cassettes<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="../allproduct.php?category[]=3">Cassettes<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
                 <li>
                     <a href="../allproduct.php">Genres<span><i class="fa-solid fa-caret-down"></i></span></a>
