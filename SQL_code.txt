@@ -77,7 +77,6 @@ CREATE TABLE artist_genre (
 
 INSERT INTO artist_genre (artist_id, genre_id) VALUES (1, 2), (2, 2), (3, 2), (4, 14), (5, 13);
 
--------------------- Chua chinh ----------
 CREATE TABLE supplier (
     id INT AUTO_INCREMENT PRIMARY KEY,
     supplier_name VARCHAR(255),
@@ -87,25 +86,26 @@ CREATE TABLE supplier (
     FOREIGN KEY (country_id) REFERENCES country(id)
 );
 
-INSERT INTO supplier (supplier_name, contact_information) 
+INSERT INTO supplier (supplier_name, contact_information, country_id) 
 VALUES 
-('Christina', 'Facebook'), 
-('Target', 'https://www.target.com'), 
-('Taylor Swift UK Store', 'https://storeuk.taylorswift.com');
+('Christina', 'Facebook', 3), 
+('Target', 'https://www.target.com', 1), 
+('Taylor Swift UK Store', 'https://storeuk.taylorswift.com', 3),
+('1989', 'Facebook', 1)
 
 CREATE TABLE shipment_option (
     id INT AUTO_INCREMENT PRIMARY KEY,
     shipment_method VARCHAR(255)
 );
 
-INSERT INTO shipment_option (shipment_method) VALUES ('Lấy tại cửa hàng'), ('Ship');
+INSERT INTO shipment_option (shipment_method) VALUES ('Receive at the Shop'), ('Shipping');
 
 CREATE TABLE payment_option (
     id INT AUTO_INCREMENT PRIMARY KEY,
     payment_method VARCHAR(100)
 );
 
-INSERT INTO payment_option (payment_method) VALUES ('Quẹt Mã QR'), ('COD');
+INSERT INTO payment_option (payment_method) VALUES ('QR Payment'), ('Cash on Delivery (COD)');
 
 CREATE TABLE payment_shipment (
     id INT AUTO_INCREMENT PRIMARY KEY,

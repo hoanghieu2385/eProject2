@@ -108,6 +108,8 @@ if (isset($_POST['add_category_btn'])) {
     $category_id = $_POST['category_id'];
     $artist_id = $_POST['artist_id'];
     $album = $_POST['album'];
+    $version = $_POST['version'];
+    $edition = $_POST['edition'];
     $description = $_POST['description'];
     $current_price = $_POST['current_price'];
 
@@ -126,7 +128,7 @@ if (isset($_POST['add_category_btn'])) {
     }
 
     $update_product_query = "UPDATE product 
-    SET category_id = '$category_id', artist_id = '$artist_id', album = ' $album', description = '$description', current_price = '$current_price', product_image = '$update_filename' 
+    SET category_id = '$category_id', artist_id = '$artist_id', album = ' $album', version='$version', edition='$edition', description = '$description', current_price = '$current_price', product_image = '$update_filename' 
     WHERE id = $product_id";
 
     $update_product_query_run = mysqli_query($con, $update_product_query);
@@ -500,6 +502,24 @@ if (isset($_POST['add_category_btn'])) {
     } else {
 
         redirect("inventory.php", "Product doesn't exist!");
+    }
+} else if (isset($_POST['update_ps_btn'])) {
+
+    $payment_shipment_id = $_POST['payment_shipment_id'];
+    $payment_option_id = $_POST['payment_option_id'];
+    $shipment_option_id = $_POST['shipment_option_id'];
+    $fees = $_POST['fees'];
+
+    $payment_shipment_id_query = "UPDATE payment_shipment SET payment_option_id='$payment_option_id', shipment_option_id='$shipment_option_id', fees='$fees' WHERE id='$payment_shipment_id'";
+
+    $payment_shipment_id_query_run = mysqli_query($con, $payment_shipment_id_query);
+
+    if ($payment_shipment_id_query_run) {
+
+        redirect("payment_shipment.php", "Payment and Shipment options Updated Successfully!");
+    } else {
+
+        redirect("site_user.php", "Something went wrong while updating!");
     }
 } else {
     header('Location: ../index.php');

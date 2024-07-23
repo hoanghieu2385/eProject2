@@ -1,11 +1,11 @@
 <?php
 
-// include('includes/header.php');
-// include('../middleware/adminMiddleware.php');
-
-include('../middleware/adminMiddleware.php');
-// the header.php include was previously on top of adminMiddleware include
 include('includes/header.php');
+include('../middleware/adminMiddleware.php');
+
+// include('../middleware/adminMiddleware.php');
+// // the header.php include was previously on top of adminMiddleware include
+// include('includes/header.php');
 
 ?>
 
@@ -58,12 +58,12 @@ include('includes/header.php');
                                                 foreach ($country as $item) {
 
                                             ?>
-                                                    <option value="<?= $item['id']; ?>"><?= $item['country_name']; ?></option>
+                                                    <option value="<?= $item['id']; ?>" <?= $data['country_id'] == $item['id'] ? 'selected' : '' ?>><?= $item['country_name']; ?></option>
                                             <?php
 
                                                 }
                                             } else {
-                                                echo "No countries available.";
+                                                echo "No country available.";
                                             }
 
                                             ?>

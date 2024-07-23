@@ -1,11 +1,40 @@
 <?php
 
-// include('includes/header.php');
-// include('../middleware/adminMiddleware.php');
-
-include('../middleware/adminMiddleware.php');
-// the header.php include was previously on top of adminMiddleware include
 include('includes/header.php');
+include('../middleware/adminMiddleware.php');
+
+// include('../middleware/adminMiddleware.php');
+// // the header.php include was previously on top of adminMiddleware include
+// include('includes/header.php');
+
+// Set the number of products per page
+$products_per_page = 7;
+
+// Get the current page number from the URL, default to 1 if not set
+if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+    $current_page = (int) $_GET['page'];
+} else {
+    $current_page = 1;
+}
+
+// Calculate the offset for the SQL query
+$offset = ($current_page - 1) * $products_per_page;
+
+// Get the total number of products
+$total_products_query = "SELECT COUNT(*) AS total FROM product_inventory";
+$total_products_result = mysqli_query($con, $total_products_query);
+$total_products_row = mysqli_fetch_assoc($total_products_result);
+$total_products = $total_products_row['total'];
+
+// Calculate the total number of pages
+$total_pages = ceil($total_products / $products_per_page);
+
+// Search query
+$search_query = "";
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $search = mysqli_real_escape_string($con, $_GET['search']);
+    $search_query = " AND (pc.category_name LIKE '%$search%' OR a.full_name LIKE '%$search%' OR CONCAT(p.album, ' ', p.version, ' ', p.edition) LIKE '%$search%')";
+}
 
 ?>
 
@@ -193,6 +222,10 @@ include('includes/header.php');
             <div class="card">
                 <div class="card-header">
                     <h4>Inventory</h4>
+                    <form method="GET" class="d-flex" action="inventory.php">
+                            <input type="text" class="form-control me-2" name="search" placeholder="Search.." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"  style="max-height: 40px; max-width: 30%">
+                            <button class="btn btn-outline-success text-center" type="submit">Search</button>
+                    </form>
                 </div>
                 <div class="card-body" id="inventory_table">
                     <div class="table-responsive">
@@ -203,7 +236,7 @@ include('includes/header.php');
                                     <th class="text-center">Category</th>
                                     <th class="text-center">Artist Name</th>
                                     <th class="text-center">Product Name</th>
-                                    <th class="text-center">Product Image</th>
+                                    <th class="text-center">Image</th>
                                     <th class="text-center">Quantity</th>
                                     <th class="text-center">Update</th>
                                 </tr>
@@ -212,13 +245,15 @@ include('includes/header.php');
                                 <?php
 
                                 $query = "
-                                SELECT p.id, pc.category_name, a.full_name as artist_name, CONCAT (p.album, ' ', p.version, ' ', p.edition) as product_name, p.product_image, SUM(pi.qty) as quantity 
+                                SELECT p.id, pc.category_name, a.full_name as artist_name, CONCAT(p.album, ' ', p.version, ' ', p.edition) as product_name, p.product_image, SUM(pi.qty) as quantity 
                                 FROM product p
                                 JOIN product_category pc ON p.category_id = pc.id
                                 JOIN artist a ON p.artist_id = a.id
                                 JOIN product_inventory pi ON p.id = pi.product_id
+                                WHERE 1 $search_query
                                 GROUP BY p.id, pc.category_name, a.full_name, p.album, p.version, p.edition, p.product_image
                                 ORDER BY p.id DESC
+                                LIMIT $offset, $products_per_page
                                 ";
 
                                 $inventory = mysqli_query($con, $query);
@@ -251,6 +286,32 @@ include('includes/header.php');
                             </tbody>
                         </table>
                     </div>
+                    <!-- Pagination controls -->
+                    <nav>
+                        <ul class="pagination justify-content-center" style="margin-top:15px">
+                            <?php if ($current_page > 1): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $current_page - 1 ?>" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+
+                            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                                <li class="page-item <?= $i == $current_page ? 'active ' : '' ?>">
+                                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                </li>
+                            <?php endfor; ?>
+
+                            <?php if ($current_page < $total_pages): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $current_page + 1 ?>" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
