@@ -128,7 +128,7 @@ if (isset($_POST['add_category_btn'])) {
     }
 
     $update_product_query = "UPDATE product 
-    SET category_id = '$category_id', artist_id = '$artist_id', album = ' $album', version='$version', edition, description = '$description', current_price = '$current_price', product_image = '$update_filename' 
+    SET category_id = '$category_id', artist_id = '$artist_id', album = ' $album', version='$version', edition='$edition', description = '$description', current_price = '$current_price', product_image = '$update_filename' 
     WHERE id = $product_id";
 
     $update_product_query_run = mysqli_query($con, $update_product_query);

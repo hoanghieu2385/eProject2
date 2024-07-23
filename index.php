@@ -99,26 +99,24 @@ $conn->close();
             <div class="carousel-cell" style="background-image: url(./images/product/BacksideTheTorturedVinyl.png);">
                 <div class="overlay"></div>
                 <div class="inner">
-                    <h3 class="subtitle">Slide 1</h3>
-                    <h2 class="title">Flickity parallax</h2>
-                    <a href="#" class="btn">Tell me more</a>
+                    <h3 class="subtitle">Taylor Swift</h3>
+                    <h2 class="title">The Tortured Poets Department</h2>
                 </div>
             </div>
 
             <div class="carousel-cell" style="background-image: url(./images/product/TheTorturedPoetsCDBonus.png);">
                 <div class="overlay"></div>
                 <div class="inner">
-                    <h3 class="subtitle">Slide 2</h3>
-                    <h2 class="title">Flickity parallax</h2>
-                    <a href="#" class="btn">Tell me more</a>
+                    <h3 class="subtitle">Billie Eilish</h3>
+                    <h2 class="title">HIT ME HARD AND SOFT</h2>
                 </div>
             </div>
 
             <div class="carousel-cell" style="background-image: url(./images/product/TheTorturedPoetsVinyl2.png);">
                 <div class="overlay"></div>
                 <div class="inner">
-                    <h3 class="subtitle">Slide 3</h3>
-                    <h2 class="title">Flickity parallax</h2>
+                    <h3 class="subtitle">Hoot Records</h3>
+                    <h2 class="title">Vinyl, CDs, Cassettes and more</h2>
                     <a href="#" class="btn">Tell me more</a>
                 </div>
             </div>
