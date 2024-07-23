@@ -47,11 +47,6 @@ CREATE TABLE address (
     address VARCHAR(300)
 );
 
-INSERT INTO address (city, district, ward, address) 
-VALUES 
-('Hanoi', 'Hoai Duc', 'An Khanh', 'KDT Splendora'), 
-('Hanoi', 'Thanh Xuan', 'Thuong Dinh', 'KDT Royal City');
-
 CREATE TABLE product_category (
     id INT AUTO_INCREMENT PRIMARY KEY,
     parent_category_id INT NULL,
@@ -59,7 +54,7 @@ CREATE TABLE product_category (
     FOREIGN KEY (parent_category_id) REFERENCES product_category(id)
 );
 
-INSERT INTO product_category (category_name) VALUES ('Vinyl'), ('CDs'), ('Cassettes');
+INSERT INTO product_category (category_name) VALUES ('Vinyl'), ('CDs'), ('Cassettes'), ('LP');
 
 CREATE TABLE artist (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -70,7 +65,7 @@ CREATE TABLE artist (
 
 INSERT INTO artist (full_name, country_id) 
 VALUES 
-('Taylor Swift', 1), ('Billie Eilish', 1), ('Taylor Swift', 1), ('Nirvana', 1), ('Linkin Park', 1), ('Buena Vista Social Club', 5), ('Daft Punk', 4);
+('Taylor Swift', 1), ('Billie Eilish', 1), ('Nirvana', 1), ('Linkin Park', 1), ('Buena Vista Social Club', 5), ('Daft Punk', 4);
 
 CREATE TABLE artist_genre (
     artist_id INT,
@@ -82,6 +77,7 @@ CREATE TABLE artist_genre (
 
 INSERT INTO artist_genre (artist_id, genre_id) VALUES (1, 2), (2, 2), (3, 2), (4, 14), (5, 13);
 
+-------------------- Chua chinh ----------
 CREATE TABLE supplier (
     id INT AUTO_INCREMENT PRIMARY KEY,
     supplier_name VARCHAR(255),
@@ -120,7 +116,7 @@ CREATE TABLE payment_shipment (
     FOREIGN KEY (shipment_option_id) REFERENCES shipment_option(id)
 );
 
-INSERT INTO payment_shipment (shipment_option_id, payment_option_id, fees) VALUES (1, 1, 0), (2, 1), (2, 2);
+INSERT INTO payment_shipment (shipment_option_id, payment_option_id, fees) VALUES (1, 1, 0), (2, 1, 2), (2, 2, 2);
 
 CREATE TABLE product (
     id INT AUTO_INCREMENT PRIMARY KEY,  -- artist_id + album + category_id

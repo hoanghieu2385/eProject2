@@ -59,10 +59,21 @@
                 <li>
                     <a href="../allproduct.php?category[]=3">Cassettes<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
-
                 <li>
                     <a href="../allproduct.php">Genres<span><i class="fa-solid fa-caret-down"></i></span></a>
-                    hiện thị 9 cái, cái 10 là view more
+                    <ul class="sub-menu">
+                        <li><a href="../allproduct.php?category[]=1">Rock</a></li>
+                        <li><a href="../allproduct.php?category[]=2">Jazz</a></li>
+                        <li><a href="../allproduct.php?category[]=3">Pop</a></li>
+                        <li><a href="../allproduct.php?category[]=1">Rock</a></li>
+                        <li><a href="../allproduct.php?category[]=1">Rock</a></li>
+                        <li><a href="../allproduct.php?category[]=2">Jazz</a></li>
+                        <li><a href="../allproduct.php?category[]=3">Pop</a></li>
+                        <li><a href="../allproduct.php?category[]=1">Rock</a></li>
+                        <li><a href="../allproduct.php?category[]=2">Jazz</a></li>
+                        <li><a href="../allproduct.php?category[]=3">Pop</a></li>
+                        <li><a href="../allproduct.php">View more</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="../allproduct.php">All Product<span><i class="fa-solid fa-caret-down"></i></span></a>
