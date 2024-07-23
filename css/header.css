@@ -280,6 +280,7 @@ header {
 
 #main-menu .sub-menu li {
     margin-bottom: 8px;
+    list-style: none;
 }
 
 #main-menu .sub-menu li a {

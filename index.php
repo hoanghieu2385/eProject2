@@ -124,9 +124,14 @@ $conn->close();
                         <div class="album-item">
                             <a href="product-detail.php?id=<?php echo $product['id']; ?>">
                                 <img src="./uploads/<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['album']); ?>" onerror="this.onerror=null;this.src='./images/placeholder.jpg';">
-                                <p><?php echo htmlspecialchars($product['album']); ?><br>by <em><?php echo htmlspecialchars($product['artist_name']); ?></em></p>
                             </a>
-                            <p>$<?php echo number_format($product['current_price'], 2); ?></p>
+                            <div class="album-info">
+                                <a href="product-detail.php?id=<?php echo $product['id']; ?>">
+                                    <div class="album-title"><?php echo htmlspecialchars($product['album']); ?></div>
+                                    <div class="album-artist">by <?php echo htmlspecialchars($product['artist_name']); ?></div>
+                                </a>
+                                <div class="album-price">$<?php echo number_format($product['current_price'], 2); ?></div>
+                            </div>
                             <button class="add-to-cart-btn" data-product-id="<?php echo $product['id']; ?>">Add to Cart</button>
                         </div>
                     </div>
@@ -141,10 +146,15 @@ $conn->close();
                         <div class="album-item">
                             <a href="product-detail.php?id=<?php echo $bestseller['id']; ?>">
                                 <img src="./uploads/<?php echo htmlspecialchars($bestseller['product_image']); ?>" alt="<?php echo htmlspecialchars($bestseller['album']); ?>" onerror="this.onerror=null;this.src='./images/placeholder.jpg';">
-                                <p><?php echo htmlspecialchars($bestseller['album']); ?><br>by <em><?php echo htmlspecialchars($bestseller['artist_name']); ?></em></p>
                             </a>
-                            <p>$<?php echo number_format($bestseller['current_price'], 2); ?></p>
-                            <button class="add-to-cart-btn" data-product-id="<?php echo $product['id']; ?>">Add to Cart</button>
+                            <div class="album-info">
+                                <a href="product-detail.php?id=<?php echo $product['id']; ?>">
+                                    <div class="album-title"><?php echo htmlspecialchars($product['album']); ?></div>
+                                    <div class="album-artist">by <?php echo htmlspecialchars($product['artist_name']); ?></div>
+                                </a>
+                                <div class="album-price">$<?php echo number_format($product['current_price'], 2); ?></div>
+                            </div>
+                            <button class="add-to-cart-btn" data-product-id="<?php echo $bestseller['id']; ?>">Add to Cart</button>
                         </div>
                     </div>
                 <?php endforeach; ?>

@@ -164,7 +164,7 @@ hr {
 
 .hoot-records__record:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 .hoot-records__record img {
