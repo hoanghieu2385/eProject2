@@ -96,7 +96,7 @@ $conn->close();
 
     <div class="wrapper">
         <main class="container">
-            <div class="hero-slider" data-carousel='{ "wrapAround": true, "autoPlay": true }'>
+            <div class="hero-slider">
                 <div class="carousel-cell" style="background-image: url(./images/product/BacksideTheTorturedVinyl.png);">
                     <div class="overlay"></div>
                     <div class="inner">
@@ -157,11 +157,11 @@ $conn->close();
                                 <img src="./uploads/<?php echo htmlspecialchars($bestseller['product_image']); ?>" alt="<?php echo htmlspecialchars($bestseller['album']); ?>" onerror="this.onerror=null;this.src='./images/placeholder.jpg';">
                             </a>
                             <div class="album-info">
-                                <a href="product-detail.php?id=<?php echo $product['id']; ?>">
-                                    <div class="album-title"><?php echo htmlspecialchars($product['album']); ?></div>
-                                    <div class="album-artist">by <?php echo htmlspecialchars($product['artist_name']); ?></div>
+                                <a href="product-detail.php?id=<?php echo $bestseller['id']; ?>">
+                                    <div class="album-title"><?php echo htmlspecialchars($bestseller['album']); ?></div>
+                                    <div class="album-artist">by <?php echo htmlspecialchars($bestseller['artist_name']); ?></div>
                                 </a>
-                                <div class="album-price">$<?php echo number_format($product['current_price'], 2); ?></div>
+                                <div class="album-price">$<?php echo number_format($bestseller['current_price'], 2); ?></div>
                             </div>
                             <button class="add-to-cart-btn" data-product-id="<?php echo $bestseller['id']; ?>">Add to Cart</button>
                         </div>
