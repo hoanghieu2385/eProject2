@@ -85,9 +85,17 @@ include('../middleware/adminMiddleware.php');
 
                                         </select>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <label class="mb-0" style="font-weight: bold;">Album Name</label>
                                         <input type="text" required name="album" value="<?= $data['album']; ?>" placeholder="Enter Album Name" class="form-control mb-2">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="mb-0" style="font-weight: bold;">Version</label>
+                                        <input type="text" name="version" value="<?= $data['version']; ?>" placeholder="Enter Version Name" class="form-control mb-2">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="mb-0" style="font-weight: bold;">Edition</label>
+                                        <input type="text" name="edition" value="<?= $data['edition']; ?>" placeholder="Enter Edition Name" class="form-control mb-2">
                                     </div>
                                     <div class="col-md-12">
                                         <label class="mb-0" style="font-weight: bold;">Description</label>

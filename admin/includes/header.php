@@ -7,6 +7,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/x-icon" href="../../images/header/logo.png">
     <title>
         Hoot Records Admin
     </title>
@@ -45,19 +46,18 @@
 
         /* Scroll Width */
         ::-webkit-scrollbar {
-        width: 6px;
+            width: 6px;
         }
 
         /* Scroll Track */
         ::-webkit-scrollbar-track {
-        background: #555;
+            background: #555;
         }
 
         /* Scroll Handle */
         ::-webkit-scrollbar-thumb {
-        background: #e91e63;
+            background: #e91e63;
         }
-
     </style>
 
 </head>
