@@ -95,36 +95,36 @@ $conn->close();
 
 
     <div class="wrapper">
-        <main class="container">
-            <div class="hero-slider">
-                <div class="carousel-cell" style="background-image: url(./images/product/BacksideTheTorturedVinyl.png);">
-                    <div class="overlay"></div>
-                    <div class="inner">
-                        <h3 class="subtitle">Slide 1</h3>
-                        <h2 class="title">Flickity parallax</h2>
-                        <a href="#" class="btn">Tell me more</a>
-                    </div>
-                </div>
-
-                <div class="carousel-cell" style="background-image: url(./images/product/TheTorturedPoetsCDBonus.png);">
-                    <div class="overlay"></div>
-                    <div class="inner">
-                        <h3 class="subtitle">Slide 2</h3>
-                        <h2 class="title">Flickity parallax</h2>
-                        <a href="#" class="btn">Tell me more</a>
-                    </div>
-                </div>
-
-                <div class="carousel-cell" style="background-image: url(./images/product/TheTorturedPoetsVinyl2.png);">
-                    <div class="overlay"></div>
-                    <div class="inner">
-                        <h3 class="subtitle">Slide 3</h3>
-                        <h2 class="title">Flickity parallax</h2>
-                        <a href="#" class="btn">Tell me more</a>
-                    </div>
+        <div class="hero-slider">
+            <div class="carousel-cell" style="background-image: url(./images/product/BacksideTheTorturedVinyl.png);">
+                <div class="overlay"></div>
+                <div class="inner">
+                    <h3 class="subtitle">Slide 1</h3>
+                    <h2 class="title">Flickity parallax</h2>
+                    <a href="#" class="btn">Tell me more</a>
                 </div>
             </div>
 
+            <div class="carousel-cell" style="background-image: url(./images/product/TheTorturedPoetsCDBonus.png);">
+                <div class="overlay"></div>
+                <div class="inner">
+                    <h3 class="subtitle">Slide 2</h3>
+                    <h2 class="title">Flickity parallax</h2>
+                    <a href="#" class="btn">Tell me more</a>
+                </div>
+            </div>
+
+            <div class="carousel-cell" style="background-image: url(./images/product/TheTorturedPoetsVinyl2.png);">
+                <div class="overlay"></div>
+                <div class="inner">
+                    <h3 class="subtitle">Slide 3</h3>
+                    <h2 class="title">Flickity parallax</h2>
+                    <a href="#" class="btn">Tell me more</a>
+                </div>
+            </div>
+        </div>
+
+        <main class="container">
             <!-- Trong phần New Release -->
             <h2>NEW RELEASE</h2>
             <div class="carousel" data-flickity='{ "wrapAround": true, "autoPlay": true }'>
