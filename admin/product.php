@@ -1,11 +1,11 @@
 <?php
 
-// include('includes/header.php');
-// include('../middleware/adminMiddleware.php');
-
-include('../middleware/adminMiddleware.php');
-// the header.php include was previously on top of adminMiddleware include
 include('includes/header.php');
+include('../middleware/adminMiddleware.php');
+
+// include('../middleware/adminMiddleware.php');
+// // the header.php include was previously on top of adminMiddleware include
+// include('includes/header.php');
 
 ?>
 
@@ -75,11 +75,11 @@ include('includes/header.php');
                             </div>
                             <div class="col-md-4">
                                 <label class="mb-0" style="font-weight: bold;">Version</label>
-                                <input type="text" required name="version" placeholder="Enter Version Name" class="form-control mb-2">
+                                <input type="text" name="version" placeholder="Enter Version Name" class="form-control mb-2">
                             </div>
                             <div class="col-md-4">
                                 <label class="mb-0" style="font-weight: bold;">Edition</label>
-                                <input type="text" required name="edition" placeholder="Enter Edition Name" class="form-control mb-2">
+                                <input type="text" name="edition" placeholder="Enter Edition Name" class="form-control mb-2">
                             </div>
                             <div class="col-md-12">
                                 <label class="mb-0" style="font-weight: bold;">Description</label>
@@ -115,7 +115,7 @@ include('includes/header.php');
                                     <th class="text-center">Album</th>
                                     <th class="text-center">Version</th>
                                     <th class="text-center">Edition</th>
-                                    <th class="text-center">Product Image</th>
+                                    <th class="text-center">Image</th>
                                     <th class="text-center">Current Price</th>
                                     <th class="text-center">Update</th>
                                     <th class="text-center">Remove</th>

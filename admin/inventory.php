@@ -1,11 +1,11 @@
 <?php
 
-// include('includes/header.php');
-// include('../middleware/adminMiddleware.php');
-
-include('../middleware/adminMiddleware.php');
-// the header.php include was previously on top of adminMiddleware include
 include('includes/header.php');
+include('../middleware/adminMiddleware.php');
+
+// include('../middleware/adminMiddleware.php');
+// // the header.php include was previously on top of adminMiddleware include
+// include('includes/header.php');
 
 ?>
 
@@ -203,7 +203,7 @@ include('includes/header.php');
                                     <th class="text-center">Category</th>
                                     <th class="text-center">Artist Name</th>
                                     <th class="text-center">Product Name</th>
-                                    <th class="text-center">Product Image</th>
+                                    <th class="text-center">Image</th>
                                     <th class="text-center">Quantity</th>
                                     <th class="text-center">Update</th>
                                 </tr>
