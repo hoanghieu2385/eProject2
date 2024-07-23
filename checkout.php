@@ -276,10 +276,10 @@ $conn->close();
                                 <td>
                                     <?php foreach ($payment_options as $option) : ?>
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="paymentMethod" id="payment<?php echo $option['id']; ?>" value="<?php echo $option['id']; ?>" data-payment="<?php echo htmlspecialchars($option['payment_method']); ?>" data-shipment="<?php echo htmlspecialchars($option['shipment_method']); ?>" data-shipping-cost="<?php echo $option['shipment_method'] == 'Ship' ? 2 : 0; ?>" <?php echo ($option === reset($payment_options)) ? 'checked' : ''; ?>>
+                                            <input class="form-check-input" type="radio" name="paymentMethod" id="payment<?php echo $option['id']; ?>" value="<?php echo $option['id']; ?>" data-payment="<?php echo htmlspecialchars($option['payment_method']); ?>" data-shipment="<?php echo htmlspecialchars($option['shipment_method']); ?>" data-shipping-cost="<?php echo $option['shipment_method'] == 'Shipping' ? 2 : 0; ?>" <?php echo ($option === reset($payment_options)) ? 'checked' : ''; ?>>
                                             <label class="form-check-label" for="payment<?php echo $option['id']; ?>">
                                                 <?php echo htmlspecialchars($option['payment_method'] . ' - ' . $option['shipment_method']); ?>
-                                                <?php if ($option['shipment_method'] == 'Ship') : ?>
+                                                <?php if ($option['shipment_method'] == 'Shipping') : ?>
                                                     (Fees: 2$)
                                                 <?php endif; ?>
                                             </label>
@@ -289,7 +289,7 @@ $conn->close();
                             </tr>
                             <tr>
                                 <td><strong>TOTAL</strong></td>
-                                <td class="text-end">$<strong id="totalPrice"><?php echo number_format($totalPrice + (($payment_options[0]['shipment_method'] == 'Ship') ? 2 : 0), 2, ',', '.'); ?></strong></td>
+                                <td class="text-end">$<strong id="totalPrice"><?php echo number_format($totalPrice + (($payment_options[0]['shipment_method'] == 'Shipping') ? 2 : 0), 2, ',', '.'); ?></strong></td>
                             </tr>
                         </tbody>
                     </table>
