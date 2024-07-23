@@ -1,4 +1,3 @@
-<!-- checkout.php -->
 <?php
 session_start();
 
@@ -39,7 +38,6 @@ function getValue($value)
 {
     return (isset($value) && !empty($value)) ? htmlspecialchars($value) : 'Not set';
 }
-
 
 // Fetch address data
 $address_query = "SELECT a.* FROM address a 
@@ -128,20 +126,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['placeOrder'])) {
             $item_stmt->execute();
         }
 
-        
         $address_query = "INSERT INTO checkout_address (shop_order_id, city, district, ward, address) 
                           VALUES (?, ?, ?, ?, ?)";
         $address_stmt = $conn->prepare($address_query);
         $address_stmt->bind_param("issss", $order_id, $address_data['city'], $address_data['district'], $address_data['ward'], $address_data['address']);
         $address_stmt->execute();
 
-     
         header("Location: order_confirmation.php?order_id=" . $order_id);
         exit();
     } else {
         $error_message = "An error occurred while placing your order. Please try again.";
     }
 }
+
+$hasAddress = !empty($user_data['address']) && 
+              !empty($user_data['ward']) && 
+              !empty($user_data['district']) && 
+              !empty($user_data['city']);
 
 $conn->close();
 ?>
@@ -230,12 +231,12 @@ $conn->close();
             <div class="col-md-5">
                 <h2>SHIPPING INFO</h2>
                 <div id="userInfo">
-                    <p><strong>NAME:</strong> <span id="fullName" class="editable"><?php echo getValue($user_data['first_name'] . ' ' . $user_data['last_name']); ?></span></p>
-                    <p><strong>PHONE NUMBER:</strong> <span id="phone" class="editable"><?php echo getValue($user_data['phone_number']); ?></span></p>
-                    <p><strong>CITY:</strong> <span id="city" class="editable"><?php echo getValue($user_data['city']); ?></span></p>
-                    <p><strong>DISTRICT:</strong> <span id="district" class="editable"><?php echo getValue($user_data['district']); ?></span></p>
-                    <p><strong>WARD:</strong> <span id="ward" class="editable"><?php echo getValue($user_data['ward']); ?></span></p>
-                    <p><strong>ADDRESS:</strong> <span id="address" class="editable"><?php echo getValue($user_data['address']); ?></span></p>
+                    <p><strong>Name:</strong> <span id="fullName" class="editable"><?php echo getValue($user_data['first_name'] . ' ' . $user_data['last_name']); ?></span></p>
+                    <p><strong>Phone number:</strong> <span id="phone" class="editable"><?php echo getValue($user_data['phone_number']); ?></span></p>
+                    <p><strong>City:</strong> <span id="city" class="editable"><?php echo getValue($user_data['city']); ?></span></p>
+                    <p><strong>District:</strong> <span id="district" class="editable"><?php echo getValue($user_data['district']); ?></span></p>
+                    <p><strong>Ward:</strong> <span id="ward" class="editable"><?php echo getValue($user_data['ward']); ?></span></p>
+                    <p><strong>Address:</strong> <span id="address" class="editable"><?php echo getValue($user_data['address']); ?></span></p>
                 </div>
                 <div id="editForm" style="display: none;">
                     <input type="text" id="editFullName" placeholder="Full Name">
@@ -278,7 +279,7 @@ $conn->close();
                                             <label class="form-check-label" for="payment<?php echo $option['id']; ?>">
                                                 <?php echo htmlspecialchars($option['payment_method'] . ' - ' . $option['shipment_method']); ?>
                                                 <?php if ($option['shipment_method'] == 'Ship') : ?>
-                                                    (Shipping cost: 2$)
+                                                    (Fees: 2$)
                                                 <?php endif; ?>
                                             </label>
                                         </div>
@@ -292,7 +293,8 @@ $conn->close();
                         </tbody>
                     </table>
                 </div>
-                <button type="button" id="orderButton" class="btn btn-dark btn-order w-100 mt-3">PLACE ORDER</button>
+                <button type="button" id="orderButton" class="btn btn-dark btn-order w-100 mt-3" <?php echo $hasAddress ? '' : 'disabled'; ?>>PLACE ORDER</button>
+                <p id="addressWarning" class="text-danger mt-2" style="display: none;">You need to type in your address to place your order!</p>
             </div>
         </div>
     </div>
@@ -304,154 +306,104 @@ $conn->close();
     <?php include './includes/cart.php' ?>
 
     <script>
-        $(document).ready(function() {
-            let isEditing = false;
+  $(document).ready(function() {
+    let isEditing = false;
+    let hasAddress = <?php echo $hasAddress ? 'true' : 'false'; ?>;
 
-            $('#editBtn').click(function() {
-                if (!isEditing) {
-                
-                    isEditing = true;
-                    $('#editBtn').text('CANCEL');
-                    $('#userInfo').hide();
-                    $('#editForm').show();
+    function updateOrderButtonState() {
+        if (hasAddress) {
+            $('#orderButton').prop('disabled', false);
+            $('#addressWarning').hide();
+        } else {
+            $('#orderButton').prop('disabled', true);
+            $('#addressWarning').show();
+        }
+    }
 
-                
-                    $('.editable').each(function() {
-                        let value = $(this).text().trim();
-                        let inputId = 'edit' + $(this).attr('id').charAt(0).toUpperCase() + $(this).attr('id').slice(1);
-                        if (value === 'Not set') {
-                            $('#' + inputId).val('');
-                        } else {
-                            $('#' + inputId).val(value);
-                        }
-                    });
+    updateOrderButtonState();
 
-  
-                    $('#editForm').append('<button id="saveBtn" class="btn btn-primary mt-2">SAVE</button>');
+    $('#editBtn').click(function() {
+        if (!isEditing) {
+            isEditing = true;
+            $('#editBtn').hide();
+            $('#userInfo').hide();
+            $('#editForm').show();
+
+            $('.editable').each(function() {
+                let value = $(this).text().trim();
+                let inputId = 'edit' + $(this).attr('id').charAt(0).toUpperCase() + $(this).attr('id').slice(1);
+                if (value === 'Not set') {
+                    $('#' + inputId).val('');
                 } else {
-     
-                    isEditing = false;
-                    $('#editBtn').text('EDIT');
-                    $('#userInfo').show();
-                    $('#editForm').hide();
-                    $('#saveBtn').remove();
+                    $('#' + inputId).val(value);
                 }
             });
 
-            $(document).on('click', '#saveBtn', function() {
-                let fullName = $('#editFullName').val();
-                let phone = $('#editPhone').val();
-                let address = $('#editAddress').val();
-                let ward = $('#editWard').val();
-                let district = $('#editDistrict').val();
-                let city = $('#editCity').val();
+            $('#editForm').append('<div style="display: flex; justify-content: space-between; width: 100%;"><button id="saveBtn" class="btn btn-primary mt-2">SAVE</button><button id="cancelBtn" class="btn mt-2">CANCEL</button></div>');
+        }
+    });
 
-                $.ajax({
-                    url: './order/update_shipping_info.php',
-                    type: 'POST',
-                    data: {
-                        full_name: fullName,
-                        phone: phone,
-                        address: address,
-                        ward: ward,
-                        district: district,
-                        city: city
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'success') {
+    $(document).on('click', '#cancelBtn', function() {
+        isEditing = false;
+        $('#editBtn').show();
+        $('#userInfo').show();
+        $('#editForm').hide();
+        $('#saveBtn').remove();
+        $('#cancelBtn').remove();
+    });
 
-                            $('#fullName').text(fullName || 'Not set');
-                            $('#phone').text(phone || 'Not set');
-                            $('#address').text(address || 'Not set');
-                            $('#ward').text(ward || 'Not set');
-                            $('#district').text(district || 'Not set');
-                            $('#city').text(city || 'Not set');
+    $(document).on('click', '#saveBtn', function() {
+        let fullName = $('#editFullName').val();
+        let phone = $('#editPhone').val();
+        let address = $('#editAddress').val();
+        let ward = $('#editWard').val();
+        let district = $('#editDistrict').val();
+        let city = $('#editCity').val();
 
-          
-                            isEditing = false;
-                            $('#editBtn').text('EDIT');
-                            $('#userInfo').show();
-                            $('#editForm').hide();
-                            $('#saveBtn').remove();
+        $.ajax({
+            url: './order/update_shipping_info.php',
+            type: 'POST',
+            data: {
+                full_name: fullName,
+                phone: phone,
+                address: address,
+                ward: ward,
+                district: district,
+                city: city
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    $('#fullName').text(fullName || 'Not set');
+                    $('#phone').text(phone || 'Not set');
+                    $('#address').text(address || 'Not set');
+                    $('#ward').text(ward || 'Not set');
+                    $('#district').text(district || 'Not set');
+                    $('#city').text(city || 'Not set');
 
-                            alert('Shipping information updated successfully');
-                        } else {
-                            alert('Failed to update shipping information: ' + response.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', status, error);
-                        alert('An error occurred while updating the shipping information: ' + error);
-                    }
-                });
-            });
+                    isEditing = false;
+                    $('#editBtn').show();
+                    $('#userInfo').show();
+                    $('#editForm').hide();
+                    $('#saveBtn').remove();
+                    $('#cancelBtn').remove();
 
-            function updateTotal() {
-                let selectedOption = $('input[name="paymentMethod"]:checked');
-                let shippingCost = parseInt(selectedOption.data('shipping-cost')) || 0;
-                let subtotal = <?php echo $totalPrice; ?>;
-                let total = subtotal + shippingCost;
+                    hasAddress = address && ward && district && city;
+                    updateOrderButtonState();
 
-                $('#totalPrice').text(total.toFixed(2).replace('.', ',') + ' $'); // Replace '.' with ','
-                return total;
+                    $('#addressWarning').removeClass('text-danger').addClass('text-success').text('Address updated successfully').show().delay(3000).fadeOut();
+                } else {
+                    $('#addressWarning').removeClass('text-success').addClass('text-danger').text('Failed to update address: ' + response.message).show();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+                $('#addressWarning').removeClass('text-success').addClass('text-danger').text('An error occurred while updating the address').show();
             }
-
-            $('input[name="paymentMethod"]').change(updateTotal);
-
-
-            updateTotal();
-
-            $('#orderButton').click(function(e) {
-                e.preventDefault();
-
-                let selectedOption = $('input[name="paymentMethod"]:checked');
-                let paymentShipmentId = selectedOption.val();
-                let total = updateTotal();
-
-  
-                let cartData = localStorage.getItem('cart');
-                let cartItems = JSON.parse(cartData);
-
-
-                let orderData = {
-                    payment_shipment_id: paymentShipmentId,
-                    order_total: total,
-                    cart_items: cartItems,
-                    checkout_info: {
-                        recipient_name: $('#fullName').text(),
-                        recipient_phone: $('#phone').text(),
-                        address: $('#address').text(),
-                        ward: $('#ward').text(),
-                        district: $('#district').text(),
-                        city: $('#city').text()
-                    }
-                };
-
-                $.ajax({
-                    url: './order/process_order.php',
-                    type: 'POST',
-                    data: JSON.stringify(orderData),
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            alert('Order placed successfully! Order ID: ' + response.order_id);
-                            localStorage.removeItem('cart');
-                            window.location.href = './order/order-detail.php?id=' + response.order_id;
-                        } else {
-                            alert('Error: ' + response.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', status, error);
-                        console.log('Response Text:', xhr.responseText);
-                        alert('An error occurred while placing the order. Please check the console for details.');
-                    }
-                });
-            });
         });
+    });
+});
+
     </script>
 </body>
-
 </html>
