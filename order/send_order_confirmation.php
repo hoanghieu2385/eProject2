@@ -26,7 +26,7 @@ function sendOrderConfirmationEmail($orderDetails, $userEmail)
 <body>
     <div class="container">
         <div class="header">
-            <img src="../images/header/logo_co_chu.png" alt="logo">
+            <img src="https://img.upanh.tv/2024/07/24/logo_co_chu.png" alt="logo">
             <h1>Thank You for Your Order!</h1>
         </div>
         <p>Dear ' . htmlspecialchars($orderDetails['recipient_name'] ?? 'Customer') . ',</p>
