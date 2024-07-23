@@ -1,2 +1,6 @@
 [2024-07-23 14:46:52] Cancel Order Log: Attempting to cancel order: Order ID 12, User ID 2
 [2024-07-23 14:46:52] Cancel Order Log: Order canceled successfully: Order ID 12
+[2024-07-23 17:38:35] Cancel Order Log: Attempting to cancel order: Order ID 3, User ID 6
+[2024-07-23 17:38:35] Cancel Order Log: Order canceled successfully: Order ID 3
+[2024-07-23 17:38:42] Cancel Order Log: Attempting to cancel order: Order ID 2, User ID 6
+[2024-07-23 17:38:42] Cancel Order Log: Order canceled successfully: Order ID 2

@@ -27,6 +27,7 @@ function redirect($url, $message)
 function getAllOrders() {
 
     global $con;
-    $query = "SELECT * FROM shop_order WHERE order_status_id = '1' AND order_status_id = '2' AND order_status_id = '3'";
+    $query = "SELECT * FROM shop_order WHERE NOT order_status_id='4'";
     return $query_run = mysqli_query($con, $query);
+
 }
