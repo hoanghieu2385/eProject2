@@ -91,7 +91,7 @@ include('../middleware/adminMiddleware.php');
                                     </div>
                                     <div class="col-md-12">
                                         <label class="mb-0" style="font-weight: bold;">Description</label>
-                                        <textarea rows="3" name="description" placeholder="Enter Description" class="form-control mb-2"><?= $data['description']; ?></textarea>
+                                        <textarea rows="5" name="description" placeholder="Enter Description" class="form-control mb-2"><?= $data['description']; ?></textarea>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="mb-0" style="font-weight: bold;">Upload Image</label>
