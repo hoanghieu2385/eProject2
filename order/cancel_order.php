@@ -53,7 +53,9 @@ function sendOrderCancellationEmail($email, $orderID) {
     </html>
     ";
 
-    return $mailer->sendMail($subject, $body, $email);
+    $result = $mailer->sendMail($subject, $body, $email);
+    logMessage("Attempt to send email to {$email} for Order ID {$orderID}: " . ($result ? "Success" : "Failure"));
+    return $result;
 }
 
 try {
@@ -75,28 +77,28 @@ try {
     $update_stmt->bind_param("i", $order_id);
     
     if ($update_stmt->execute()) {
-        logMessage("Order canceled successfully: Order ID {$order_id}");
-        sendJsonResponse(true, 'Order canceled successfully');
-    } else {
-        logMessage("Failed to cancel order: " . $conn->error);
-        sendJsonResponse(false, 'Failed to cancel order');
-    }
-    
-    if ($update_stmt->execute()) {
         // After successfully updating the order status, send the email
-        $user_email_query = "SELECT email FROM site_user WHERE id = ?";
+        $user_email_query = "SELECT email_address FROM site_user WHERE id = ?";
         $email_stmt = $conn->prepare($user_email_query);
         $email_stmt->bind_param("i", $user_id);
         $email_stmt->execute();
         $email_result = $email_stmt->get_result();
-        $user_email = $email_result->fetch_assoc()['email'];
+        $user_data = $email_result->fetch_assoc();
         
-        if (sendOrderCancellationEmail($user_email, $order_id)) {
-            logMessage("Order canceled successfully and email sent: Order ID {$order_id}");
-            sendJsonResponse(true, 'Order canceled successfully and confirmation email sent');
+        if ($user_data && isset($user_data['email_address'])) {
+            $user_email = $user_data['email_address'];
+            logMessage("Retrieved email for User ID {$user_id}: {$user_email}");
+            
+            if (sendOrderCancellationEmail($user_email, $order_id)) {
+                logMessage("Order canceled successfully and email sent: Order ID {$order_id}");
+                sendJsonResponse(true, 'Order canceled successfully and confirmation email sent');
+            } else {
+                logMessage("Order canceled successfully but failed to send email: Order ID {$order_id}");
+                sendJsonResponse(true, 'Order canceled successfully but failed to send confirmation email');
+            }
         } else {
-            logMessage("Order canceled successfully but failed to send email: Order ID {$order_id}");
-            sendJsonResponse(true, 'Order canceled successfully but failed to send confirmation email');
+            logMessage("Failed to retrieve email for User ID {$user_id}");
+            sendJsonResponse(true, 'Order canceled successfully but failed to retrieve user email');
         }
     } else {
         logMessage("Failed to cancel order: " . $conn->error);

@@ -1,65 +1,66 @@
+<!-- send_order_confirmation.php -->
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+require_once '../mail/mail.php';
 
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
+function sendOrderConfirmationEmail($orderDetails, $userEmail)
+{
+    $mailer = new Mailer();
+    $subject = 'Order Confirmation - Thank You for Your Purchase!';
 
-function sendOrderConfirmationEmail($to, $subject, $orderDetails) {
-    $mail = new PHPMailer(true);
+    // Build email body (using null coalescing operator for missing data)
+    $body = '
+    <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .order-summary { border: 1px solid #ddd; padding: 15px; background-color: white; margin-bottom: 20px; }
+        .order-summary p { margin: 5px 0; } /* Điều chỉnh khoảng cách giữa các dòng */
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #777; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="../images/header/logo_co_chu.png" alt="logo">
+            <h1>Thank You for Your Order!</h1>
+        </div>
+        <p>Dear ' . htmlspecialchars($orderDetails['recipient_name'] ?? 'Customer') . ',</p>
+        <p>Your order has been successfully placed.</p>
 
-    try {
-        $mail->SMTPDebug = 0;
-        $mail->isSMTP();
-        $mail->CharSet = 'utf-8';
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'accredfingervippro2@gmail.com';
-        $mail->Password = 'cwqjysfgzuepyzzc';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port = 465;
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <p><strong>Order ID:</strong> ' . htmlspecialchars($orderDetails['order_id'] ?? '') . '</p>
+            <p><strong>Order Date:</strong> ' . htmlspecialchars($orderDetails['order_date'] ?? '') . '</p>
+            <p><strong>Total Amount:</strong> $' . number_format($orderDetails['order_total'] ?? 0, 2) . '</p>
+            <h3 style="margin-top: 10px;">Shipping Address:</h3>
+            <p>' . nl2br(htmlspecialchars($orderDetails['shipping_address'] ?? '')) . '</p>
+        </div>
 
-    
-        $mail->setFrom('accredfingervippro2@gmail.com', 'Hoot Records');
-        $mail->addAddress($to);
+        <p>We\'ll notify you when your order ships. Contact us if you have any questions.</p>
+        <p>Thank you for shopping with us!</p>
+        <div class="footer">
+            <p>&copy; 2024 Record Store. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>';
 
-        $mail->isHTML(true);
-        $mail->Subject = $subject;
+    // Send the email and return the result (true or false)
+    $result = $mailer->sendMail($subject, $body, $userEmail);
 
-        $body = '
-        <html>
-        <head>
-            <style>
-                body { font-family: Arial, sans-serif; }
-                .container { max-width: 600px; margin: 0 auto; }
-                .header { background-color: #f8f9fa; padding: 20px; text-align: center; }
-                .content { padding: 20px; }
-                table { width: 100%; border-collapse: collapse; }
-                th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                th { background-color: #f2f2f2; }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <img src="./images/header/logo_co_chu_png" alt="Store Logo" style="max-width: 200px;">
-                    <h1>Order Confirmation</h1>
-                </div>
-                <div class="content">
-                    <p>Thank you for your order!</p>
-                    <h2>Order Details:</h2>
-                    ' . $orderDetails . '
-                </div>
-            </div>
-        </body>
-        </html>';
-
-        $mail->Body = $body;
-
-        $mail->send();
-        return true;
-    } catch (Exception $e) {
-        return "Message could not be sent. Error: {$mail->ErrorInfo}";
+    // Log email sending outcome
+    if ($result) {
+        error_log("Order confirmation email sent successfully to $userEmail");
+    } else {
+        error_log("Failed to send order confirmation email to $userEmail: ");
     }
+
+    return $result;
 }
+
+ob_end_clean();

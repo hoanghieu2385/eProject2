@@ -133,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['placeOrder'])) {
         $address_stmt->bind_param("issss", $order_id, $address_data['city'], $address_data['district'], $address_data['ward'], $address_data['address']);
         $address_stmt->execute();
 
-        header("Location: order_confirmation.php?order_id=" . $order_id);
+        header("Location: ./order/order_confirmation.php?order_id=" . $order_id);
         exit();
     } else {
         $error_message = "An error occurred while placing your order. Please try again.";
