@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <title>Confirm account registration</title>
                 </head>
                 <body>
-                    <h1>Wellcome!</h1>
+                    <h1>Welcome!</h1>
                     <p>Thank you for registering an account. Please click the button below to confirm your registration:</p>
                     <a href='$confirm_link' style='display: inline-block; padding: 10px 20px; color: #fff; background-color: #007bff; text-decoration: none;'>Confirm registration</a>
                 </body>
