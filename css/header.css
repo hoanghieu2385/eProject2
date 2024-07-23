@@ -265,11 +265,13 @@ header {
     background-color: #fff;
     padding: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    min-width: 150px;
+    min-width: 300px;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     border-radius: 4px;
+    column-count: 2;
+    column-gap: 20px;
 }
 
 #main-menu>li:hover .sub-menu {
@@ -280,6 +282,8 @@ header {
 
 #main-menu .sub-menu li {
     margin-bottom: 8px;
+    list-style: none;
+    break-inside: avoid;
 }
 
 #main-menu .sub-menu li a {
@@ -292,6 +296,7 @@ header {
 
 #main-menu .sub-menu li a:hover {
     background-color: #f2f2f2;
+    text-decoration: underline;
 }
 
 #main-menu>li>a span {

@@ -37,7 +37,7 @@ body {
 #progressbar li {
     list-style-type: none;
     font-size: 13px;
-    width: 25%;
+    width: 24%;
     float: left;
     position: relative;
     font-weight: 400;
@@ -163,6 +163,9 @@ body {
     border-top: 1px solid #eee;
     padding-top: 15px;
     width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .product-item {
@@ -188,6 +191,23 @@ body {
 }
 
 .total {
+    display: flex;
+    justify-content: space-between;
     font-weight: bold;
     color: #e53935;
+}
+
+#cancelOrderBtn {
+    align-self: flex-end;
+}
+
+.total-breakdown-btn {
+    background: none;
+    border: none;
+    color: #1586ff;
+    cursor: pointer;
+    padding-left: 3px;
+}
+.total-breakdown-btn:hover {
+    text-decoration: underline;
 }

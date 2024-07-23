@@ -70,6 +70,37 @@ textarea {
     font-weight: bold;
 }
 
+.product-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.product-table th,
+.product-table td {
+    vertical-align: top;
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+}
+
+.product-name {
+    width: 50%;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.product-total {
+    width: 30%;
+}
+
+@media (max-width: 768px) {
+    .product-name {
+        width: 60%;
+    }
+    .product-total {
+        width: 40%;
+    }
+}
+
 .btn-primary {
     background-color: #333;
     color: white;
@@ -121,4 +152,46 @@ textarea {
 
 .thead {
     border-bottom: 10px;
+}
+#editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+#saveBtn, #cancelBtn {
+    width: 48%;
+    padding: 10px 0;
+    border-radius: 4px;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+#saveBtn {
+    background-color: #333;
+    color: white;
+    border: none;
+}
+
+#saveBtn:hover {
+    background-color: #555;
+}
+
+#cancelBtn {
+    background-color: #fff;
+    color: #dc3545;
+    border: 2px solid #dc3545;
+}
+
+#cancelBtn:hover {
+    background-color: #dc3545;
+    color: #fff;
 }

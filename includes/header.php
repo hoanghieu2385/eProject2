@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +51,7 @@
             </div>
         </nav>
         <nav class="category-menu">
-            <ul id="main-menu">
+        <ul id="main-menu">
                 <li>
                     <a href="../allproduct.php?category[]=1">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
@@ -59,10 +61,18 @@
                 <li>
                     <a href="../allproduct.php?category[]=3">Cassettes<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
-
                 <li>
                     <a href="../allproduct.php">Genres<span><i class="fa-solid fa-caret-down"></i></span></a>
-                    hiện thị 9 cái, cái 10 là view more
+                    <ul class="sub-menu">
+                        <li><a href="../allproduct.php?genre[]=1">Rock</a></li>
+                        <li><a href="../allproduct.php?genre[]=2">Pop</a></li>
+                        <li><a href="../allproduct.php?genre[]=3">Hip Hop</a></li>
+                        <li><a href="../allproduct.php?genre[]=4">Jazz</a></li>
+                        <li><a href="../allproduct.php?genre[]=5">Classical</a></li>
+                        <li><a href="../allproduct.php?genre[]=6">Metal</a></li>
+                        <li><a href="../allproduct.php?genre[]=7">Raggae</a></li>
+                        <li><a href="../allproduct.php">View more <i class="fa-solid fa-arrow-right fa-xs"></i></a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="../allproduct.php">All Product<span><i class="fa-solid fa-caret-down"></i></span></a>

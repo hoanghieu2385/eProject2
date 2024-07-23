@@ -1,0 +1,12 @@
+[2024-07-23 14:46:52] Cancel Order Log: Attempting to cancel order: Order ID 12, User ID 2
+[2024-07-23 14:46:52] Cancel Order Log: Order canceled successfully: Order ID 12
+[2024-07-23 18:04:27] Cancel Order Log: Attempting to cancel order: Order ID 13, User ID 1
+[2024-07-23 18:04:27] Cancel Order Log: Order canceled successfully: Order ID 13
+[2024-07-23 18:04:56] Cancel Order Log: Attempting to cancel order: Order ID 14, User ID 1
+[2024-07-23 18:04:56] Cancel Order Log: Order canceled successfully: Order ID 14
+[2024-07-23 18:09:25] Cancel Order Log: Attempting to cancel order: Order ID 15, User ID 1
+[2024-07-23 18:09:25] Cancel Order Log: Exception occurred: Unknown column 'email' in 'field list'
+[2024-07-23 18:10:46] Cancel Order Log: Attempting to cancel order: Order ID 16, User ID 1
+[2024-07-23 18:10:46] Cancel Order Log: Retrieved email for User ID 1: 651excessive@navalcadets.com
+[2024-07-23 18:10:49] Cancel Order Log: Attempt to send email to 651excessive@navalcadets.com for Order ID 16: Success
+[2024-07-23 18:10:49] Cancel Order Log: Order canceled successfully and email sent: Order ID 16

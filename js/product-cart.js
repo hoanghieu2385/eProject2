@@ -24,31 +24,28 @@
             e.preventDefault();
             e.stopPropagation();
             console.log("addToCart function called at: " + new Date().getTime());
-
+        
             const productContainer = e.target.closest('.productcontainer') || e.target.closest('.album-item');
             if (!productContainer) {
                 console.error('Product container not found');
                 return;
             }
-
+        
             const productId = e.target.dataset.productId || productContainer.dataset.productId;
             let productTitle = '';
             let productPrice = '';
-
+        
             // For index page (album-item)
             if (productContainer.classList.contains('album-item')) {
-                const paragraphs = productContainer.querySelectorAll('p');
-                if (paragraphs.length >= 2) {
-                    productTitle = paragraphs[0].textContent.split('by')[0].trim();
-                    productPrice = paragraphs[paragraphs.length - 1].textContent.trim();
-                }
+                productTitle = productContainer.querySelector('.album-title')?.textContent.trim() || '';
+                productPrice = productContainer.querySelector('.album-price')?.textContent.trim() || '';
             }
             // For product detail page
             else {
                 productTitle = productContainer.querySelector('.title')?.textContent.trim() || '';
                 productPrice = productContainer.querySelector('.price')?.textContent.trim() || '';
             }
-
+        
             // Extract numeric value from price
             const priceMatch = productPrice.match(/\$?(\d+(\.\d{1,2})?)/);
             if (priceMatch) {
@@ -57,18 +54,18 @@
                 console.error('Invalid price format:', productPrice);
                 return;
             }
-
+        
             const productImage = productContainer.querySelector('img')?.src || '';
             const quantity = productContainer.querySelector('.quantity-box .quantity') ?
                 parseInt(productContainer.querySelector('.quantity-box .quantity').textContent) : 1;
-
+        
             console.log('Product details:', { productId, productTitle, productPrice, productImage, quantity });
-
+        
             if (!productTitle || !productPrice) {
                 console.error('Missing product information');
                 return;
             }
-
+        
             updateCart(productId, productTitle, productPrice, productImage, quantity);
             updateSubtotal();
             openCart();

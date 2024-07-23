@@ -1,12 +1,12 @@
 <?php
 
 
-// include('includes/header.php');
-// include('../middleware/adminMiddleware.php');
-
-include('../middleware/adminMiddleware.php');
-// the header.php include was previously on top of adminMiddleware include
 include('includes/header.php');
+include('../middleware/adminMiddleware.php');
+
+// include('../middleware/adminMiddleware.php');
+// // the header.php include was previously on top of adminMiddleware include
+// include('includes/header.php');
 
 
 ?>
@@ -85,13 +85,21 @@ include('includes/header.php');
 
                                         </select>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <label class="mb-0" style="font-weight: bold;">Album Name</label>
                                         <input type="text" required name="album" value="<?= $data['album']; ?>" placeholder="Enter Album Name" class="form-control mb-2">
                                     </div>
+                                    <div class="col-md-4">
+                                        <label class="mb-0" style="font-weight: bold;">Version</label>
+                                        <input type="text" name="version" value="<?= $data['version']; ?>" placeholder="Enter Version Name" class="form-control mb-2">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="mb-0" style="font-weight: bold;">Edition</label>
+                                        <input type="text" name="edition" value="<?= $data['edition']; ?>" placeholder="Enter Edition Name" class="form-control mb-2">
+                                    </div>
                                     <div class="col-md-12">
                                         <label class="mb-0" style="font-weight: bold;">Description</label>
-                                        <textarea rows="3" name="description" placeholder="Enter Description" class="form-control mb-2"><?= $data['description']; ?></textarea>
+                                        <textarea rows="5" name="description" placeholder="Enter Description" class="form-control mb-2"><?= $data['description']; ?></textarea>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="mb-0" style="font-weight: bold;">Upload Image</label>

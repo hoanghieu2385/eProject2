@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 .productcontainer {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   flex-grow: 1;
-  padding-top: 50px;
+  padding-top: 140px;
   padding-bottom: 50px;
   padding-bottom: 100px;
 }
@@ -57,9 +58,21 @@ body {
   bottom: 5px;
 }
 
-
 .title {
   margin-bottom: 10px;
+}
+
+.title a {
+  color: #333;
+  text-decoration: none
+}
+
+.title a:hover {
+  text-decoration: underline;
+}
+
+body.dark-mode .title a {
+  color: #fff;
 }
 
 .additional-image {
@@ -91,6 +104,11 @@ body {
   cursor: pointer;
 }
 
+body.dark-mode .minus-btn,
+body.dark-mode .plus-btn {
+  color: #fff;
+}
+
 .quantity {
   margin: 0 15px;
   font-size: 18px;
@@ -106,7 +124,7 @@ body {
   width: 100%;
   max-width: 300px;
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 body.dark-mode .add-to-cart-btn {
@@ -144,25 +162,43 @@ body.dark-mode .add-to-cart-btn {
 }
 
 .product-item {
-  width: 330px;
-  height: 330px;
-  margin: 20px;
+  width: 280px;
+  height: 420px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
 }
 
 .product-item img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 200px;
+  max-height: 200px;
   object-fit: contain;
 }
 
 .product-item h3 {
   margin: 10px 0;
   font-size: 16px;
+}
+
+.artist a{
+  text-decoration: none;
+  color: #333;
+}
+
+.artist a:hover {
+  text-decoration: underline;
 }
 
 .price {
@@ -175,8 +211,7 @@ body.dark-mode .add-to-cart-btn {
   background-color: #333;
   color: #fff;
   border: none;
-  padding: 10px 20px;
-  /* Giảm kích thước "VIEW PRODUCT" */
+  padding: 10px 20px;   
   font-size: 14px;
   cursor: pointer;
   align-self: stretch;
