@@ -77,10 +77,11 @@ $related_products = $result_related->fetch_all(MYSQLI_ASSOC);
         <div class="description-container">
             <h2 class="title"><?php echo htmlspecialchars($product['album']); ?></h2>
             <h2 class="title"><i>by </i>
-                <a href="allproduct.php?artist[]=<?php echo urlencode($product['artist_name']); ?>">
+                <a href="allproduct.php?artist[]=<?php echo urlencode($product['artist_id']); ?>">
                     <?php echo htmlspecialchars($product['artist_name']); ?>
                 </a>
             </h2>
+
             <p class="price">$<?php echo number_format($product['current_price'], 2); ?></p>
             <div class="quantity-box">
                 <button class="minus-btn">-</button>
