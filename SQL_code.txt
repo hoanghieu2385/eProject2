@@ -102,11 +102,7 @@ VALUES
 ('Christina', 'Facebook', 3), 
 ('Target', 'https://www.target.com', 1), 
 ('Taylor Swift UK Store', 'https://storeuk.taylorswift.com', 3),
-<<<<<<< HEAD
 ('1989', 'Facebook', 1);
-=======
-('1989', 'Facebook', 1)
->>>>>>> ce47d956997efcfb172d38589ef08eea952de709
 
 CREATE TABLE shipment_option (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -214,24 +210,6 @@ CREATE TABLE user_address (
     FOREIGN KEY (address_id) REFERENCES address(id)
 );
 
-<<<<<<< HEAD
-=======
-CREATE TABLE checkout_info (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    recipient_name VARCHAR(255) NOT NULL,
-    recipient_phone VARCHAR(20) NOT NULL,
-    city VARCHAR(100) NOT NULL,
-    district VARCHAR(100) NOT NULL,
-    ward VARCHAR(100) NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES site_user(id)
-);
-
-ALTER TABLE shop_order ADD COLUMN checkout_info_id INT,
-ADD FOREIGN KEY (checkout_info_id) REFERENCES checkout_info(id);
-
->>>>>>> ce47d956997efcfb172d38589ef08eea952de709
 ----------------------------- TRIGGER ---------------------------------
 
 DELIMITER //
