@@ -1,13 +1,12 @@
-<!-- update_shipping_info.php -->
 <?php
-ob_start();
-
 session_start();
 header('Content-Type: application/json');
 
-// Báo cáo tất cả lỗi PHP, nhưng không hiển thị chúng
+// Báo cáo tất cả lỗi PHP và ghi log chúng
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+ini_set('error_log', '/path/to/error.log'); // Thay đổi đường dẫn này
 
 $servername = "localhost";
 $username = "root";
@@ -17,12 +16,12 @@ $dbname = "project2";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
-    ob_end_clean();
-    die(json_encode(['status' => 'error', 'message' => 'Connection failed: ' . $conn->connect_error]));
+    error_log('Connection failed: ' . $conn->connect_error);
+    die(json_encode(['status' => 'error', 'message' => 'Connection failed']));
 }
 
 if (!isset($_SESSION['user_id'])) {
-    ob_end_clean();
+    error_log('User not logged in');
     die(json_encode(['status' => 'error', 'message' => 'User not logged in']));
 }
 
@@ -82,13 +81,12 @@ try {
     // Commit transaction
     $conn->commit();
 
-    ob_end_clean();
     echo json_encode(['status' => 'success', 'message' => 'Shipping information updated successfully']);
 } catch (Exception $e) {
     // Rollback transaction on error
     $conn->rollback();
-    ob_end_clean();
-    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    error_log('Error in update_shipping_info.php: ' . $e->getMessage());
+    echo json_encode(['status' => 'error', 'message' => 'An error occurred while updating shipping information']);
 }
 
 $conn->close();
