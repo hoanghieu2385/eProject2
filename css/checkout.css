@@ -70,6 +70,37 @@ textarea {
     font-weight: bold;
 }
 
+.product-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.product-table th,
+.product-table td {
+    vertical-align: top;
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+}
+
+.product-name {
+    width: 50%;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.product-total {
+    width: 30%;
+}
+
+@media (max-width: 768px) {
+    .product-name {
+        width: 60%;
+    }
+    .product-total {
+        width: 40%;
+    }
+}
+
 .btn-primary {
     background-color: #333;
     color: white;
@@ -122,64 +153,42 @@ textarea {
 .thead {
     border-bottom: 10px;
 }
-/* Nút Edit */
-#editBtn {
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    border: 2px solid #333;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 20%;
-    height: 10%;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
-#editBtn:hover {
-    background-color: #555;
-    border-color: #555;
-}
-
-/* Container cho nút Save và Cancel */
 #editForm {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Khoảng cách giữa các trường nhập liệu */
+    gap: 10px;
     margin-top: 10px;
 }
 
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
 
-/* Nút Save */
+#saveBtn, #cancelBtn {
+    width: 48%;
+    padding: 10px 0;
+    border-radius: 4px;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
 #saveBtn {
     background-color: #333;
     color: white;
-    padding: 10px 20px;
-    border: 2px solid #333;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 48%;
-    text-transform: uppercase;
+    border: none;
 }
 
 #saveBtn:hover {
     background-color: #555;
-    border-color: #555;
 }
 
-/* Nút Cancel */
 #cancelBtn {
     background-color: #fff;
     color: #dc3545;
-    padding: 10px 20px;
     border: 2px solid #dc3545;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 48%;
-    text-transform: uppercase;
 }
 
 #cancelBtn:hover {

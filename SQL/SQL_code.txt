@@ -38,6 +38,19 @@ CREATE TABLE site_user (
     FOREIGN KEY (role_id) REFERENCES role(id)
 );
 
+INSERT INTO site_user (email_address, password, role_id) VALUES ('admin@gmail.com', '$2y$10$Zd79iKQdj9f9crDW2meex.mLIS26wfw6l9MhnS2Nw9YRC6MJnphle', 1);
+
+CREATE TABLE checkout_info (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    recipient_name VARCHAR(255) NOT NULL,
+    recipient_phone VARCHAR(20) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    district VARCHAR(100) NOT NULL,
+    ward VARCHAR(100) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES site_user(id)
+);
 
 CREATE TABLE address (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -91,7 +104,7 @@ VALUES
 ('Christina', 'Facebook', 3), 
 ('Target', 'https://www.target.com', 1), 
 ('Taylor Swift UK Store', 'https://storeuk.taylorswift.com', 3),
-('1989', 'Facebook', 1)
+('1989', 'Facebook', 1);
 
 CREATE TABLE shipment_option (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -167,6 +180,7 @@ VALUES
 
 CREATE TABLE shop_order (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    checkout_info_id INT,
     site_user_id INT,
     order_date DATE,
     payment_shipment_id INT,
@@ -176,7 +190,8 @@ CREATE TABLE shop_order (
     est_delivery_date DATE NULL,
     FOREIGN KEY (site_user_id) REFERENCES site_user(id),
     FOREIGN KEY (payment_shipment_id) REFERENCES payment_shipment(id),
-    FOREIGN KEY (order_status_id) REFERENCES order_status(id)
+    FOREIGN KEY (order_status_id) REFERENCES order_status(id),
+    FOREIGN KEY (checkout_info_id) REFERENCES checkout_info(id)
 );
 
 CREATE TABLE order_items (
@@ -196,21 +211,6 @@ CREATE TABLE user_address (
     FOREIGN KEY (user_id) REFERENCES site_user(id),
     FOREIGN KEY (address_id) REFERENCES address(id)
 );
-
-CREATE TABLE checkout_info (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    recipient_name VARCHAR(255) NOT NULL,
-    recipient_phone VARCHAR(20) NOT NULL,
-    city VARCHAR(100) NOT NULL,
-    district VARCHAR(100) NOT NULL,
-    ward VARCHAR(100) NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES site_user(id)
-);
-
-ALTER TABLE shop_order ADD COLUMN checkout_info_id INT,
-ADD FOREIGN KEY (checkout_info_id) REFERENCES checkout_info(id);
 
 ----------------------------- TRIGGER ---------------------------------
 
