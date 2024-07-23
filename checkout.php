@@ -325,7 +325,7 @@ $conn->close();
     $('#editBtn').click(function() {
         if (!isEditing) {
             isEditing = true;
-            $('#editBtn').hide();
+            $('#editBtn').text('CANCEL');
             $('#userInfo').hide();
             $('#editForm').show();
 
@@ -339,17 +339,14 @@ $conn->close();
                 }
             });
 
-            $('#editForm').append('<div style="display: flex; justify-content: space-between; width: 100%;"><button id="saveBtn" class="btn btn-primary mt-2">SAVE</button><button id="cancelBtn" class="btn mt-2">CANCEL</button></div>');
+            $('#editForm').append('<button id="saveBtn" class="btn btn-primary mt-2">SAVE</button>');
+        } else {
+            isEditing = false;
+            $('#editBtn').text('EDIT');
+            $('#userInfo').show();
+            $('#editForm').hide();
+            $('#saveBtn').remove();
         }
-    });
-
-    $(document).on('click', '#cancelBtn', function() {
-        isEditing = false;
-        $('#editBtn').show();
-        $('#userInfo').show();
-        $('#editForm').hide();
-        $('#saveBtn').remove();
-        $('#cancelBtn').remove();
     });
 
     $(document).on('click', '#saveBtn', function() {
@@ -382,11 +379,10 @@ $conn->close();
                     $('#city').text(city || 'Not set');
 
                     isEditing = false;
-                    $('#editBtn').show();
+                    $('#editBtn').text('EDIT');
                     $('#userInfo').show();
                     $('#editForm').hide();
                     $('#saveBtn').remove();
-                    $('#cancelBtn').remove();
 
                     hasAddress = address && ward && district && city;
                     updateOrderButtonState();
@@ -402,8 +398,73 @@ $conn->close();
             }
         });
     });
-});
 
+    function updateTotal() {
+        let selectedOption = $('input[name="paymentMethod"]:checked');
+        let shippingCost = parseInt(selectedOption.data('shipping-cost')) || 0;
+        let subtotal = <?php echo $totalPrice; ?>;
+        let total = subtotal + shippingCost;
+
+        $('#totalPrice').text(total.toFixed(2).replace('.', ',') + ' $');
+        return total;
+    }
+
+    $('input[name="paymentMethod"]').change(updateTotal);
+
+    updateTotal();
+
+    $('#orderButton').click(function(e) {
+        e.preventDefault();
+
+        if (!hasAddress) {
+            $('#editBtn').click();
+            $('#addressWarning').removeClass('text-success').addClass('text-danger').text('Please provide your address before placing an order').show();
+            return;
+        }
+
+        let selectedOption = $('input[name="paymentMethod"]:checked');
+        let paymentShipmentId = selectedOption.val();
+        let total = updateTotal();
+
+        let cartData = localStorage.getItem('cart');
+        let cartItems = JSON.parse(cartData);
+
+        let orderData = {
+            payment_shipment_id: paymentShipmentId,
+            order_total: total,
+            cart_items: cartItems,
+            checkout_info: {
+                recipient_name: $('#fullName').text(),
+                recipient_phone: $('#phone').text(),
+                address: $('#address').text(),
+                ward: $('#ward').text(),
+                district: $('#district').text(),
+                city: $('#city').text()
+            }
+        };
+
+        $.ajax({
+            url: './order/process_order.php',
+            type: 'POST',
+            data: JSON.stringify(orderData),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    localStorage.removeItem('cart');
+                    window.location.href = './order/order-detail.php?id=' + response.order_id;
+                } else {
+                    $('#addressWarning').removeClass('text-success').addClass('text-danger').text('Error: ' + response.message).show();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+                console.log('Response Text:', xhr.responseText);
+                $('#addressWarning').removeClass('text-success').addClass('text-danger').text('An error occurred while placing the order. Please try again.').show();
+            }
+        });
+    });
+});
     </script>
 </body>
 </html>
