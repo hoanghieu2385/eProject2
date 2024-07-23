@@ -23,6 +23,7 @@ include('../middleware/adminMiddleware.php');
                                 <th class="text-center">ID</th>
                                 <th class="text-center">Payment Option</th>
                                 <th class="text-center">Shipment Option</th>
+                                <th class="text-center">Fees</th>
                                 <th class="text-center">Update</th>
                             </tr>
                         </thead>
@@ -30,10 +31,17 @@ include('../middleware/adminMiddleware.php');
                             <?php
 
                             $query = "
-                            SELECT u.id, u.email_address, u.phone_number, u.first_name, u.last_name, r.role_name as role
-                            FROM site_user u
-                            JOIN role r ON u.role_id = r.id
-                            ORDER BY u.id ASC
+                            SELECT 
+                                ps.id AS 'id',
+                                po.payment_method,
+                                so.shipment_method,
+                                ps.fees
+                            FROM 
+                                payment_shipment ps
+                            JOIN 
+                                payment_option po ON ps.payment_option_id = po.id
+                            JOIN 
+                                shipment_option so ON ps.shipment_option_id = so.id;
                             ";
 
                             $ps_option = mysqli_query($con, $query);
@@ -45,8 +53,9 @@ include('../middleware/adminMiddleware.php');
                             ?>
                                     <tr>
                                         <td class="text-center"> <?= $item['id']; ?></td>
-                                        <td class="text-center"> <?= $item['payment_option']; ?></td>
-                                        <td class="text-center"> <?= $item['shipment_option']; ?></td>
+                                        <td class="text-center"> <?= $item['payment_method']; ?></td>
+                                        <td class="text-center"> <?= $item['shipment_method']; ?></td>
+                                        <td class="text-center">$<?= $item['fees']; ?></td>
                                         <td class="text-center">
                                             <a href="edit_payment_shipment.php?id=<?= $item['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
                                         </td>
