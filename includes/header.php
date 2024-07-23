@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,30 +51,27 @@
             </div>
         </nav>
         <nav class="category-menu">
-            <ul id="main-menu">
+        <ul id="main-menu">
                 <li>
-                    <a href="../allproduct.php?category[]=1">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="../allproduct.php?category[]=Vinyl">Vinyl<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
                 <li>
-                    <a href="../allproduct.php?category[]=2">CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="../allproduct.php?category[]=CDs">CDs<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
                 <li>
-                    <a href="../allproduct.php?category[]=3">Cassettes<span><i class="fa-solid fa-caret-down"></i></span></a>
+                    <a href="../allproduct.php?category[]=Cassettes">Cassettes<span><i class="fa-solid fa-caret-down"></i></span></a>
                 </li>
                 <li>
                     <a href="../allproduct.php">Genres<span><i class="fa-solid fa-caret-down"></i></span></a>
                     <ul class="sub-menu">
-                        <li><a href="../allproduct.php?category[]=1">Rock</a></li>
-                        <li><a href="../allproduct.php?category[]=2">Jazz</a></li>
-                        <li><a href="../allproduct.php?category[]=3">Pop</a></li>
-                        <li><a href="../allproduct.php?category[]=1">Rock</a></li>
-                        <li><a href="../allproduct.php?category[]=1">Rock</a></li>
-                        <li><a href="../allproduct.php?category[]=2">Jazz</a></li>
-                        <li><a href="../allproduct.php?category[]=3">Pop</a></li>
-                        <li><a href="../allproduct.php?category[]=1">Rock</a></li>
-                        <li><a href="../allproduct.php?category[]=2">Jazz</a></li>
-                        <li><a href="../allproduct.php?category[]=3">Pop</a></li>
-                        <li><a href="../allproduct.php">View more</a></li>
+                        <li><a href="../allproduct.php?genre[]=Rock">Rock</a></li>
+                        <li><a href="../allproduct.php?genre[]=Jazz">Jazz</a></li>
+                        <li><a href="../allproduct.php?genre[]=Pop">Pop</a></li>
+                        <li><a href="../allproduct.php?genre[]=Classic">Classical</a></li>
+                        <li><a href="../allproduct.php?genre[]=Hip Hop">Hip Hop</a></li>
+                        <li><a href="../allproduct.php?genre[]=Country">Country</a></li>
+                        <li><a href="../allproduct.php?genre[]=Punk">Punk</a></li>
+                        <li><a href="../allproduct.php">View more <i class="fa-solid fa-arrow-right fa-xs"></i></a></li>
                     </ul>
                 </li>
                 <li>

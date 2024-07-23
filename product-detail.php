@@ -37,9 +37,14 @@ if (isset($_GET['id'])) {
 }
 
 // Fetch related products
-$sql_related = "SELECT * FROM product WHERE artist_id = ? AND id != ? LIMIT 4";
+$sql_related = "SELECT p.*, a.full_name as artist_name 
+                FROM product p
+                JOIN artist a ON p.artist_id = a.id
+                WHERE p.id != ?
+                ORDER BY RAND()
+                LIMIT 4";
 $stmt_related = $conn->prepare($sql_related);
-$stmt_related->bind_param("ii", $product['artist_id'], $product['id']);
+$stmt_related->bind_param("i", $product['id']);
 $stmt_related->execute();
 $result_related = $stmt_related->get_result();
 $related_products = $result_related->fetch_all(MYSQLI_ASSOC);
@@ -71,7 +76,11 @@ $related_products = $result_related->fetch_all(MYSQLI_ASSOC);
         </div>
         <div class="description-container">
             <h2 class="title"><?php echo htmlspecialchars($product['album']); ?></h2>
-            <h2 class="title"><i>by </i><?php echo htmlspecialchars($product['artist_name']); ?></h2>
+            <h2 class="title"><i>by </i>
+                <a href="allproduct.php?artist[]=<?php echo urlencode($product['artist_name']); ?>">
+                    <?php echo htmlspecialchars($product['artist_name']); ?>
+                </a>
+            </h2>
             <p class="price">$<?php echo number_format($product['current_price'], 2); ?></p>
             <div class="quantity-box">
                 <button class="minus-btn">-</button>
@@ -90,8 +99,15 @@ $related_products = $result_related->fetch_all(MYSQLI_ASSOC);
         <div class="product-grid">
             <?php foreach ($related_products as $related_product) : ?>
                 <div class="product-item">
-                    <img src="./uploads/<?php echo htmlspecialchars($related_product['product_image']); ?>" alt="<?php echo htmlspecialchars($related_product['album']); ?>" onerror="this.onerror=null;this.src='./images/placeholder.jpg';">
+                    <a href="product-detail.php?id=<?php echo $bestseller['id']; ?>">
+                        <img src="./uploads/<?php echo htmlspecialchars($related_product['product_image']); ?>" alt="<?php echo htmlspecialchars($related_product['album']); ?>" onerror="this.onerror=null;this.src='./images/placeholder.jpg';">
+                    </a>
                     <h3><?php echo htmlspecialchars($related_product['album']); ?></h3>
+                    <p class="artist">
+                        <a href="allproduct.php?artist[]=<?php echo urlencode($related_product['artist_name']); ?>">
+                            <i>by </i><?php echo htmlspecialchars($related_product['artist_name']); ?>
+                        </a>
+                    </p>
                     <p class="price">$<?php echo number_format($related_product['current_price'], 2); ?></p>
                     <button class="view-product" onclick="location.href='product-detail.php?id=<?php echo $related_product['id']; ?>'">VIEW PRODUCT</button>
                 </div>

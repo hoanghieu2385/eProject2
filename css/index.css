@@ -131,7 +131,7 @@ h2 {
 }
 
 .album-item {
-    width: 250px;
+    width: 240px;
     height: 420px;
     display: flex;
     flex-direction: column;
