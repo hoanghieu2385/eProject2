@@ -19,6 +19,10 @@ body {
     border-radius: 10px;
 }
 
+body.dark-mode .card {
+    background-color: #4f6688;
+}
+
 .top {
     padding-top: 40px;
     padding-left: 11% !important;
@@ -159,6 +163,11 @@ body {
     margin-bottom: 15px;
 }
 
+body.dark-mode .order-id,
+body.dark-mode .shipping-address {
+    color: #000;
+}
+
 .payment-info {
     border-top: 1px solid #eee;
     padding-top: 15px;
@@ -166,6 +175,10 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+body.dark-mode .payment-info {
+    color: #000;
 }
 
 .product-item {

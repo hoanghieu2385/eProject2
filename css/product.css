@@ -197,6 +197,10 @@ body.dark-mode .add-to-cart-btn {
   color: #333;
 }
 
+body.dark-mode .artist a{
+  color: #fff;
+}
+
 .artist a:hover {
   text-decoration: underline;
 }

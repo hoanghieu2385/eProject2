@@ -155,6 +155,11 @@ body.dark-mode .shipping-note {
   align-items: center;
 }
 
+body.dark-mode .quantity .decrease,
+body.dark-mode .quantity .increase {
+  color: #fff;
+}
+
 .cart-items .quantity button {
   background: none;
   border: 1px solid #ccc;

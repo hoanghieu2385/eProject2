@@ -18,6 +18,10 @@ h2 {
     margin-bottom: 20px;
 }
 
+body.dark-mode h2 {
+    color: #fff;
+}
+
 .form-group {
     margin-bottom: 15px;
 }
@@ -80,6 +84,11 @@ textarea {
     vertical-align: top;
     padding: 0.75rem;
     border: 1px solid #dee2e6;
+}
+
+body.dark-mode .product-table th,
+body.dark-mode .product-table td {
+    color: #fff;
 }
 
 .product-name {

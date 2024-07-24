@@ -201,6 +201,10 @@ h2 {
     text-decoration: none;
 }
 
+body.dark-mode .album-item a {
+    color: #fff;
+}
+
 .album-item a:hover{
     color: #333;
     text-decoration: underline;
