@@ -43,6 +43,10 @@ footer {
     margin-top: 16px;
 }
 
+body.dark-mode .logo-col p {
+    color: #fff;
+}
+
 .help-col .row {
     display: flex;
     flex-wrap: nowrap;
@@ -84,6 +88,10 @@ footer {
     font-size: 25px;
     color: #333;
     margin: 0 5px;
+}
+
+body.dark-mode .follow-col .fa-brands {
+    color: #fff;
 }
 
 /* **************** DARK MODE **************** */
