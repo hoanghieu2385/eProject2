@@ -105,8 +105,8 @@ $related_products = $result_related->fetch_all(MYSQLI_ASSOC);
                     </a>
                     <h3><?php echo htmlspecialchars($related_product['album']); ?></h3>
                     <p class="artist">
-                        <a href="allproduct.php?artist[]=<?php echo urlencode($related_product['artist_name']); ?>">
-                            <i>by </i><?php echo htmlspecialchars($related_product['artist_name']); ?>
+                        <a href="allproduct.php?artist[]=<?php echo urlencode($product['artist_id']); ?>">
+                            <i>by </i><?php echo htmlspecialchars($product['artist_name']); ?>
                         </a>
                     </p>
                     <p class="price">$<?php echo number_format($related_product['current_price'], 2); ?></p>
