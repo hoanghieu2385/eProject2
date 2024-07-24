@@ -124,6 +124,11 @@
     margin: 5px 0;
 }
 
+body.dark-mode .apply-filters-btn {
+    border-radius: 2px;
+    background-color: darkgray;
+}
+
 .arrow {
     border: solid black;
     border-width: 0 2px 2px 0;
