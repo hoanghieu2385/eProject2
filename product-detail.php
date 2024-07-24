@@ -100,7 +100,7 @@ $related_products = $result_related->fetch_all(MYSQLI_ASSOC);
         <div class="product-grid">
             <?php foreach ($related_products as $related_product) : ?>
                 <div class="product-item">
-                    <a href="product-detail.php?id=<?php echo $bestseller['id']; ?>">
+                    <a href="product-detail.php?id=<?php echo $related_product['id']; ?>">
                         <img src="./uploads/<?php echo htmlspecialchars($related_product['product_image']); ?>" alt="<?php echo htmlspecialchars($related_product['album']); ?>" onerror="this.onerror=null;this.src='./images/placeholder.jpg';">
                     </a>
                     <h3><?php echo htmlspecialchars($related_product['album']); ?></h3>
