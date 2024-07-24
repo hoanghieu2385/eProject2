@@ -104,7 +104,7 @@ $conn->close();
                 </div>
             </div>
 
-            <div class="carousel-cell" style="background-image: url(./images/product/TheTorturedPoetsCDBonus.png);">
+            <div class="carousel-cell" style="background-image: url(./images/hitmehard.jpg);">
                 <div class="overlay"></div>
                 <div class="inner">
                     <h3 class="subtitle">Billie Eilish</h3>
@@ -112,12 +112,12 @@ $conn->close();
                 </div>
             </div>
 
-            <div class="carousel-cell" style="background-image: url(./images/product/TheTorturedPoetsVinyl2.png);">
+            <div class="carousel-cell" style="background-image: url(./images/hoot.jpg);">
                 <div class="overlay"></div>
                 <div class="inner">
                     <h3 class="subtitle">Hoot Records</h3>
                     <h2 class="title">Vinyl, CDs, Cassettes and more</h2>
-                    <a href="#" class="btn">Tell me more</a>
+                    <a href="./allproduct.php" class="btn">Shop now</a>
                 </div>
             </div>
         </div>
